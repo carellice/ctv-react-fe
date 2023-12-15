@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import * as DataBaseUtils from "./../utils/DataBaseUtils"
 import * as SnackBarUtils from "./../utils/SnackBarUtils"
+import * as ImportoUtils from "./../utils/ImportoUtils"
 
 export default function BasicCard({el, update, snackBarFunc}) {
   return (
@@ -16,19 +17,19 @@ export default function BasicCard({el, update, snackBarFunc}) {
           {el.data}
         </Typography>
         <Typography variant="h5" component="div">
-          {el.stipendio} €
+          {ImportoUtils.getImportoFormatted(el.stipendio)} €
         </Typography>
         {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
         </Typography> */}
         <Typography variant="body2">
-          {'Svago: ' + el.svago + ' €'}
+          {'Svago: ' + ImportoUtils.getImportoFormatted(el.svago) + ' €'}
         </Typography>
         <Typography variant="body2">
-          {'Prima Necessità: ' + el.primaNecessita + ' €'}
+          {'Prima Necessità: ' + ImportoUtils.getImportoFormatted(el.primaNecessita) + ' €'}
         </Typography>
         <Typography variant="body2">
-          {'Risparmi: ' + el.risparmi + ' €'}
+          {'Risparmi: ' + ImportoUtils.getImportoFormatted(el.risparmi) + ' €'}
         </Typography>
       </CardContent>
       <CardActions>

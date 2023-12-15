@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider';
 import * as SnackBarUtils from './../utils/SnackBarUtils';
 import * as DataBaseUtils from './../utils/DataBaseUtils';
 import * as DateUtils from './../utils/DateUtils';
+import * as ImportoUtils from './../utils/ImportoUtils';
 
 const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
   //SAVE
@@ -144,7 +145,7 @@ const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
         {/* PERCENTUALI - CHIP */}
         <Grid item xs={12} style={{marginTop:30}}>
           <Divider>
-            <Chip label={isNaN(somma) ? ("PERCENTUALI: SOMMA = ...") : ("PERCENTUALI: SOMMA = " + somma)} />
+            <Chip color={sommaIs100 ? 'success' : 'error'} label={isNaN(somma) ? ("PERCENTUALI: SOMMA = ...") : ("PERCENTUALI: SOMMA = " + somma)} />
           </Divider>
         </Grid>
 
@@ -264,7 +265,7 @@ const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
             variant="outlined"
             type="text"
             fullWidth
-            value={risultatoPrimaNecessita}
+            value={ImportoUtils.getImportoFormatted(risultatoPrimaNecessita)}
             disabled
           />
         </Grid>
@@ -272,13 +273,13 @@ const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
         {/* SVAGO - OUTPUT */}
         <Grid item xs={12} md={4}>
           <Typography variant="subtitle1">Svago</Typography>
-          <TextField variant="outlined" type="text" fullWidth value={risultatoSvago} disabled />
+          <TextField variant="outlined" type="text" fullWidth value={ImportoUtils.getImportoFormatted(risultatoSvago)} disabled />
         </Grid>
 
         {/* RISPARMI - OUTPUT */}
         <Grid item xs={12} md={4}>
           <Typography variant="subtitle1">Risparmi</Typography>
-          <TextField variant="outlined" type="text" fullWidth value={risultatoRisparmi} disabled />
+          <TextField variant="outlined" type="text" fullWidth value={ImportoUtils.getImportoFormatted(risultatoRisparmi)} disabled />
         </Grid>
       </Grid>
 
