@@ -1,0 +1,36 @@
+{
+    "user": "test",
+    "ctv": [
+        {
+            "id": "new Date().toString",
+            "data": "DICEMBRE 2023",
+            "stipendio": "1760",
+            "svago": "200",
+            "primaNecessita": "200",
+            "risparmi": "200",
+            "percentualePrimaNecessita": 50,
+            "percentualeSvago": 30,
+            "percentualeRisparmi": 20
+        }
+    ],
+    "svago": [
+        {
+            "id": "new Date().toString",
+            "nome": "ELEMENTO",
+            "note": "/////",
+            "dataDa": "2023/12/01",
+            "dataA": "2024/01/01",
+            "costo": "100,00"
+        }
+    ],
+    "primaNecessita": [
+        {
+            "id": "new Date().toString",
+            "nome": "ELEMENTO",
+            "note": "/////",
+            "dataDa": "2023/12/01",
+            "dataA": "2024/01/01",
+            "costo": "100,00"
+        }
+    ]
+}
