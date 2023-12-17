@@ -57,3 +57,31 @@ export const handleFileChange = async (event) => {
       }
     }
 };
+
+export const copiaBackup = async () => {
+  // Ottieni i dati dal localStorage
+  // const datiLocalStorage = localStorage.getItem('user');
+
+  // Converte la stringa JSON in un oggetto JavaScript
+  // const datiBackup = JSON.parse(datiLocalStorage);
+
+  const datiBackup = await DataBaseUtils.getData();
+
+  // Converti gli oggetti in una stringa JSON
+  const datiJson = JSON.stringify(datiBackup);
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(datiJson);
+};
+
+export const ripristinoBackup = async () => {
+
+  const clipboard = await navigator.clipboard.readText();
+
+  if(clipboard.includes("user") && clipboard.includes("ctv") && clipboard.includes("svago") && clipboard.includes("primaNecessita")){
+    localStorage.setItem('data', clipboard);
+    return 200;
+  }else{
+    return 500;
+  }
+};

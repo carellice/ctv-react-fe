@@ -32,7 +32,7 @@ export default function ListItemPersonal({editElement, el}) {
           }
         />
         <ListItemIcon>
-          <Typography variant='h6' style={{color: 'white'}}>
+          <Typography variant='h7' style={{color: 'white'}}>
             {ImportoUtils.getImportoFormatted(el.costo)} €
           </Typography>
         </ListItemIcon>

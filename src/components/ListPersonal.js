@@ -14,7 +14,7 @@ export default function ListPersonal({openPopUpInsert, setOpenPopUpInsert, editE
       ))}
 
       {/* AGGIUNGI - BUTTON*/}
-      <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20}}>
+      <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20, marginBottom: 20}}>
         <Grid item>
           <Button variant="contained" color="primary" onClick={() => {setOpenPopUpInsert(true)}}>
             AGGIUNGI

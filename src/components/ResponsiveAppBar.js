@@ -6,12 +6,13 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AlignVerticalCenterIcon from '@mui/icons-material/AlignVerticalCenter';
+import Percent from '@mui/icons-material/Percent';
 
 const pages = ['Svago', 'Prima Necessità'];
 const settings = ['Logout'];
@@ -39,7 +40,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AlignVerticalCenterIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
+          <Percent sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
           <Typography
             onClick={() => setSelectedPage("HomePage")} 
             variant="h6"
@@ -68,7 +69,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MoreVertIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -91,18 +92,18 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => {
                   setAnchorElNav(null);
+                  window.history.pushState({}, null, null);
                   setSelectedPage(page);
-                  }}>
+                }}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AlignVerticalCenterIcon onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, cursor:'pointer' }} />
+          <Percent onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} />
           <Typography
             variant="h5"
             noWrap
-            component="a"
             onClick={() => setSelectedPage("HomePage")}
             sx={{
               mr: 2,
@@ -113,17 +114,20 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-              cursor:'pointer'
+              // cursor:'pointer'
             }}
           >
-            CTV
+            CTV {true ? "" : "Mobile"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 variant={page === selectedPage ? "outlined" : "text"}
                 key={page}
-                onClick={() => setSelectedPage(page)}
+                onClick={() => {
+                  window.history.pushState({}, null, null);
+                  setSelectedPage(page);
+                }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -132,12 +136,12 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings"> */}
-              {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" />
-              </IconButton> */}
-            {/* </Tooltip> */}
-            <Menu
+              </IconButton>
+            </Tooltip>
+            {/* <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -164,7 +168,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
         </Toolbar>
       </Container>
