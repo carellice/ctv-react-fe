@@ -16,7 +16,10 @@ export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
 
       <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20}}>
         <Grid item>
-          <Button variant="contained" color="primary" onClick={() => setSelectedPage("InsertNew")}>
+          <Button variant="contained" color="primary" onClick={() => {
+            window.history.pushState({}, null, null);
+            setSelectedPage("InsertNew");
+          }}>
             AGGIUNGI
           </Button>
         </Grid>

@@ -24,6 +24,11 @@ const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
     }
   }
 
+  //BACK BUTTON PRESSED
+  window.addEventListener("popstate", () => {
+    setSelectedPage("HomePage");
+  })
+
   //CALCOLO IN TEMPO REALE
   const calculate = async (stipendioPar, primaNecessitaPerc, svagoPerc, risparmiPerc, primaNecessitaDaSottr, svagoDaSottr, risparmiDaSottr) => {
     const stipendioFloat = stipendioPar === null ? parseFloat(stipendio.replace(",", ".")) : parseFloat(stipendioPar.replace(",", "."));
