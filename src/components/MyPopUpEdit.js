@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Checkbox, FormControlLabel, Typography, snackbarClasses } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 
@@ -18,28 +18,46 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
     localStorage.removeItem("elToEdit");
   };
 
-  const saveSvago = (scadenza, nome, note, dataDa, dataA, costo) => {
-    DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
-      if(r === 200){
-        snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+  const saveSvago = (id, scadenza, nome, note, dataDa, dataA, costo) => {
+    const dataDaDate = new Date(dataDa);
+    const dataADate = new Date(dataA);
+    if(dataDaDate > dataADate){
+      DataBaseUtils.delElById(id).then(() => {
+        snackBarFunc("CANCELLATO POICHè SCADUTO!".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
         update();
-      }else{
-        snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
-        update();
-      }
-    })
+      })
+    }else{
+      DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
+        if(r === 200){
+          snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          update();
+        }else{
+          snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
+          update();
+        }
+      })
+    }
   }
 
-  const savePrimaNecessita = (scadenza, nome, note, dataDa, dataA, costo) => {
-    DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
-      if(r === 200){
-        snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+  const savePrimaNecessita = (id, scadenza, nome, note, dataDa, dataA, costo) => {
+    const dataDaDate = new Date(dataDa);
+    const dataADate = new Date(dataA);
+    if(dataDaDate > dataADate){
+      DataBaseUtils.delElById(id).then(() => {
+        snackBarFunc("CANCELLATO POICHè SCADUTO!".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
         update();
-      }else{
-        snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
-        update();
-      }
-    })
+      })
+    }else{
+      DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
+        if(r === 200){
+          snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          update();
+        }else{
+          snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
+          update();
+        }
+      })
+    }
   }
 
   const handleSave = () => {
@@ -52,9 +70,9 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
         setOpen(false);
         localStorage.removeItem("elToEdit");
         if(title.includes("SVAGO")){
-          saveSvago(scadenzaSi, nome, nota, dataInizio, dataFine, costo);
+          saveSvago(id, scadenzaSi, nome, nota, dataInizio, dataFine, costo);
         }else{
-          savePrimaNecessita(scadenzaSi, nome, nota, dataInizio, dataFine, costo);
+          savePrimaNecessita(id, scadenzaSi, nome, nota, dataInizio, dataFine, costo);
         }
       });
     }

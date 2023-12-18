@@ -2,22 +2,22 @@ import HomeGrid from './../components/HomeGrid';
 import { Button, Grid, Typography } from '@mui/material';
 import * as BackupUtils from "./../utils/BackupUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import DialogPersonal from '../components/DialogPersonal';
 
 function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
 
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = useState(false);
   const [openDialogIncollaDati, setOpenDialogIncollaDati] = useState(false);
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = useState(false);
 
-  const handleClick = () => {
-    // Attiva l'input file nascosto
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+  // const handleClick = () => {
+  //   // Attiva l'input file nascosto
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.click();
+  //   }
+  // };
 
   return (
     <>
@@ -71,7 +71,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
       </Grid>
 
       {/* DIALOG CONFERMA CANCELLA DATI */}
-      <DialogPersonal textInput={false} open={openDialogCancellaDati} setOpen={setOpenDialogCancellaDati} text={"SE CLICCHI 'OK' VERRà COPIATO NEGLI APPUNTI IL BACKUP, INCOLLALO COSì COM'è DA QUALCHE PARTE".toUpperCase()} title={"CANCELLA DATI"} okFunc={() => {
+      <DialogPersonal textInput={false} open={openDialogCancellaDati} setOpen={setOpenDialogCancellaDati} text={"SE CLICCHI 'OK' VERRanno cancellati tutti i dati".toUpperCase()} title={"CANCELLA DATI"} okFunc={() => {
         snackBarFunc("DATI CANCELLATI CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
         setOpenDialogCancellaDati(false);
         localStorage.clear();

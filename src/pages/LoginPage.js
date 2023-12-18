@@ -13,11 +13,11 @@ const LoginPage = ({loginFunc}) => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    // Aggiungi qui la logica di autenticazione
-    console.log('User:', user);
-    console.log('Password:', password);
-  };
+  // const handleLogin = () => {
+  //   // Aggiungi qui la logica di autenticazione
+  //   console.log('User:', user);
+  //   console.log('Password:', password);
+  // };
 
   return (
     <Container component="main" maxWidth="xs" style={{marginTop:30}}>

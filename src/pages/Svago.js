@@ -6,7 +6,6 @@ import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import { Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';

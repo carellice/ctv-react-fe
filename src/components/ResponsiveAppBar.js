@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
@@ -16,26 +15,27 @@ import Percent from '@mui/icons-material/Percent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const pages = ['Svago', 'Prima Necessità'];
-const settings = ['Logout'];
+// const settings = ['Logout'];
 
 function ResponsiveAppBar({selectedPage, setSelectedPage}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   return (
     <AppBar position="fixed">
@@ -158,7 +158,8 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}> */}
+              <IconButton onClick={() => {}} sx={{ p: 0 }}>
                 <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>

@@ -130,7 +130,7 @@ const InsertNew = ({snackBarFunc, update, setSelectedPage}) => {
 
   return (
     <Container style={{ marginTop: 80 }}>
-      <Typography variant="h4" style={{fontWeight:'bold'}}>INSERISCI 50 - 30 - 20 ({DateUtils.getDateMonthYear(new Date())})</Typography>
+      <Typography variant="h5" style={{fontWeight:'bold'}}>INSERISCI {percentualePrimaNecessita} - {percentualeSvago} - {percentualeRisparmi} ({DateUtils.getDateMonthYear(new Date())})</Typography>
       <Grid container spacing={2} style={{marginTop:20}}>
 
         {/* STIPENDIO */}
