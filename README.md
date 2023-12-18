@@ -1,4 +1,4 @@
-![Logo](https://ibb.co/93Mpdtt)
+![Logo](https://i.ibb.co/mFxRP88/IMG-20231217-152837-009-1.jpg)
 
 
 # Calcolatore Finanziario 50-30-20 con React JS
