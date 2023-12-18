@@ -1,4 +1,4 @@
-![Logo dell'applicazione](https://ibb.co/93Mpdtt)
+[Logo dell'applicazione](https://ibb.co/93Mpdtt)
 
 
 # Calcolatore Finanziario 50-30-20 con React JS
