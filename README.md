@@ -10,9 +10,6 @@ Questo progetto è un'applicazione web sviluppata con React JS che offre una sol
 - **Interfaccia Utente Intuitiva:** Un'interfaccia utente semplice e intuitiva per inserire il tuo reddito mensile e ottenere i dettagli delle allocazioni finanziarie.
 - **Calcolo Automatico:** Il sistema calcola automaticamente la quantità da allocare in ciascuna categoria sulla base della regola del 50-30-20.
 
-## Prerequisiti
-- Node.js: Assicurati di avere Node.js installato sulla tua macchina.
-
 ## Contributi
 Siamo aperti ai contributi! Se desideri contribuire, segui la procedura standard di fork e pull request.
 
