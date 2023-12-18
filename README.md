@@ -19,10 +19,10 @@ Siamo aperti ai contributi! Se desideri contribuire, segui la procedura standard
 ## Segnalazione Problemi
 Se incontri problemi o desideri suggerire miglioramenti, apri un ticket nella sezione delle issue del repository.
 
-## Download e Deploy
+## Download
 
 ### App Android (Non Firmata)
-Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android.
+Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android dal seguente link: [CTV Android](https://www.dropbox.com/scl/fo/1bfh3pp216i5095hjac79/h?rlkey=dnz41b9facq2l37a66306hwam&dl=0)
 
 ### Sito
 L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](https://ctvapp.netlify.app/)
