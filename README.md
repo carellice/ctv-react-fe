@@ -25,4 +25,4 @@ Se incontri problemi o desideri suggerire miglioramenti, apri un ticket nella se
 Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android.
 
 ### Sito
-L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](#https://ctvapp.netlify.app/)
+L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](https://ctvapp.netlify.app/)
