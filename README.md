@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# Calcolatore Finanziario 50-30-20 con React JS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Descrizione del Progetto
+Questo progetto è un'applicazione web sviluppata con React JS che offre una soluzione per il calcolo della regola finanziaria del 50-30-20. La regola stabilisce come dovresti allocare il tuo reddito mensile nelle seguenti categorie:
+- **50%:** Prima Necessità
+- **30%:** Svago
+- **20%:** Risparmi
 
-## Available Scripts
+## Caratteristiche Principali
+- **Interfaccia Utente Intuitiva:** Un'interfaccia utente semplice e intuitiva per inserire il tuo reddito mensile e ottenere i dettagli delle allocazioni finanziarie.
+- **Calcolo Automatico:** Il sistema calcola automaticamente la quantità da allocare in ciascuna categoria sulla base della regola del 50-30-20.
 
-In the project directory, you can run:
+## Prerequisiti
+- Node.js: Assicurati di avere Node.js installato sulla tua macchina.
 
-### `npm start`
+## Contributi
+Siamo aperti ai contributi! Se desideri contribuire, segui la procedura standard di fork e pull request.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Segnalazione Problemi
+Se incontri problemi o desideri suggerire miglioramenti, apri un ticket nella sezione delle issue del repository.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Download e Deploy
 
-### `npm test`
+### App Android (Non Firmata)
+Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Sito
+L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](#https://ctvapp.netlify.app/)
