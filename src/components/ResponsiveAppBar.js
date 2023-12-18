@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Percent from '@mui/icons-material/Percent';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const pages = ['Svago', 'Prima Necessità'];
 const settings = ['Logout'];
@@ -37,9 +38,14 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {selectedPage !== "HomePage" ? (
+            <IconButton sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }} aria-label="indietro">
+              <ArrowBackIcon sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
+            </IconButton>
+          ) : <></>}
           <Percent sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
           <Typography
             onClick={() => setSelectedPage("HomePage")} 
@@ -61,16 +67,30 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+            {selectedPage !== "HomePage" ? (
+              <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={() => setSelectedPage("HomePage")}
+              color="inherit"
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            ) : (
+              <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-            >
-              <MoreVertIcon />
-            </IconButton>
+              >
+                <MoreVertIcon />
+              </IconButton>
+            )}
+            
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -100,6 +120,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               ))}
             </Menu>
           </Box>
+
           <Percent onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} />
           <Typography
             variant="h5"

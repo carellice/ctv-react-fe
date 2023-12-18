@@ -1,6 +1,10 @@
 # Node.js
 node_modules/
 
+# Android and release package
+android/
+release-builds/
+
 # Dependency directories
 **/node_modules/
 **/bower_components/

@@ -21,7 +21,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
 
   return (
     <>
-      {ctv.length === 0 ? <Typography style={{textAlign:'center', marginTop:40, marginBottom:40}} variant='h6'>Non ci sono dati, clicca "AGGIUNGI" per inserirne</Typography> : <></>}
+      {ctv.length === 0 ? <Typography style={{textAlign:'center', marginTop:80, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "AGGIUNGI" per inserirne</Typography> : <></>}
       <HomeGrid snackBarFunc={snackBarFunc} update={update} setSelectedPage={setSelectedPage} ctv={ctv}/>
 
       {/* <Grid container justifyContent="center" alignItems="center" style={{marginTop: 50}}>

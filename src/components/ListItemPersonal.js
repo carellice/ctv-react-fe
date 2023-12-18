@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ListItem, ListItemButton, ListItemText, ListItemIcon, Typography } from '@mui/material';
 import * as ImportoUtils from "./../utils/ImportoUtils";
+import * as DateUtils from "./../utils/DateUtils";
 
 export default function ListItemPersonal({editElement, el}) {
   return (
@@ -20,9 +21,9 @@ export default function ListItemPersonal({editElement, el}) {
                 </>
               ) : (
                 <>
-                  <span style={{fontWeight: 'bold', color: '#f53636'}}>DA: </span><span>{el.dataDa}</span>
+                  <span style={{fontWeight: 'bold', color: '#f53636'}}>DA: </span><span>{DateUtils.getDateDayMonthYear(new Date(el.dataDa))}</span>
                   <br />
-                  <span style={{fontWeight: 'bold', color: '#f53636'}}>A: </span><span>{el.dataA}</span>
+                  <span style={{fontWeight: 'bold', color: '#f53636'}}>A: </span><span>{DateUtils.getDateDayMonthYear(new Date(el.dataA))}</span>
                   <br />
                 </>
               )}

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 
 export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
   return (
-    <Container style={{ marginTop: 30 }}>
+    <Container style={{ marginTop: 70 }}>
       <Grid container spacing={2}>
         {ctv.map((el, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>

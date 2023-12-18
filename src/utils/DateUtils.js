@@ -20,3 +20,12 @@ export const getDateMonthYear = () => {
 
     return meseCorrente + " " + annoCorrente;
 };
+
+
+export const getDateDayMonthYear = (date) => {
+    const mese = monthList[date.getMonth()];
+    const anno = date.getFullYear();
+    const giorno = date.getDate();
+
+    return giorno + " " + mese + " " + anno;
+};

@@ -2,6 +2,8 @@
   "name": "ctv-react-fe",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
+  "main": "public/electron.js",
   "dependencies": {
     "@capacitor/android": "5.6.0",
     "@capacitor/core": "^5.6.0",
@@ -12,12 +14,15 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "package-win": "npm run build  && electron-packager . CTV --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds",
+    "start-electron": "electron .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,6 +47,9 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^5.6.0"
+    "@capacitor/cli": "^5.6.0",
+    "electron": "^28.0.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-packager": "^17.1.2"
   }
 }

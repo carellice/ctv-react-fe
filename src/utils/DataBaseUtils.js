@@ -145,3 +145,92 @@ export const delCtvById = async(id) => {
 
     return 200;
 }
+
+export const orderSvagoByNome = async() => {
+    const datas = await getData();
+    const svagoArray = datas.svago;
+    const arrayOrdinato = svagoArray.sort((a, b) => {
+        const nomeA = a.nome.toUpperCase(); // Converti in maiuscolo per l'ordinamento senza distinzione tra maiuscole e minuscole
+        const nomeB = b.nome.toUpperCase();
+      
+        if (nomeA < nomeB) {
+          return -1;
+        }
+        if (nomeA > nomeB) {
+          return 1;
+        }
+        return 0;
+      });
+    const newDatas = {...datas, svago: arrayOrdinato}
+
+    await saveData(newDatas);
+
+    return 200;
+}
+
+export const orderSvagoByCosto = async() => {
+    const datas = await getData();
+    const svagoArray = datas.svago;
+    const arrayOrdinato = svagoArray.sort((a, b) => {
+        const nomeA = parseFloat(a.costo);
+        const nomeB = parseFloat(b.costo);
+      
+        if (nomeA < nomeB) {
+          return -1;
+        }
+        if (nomeA > nomeB) {
+          return 1;
+        }
+        return 0;
+      });
+    const newDatas = {...datas, svago: arrayOrdinato}
+
+    await saveData(newDatas);
+
+    return 200;
+}
+
+
+export const orderPrimaNecessitaByNome = async() => {
+    const datas = await getData();
+    const svagoArray = datas.primaNecessita;
+    const arrayOrdinato = svagoArray.sort((a, b) => {
+        const nomeA = a.nome.toUpperCase(); // Converti in maiuscolo per l'ordinamento senza distinzione tra maiuscole e minuscole
+        const nomeB = b.nome.toUpperCase();
+      
+        if (nomeA < nomeB) {
+          return -1;
+        }
+        if (nomeA > nomeB) {
+          return 1;
+        }
+        return 0;
+      });
+    const newDatas = {...datas, primaNecessita: arrayOrdinato}
+
+    await saveData(newDatas);
+
+    return 200;
+}
+
+export const orderPrimaNecessitaByCosto = async() => {
+    const datas = await getData();
+    const svagoArray = datas.primaNecessita;
+    const arrayOrdinato = svagoArray.sort((a, b) => {
+        const nomeA = parseFloat(a.costo);
+        const nomeB = parseFloat(b.costo);
+      
+        if (nomeA < nomeB) {
+          return -1;
+        }
+        if (nomeA > nomeB) {
+          return 1;
+        }
+        return 0;
+      });
+    const newDatas = {...datas, primaNecessita: arrayOrdinato}
+
+    await saveData(newDatas);
+
+    return 200;
+}
