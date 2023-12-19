@@ -22,7 +22,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-android": "if exist android (rd /s /q android && npm run build && ionic capacitor add android && npx cap open android) else (npm run build && ionic capacitor add android && npx cap open android)"
+    "build-android": "if exist android (rd /s /q android && npm run build && ionic capacitor add android && npx cap open android) else (npm run build && ionic capacitor add android && npx cap open android)",
+    "build-android-2": "if exist android (rd /s /q android && npm run build && ionic capacitor add android && npx cap open android && xcopy /s /e /i /y \"public\\android_app_icon\" \"android\\app\\src\\main\\res\") else (npm run build && ionic capacitor add android && npx cap open android && xcopy /s /e /i /y \"public\\android_app_icon\" \"android\\app\\src\\main\res\")"
   },
   "eslintConfig": {
     "extends": [
