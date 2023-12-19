@@ -51,7 +51,7 @@ function App() {
 
   //LOGIN
   const loginFunc = (username, pass) => {
-    if(username === "ccarellice" && pass === "180602"){
+    if(username === "" && pass === ""){
       localStorage.setItem("user", username);
       setSelectedPage("HomePage");
     }
