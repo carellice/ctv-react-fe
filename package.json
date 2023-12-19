@@ -1,6 +1,6 @@
 {
   "name": "ctv-react-fe",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@capacitor/android": "5.6.0",
@@ -21,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-android": "if exist android (rd /s /q android && npm run build && ionic capacitor add android && npx cap open android) else (npm run build && ionic capacitor add android && npx cap open android)"
   },
   "eslintConfig": {
     "extends": [
