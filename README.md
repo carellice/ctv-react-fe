@@ -16,7 +16,7 @@ Questo progetto è un'applicazione web sviluppata con React JS che offre una sol
 ## Privacy
 Questo progetto pone la massima attenzione alla tua privacy. Nonostante sia basato su React JS, non richiede una parte backend e i dati vengono salvati esclusivamente in locale sul tuo dispositivo. Come sviluppatore, non ho alcun accesso ai dati personali dell'utente.
 ### Caratteristiche principali:
-- **Dati Locali:** Tutte le informazioni vengono archiviate localmente nel tuo browser, garantendo la massima riservatezza.
+- **Dati Locali:** Tutte le informazioni vengono archiviate localmente nel tuo browser/app, garantendo la massima riservatezza.
 - **Nessuna Richiesta al Server:** Il progetto non effettua alcuna richiesta a un server esterno e non invia dati sensibili attraverso la rete.
 - **Accesso Limitato:** Come sviluppatore, non ho la possibilità di accedere ai tuoi dati. La tua privacy è al sicuro.
 
@@ -29,7 +29,7 @@ Se incontri problemi o desideri suggerire miglioramenti, apri un ticket nella se
 ## Download
 
 ### App Android (Non Firmata)
-Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android dal seguente link: [CTV Android](https://www.dropbox.com/scl/fo/1bfh3pp216i5095hjac79/h?rlkey=dnz41b9facq2l37a66306hwam&dl=0)
+Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android dal seguente link: [CTV Android](https://www.dropbox.com/scl/fo/1bfh3pp216i5095hjac79/h?rlkey=dnz41b9facq2l37a66306hwam&dl=0). Non essendo ancora firmata, l'applicazione deve essere installata forzatamente, cliccando su "Altri dettagli" -> "Installa comunque".
 
 ### Sito
 L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](https://ctvapp.netlify.app/)
