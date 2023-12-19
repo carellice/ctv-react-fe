@@ -13,6 +13,13 @@ Questo progetto è un'applicazione web sviluppata con React JS che offre una sol
 - **Interfaccia Utente Intuitiva:** Un'interfaccia utente semplice e intuitiva per inserire il tuo reddito mensile e ottenere i dettagli delle allocazioni finanziarie.
 - **Calcolo Automatico:** Il sistema calcola automaticamente la quantità da allocare in ciascuna categoria sulla base della regola del 50-30-20.
 
+## Privacy
+Questo progetto pone la massima attenzione alla tua privacy. Nonostante sia basato su React JS, non richiede una parte backend e i dati vengono salvati esclusivamente in locale sul tuo dispositivo. Come sviluppatore, non ho alcun accesso ai dati personali dell'utente.
+### Caratteristiche principali:
+- **Dati Locali:** Tutte le informazioni vengono archiviate localmente nel tuo browser, garantendo la massima riservatezza.
+- **Nessuna Richiesta al Server:** Il progetto non effettua alcuna richiesta a un server esterno e non invia dati sensibili attraverso la rete.
+- **Accesso Limitato:** Come sviluppatore, non ho la possibilità di accedere ai tuoi dati. La tua privacy è al sicuro.
+
 ## Contributi
 Siamo aperti ai contributi! Se desideri contribuire, segui la procedura standard di fork e pull request.
 
