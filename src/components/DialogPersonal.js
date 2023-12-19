@@ -6,8 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 
 export default function DialogPersonal({open, setOpen, okFunc, title, text, textInput}) {
+
+  const [dati, setDati] = useState("");
+
   return (
     <Dialog
         open={open}
@@ -25,17 +29,23 @@ export default function DialogPersonal({open, setOpen, okFunc, title, text, text
           {textInput ? (
             <>
               <TextField
+                style={{marginTop:20}}
                 id="outlined-multiline-static"
-                label="Multiline"
+                label="DATI"
                 multiline
-                rows={4}
+                fullWidth
+                rows={10}
+                value={dati}
+                required
+                error={dati === ""}
+                onChange={(e) => setDati(e.target.value)}
               />
             </>
           ) : <></>}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Annulla</Button>
-          <Button onClick={okFunc} autoFocus>
+          <Button onClick={textInput ? () => okFunc(dati) : okFunc} autoFocus>
             OK
           </Button>
         </DialogActions>

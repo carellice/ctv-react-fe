@@ -19,6 +19,18 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
   //   }
   // };
 
+  const ripristinaDati = (dati) => {
+    BackupUtils.ripristinoBackup(dati).then((r) => {
+      if(r === 200){
+        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+        setOpenDialogIncollaDati(false);
+        update();
+      } else if(r === 500){
+        snackBarFunc("DATI NON CORRETTI", SnackBarUtils.SNACKBAR_ERROR);
+      }
+    })
+  }
+
   return (
     <>
       {ctv.length === 0 ? <Typography style={{textAlign:'center', marginTop:80, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "AGGIUNGI" per inserirne</Typography> : <></>}
@@ -85,15 +97,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
       })}/>
 
       {/* DIALOG CONFERMA INCOLLA DATI */}
-      <DialogPersonal textInput={false} open={openDialogIncollaDati} setOpen={setOpenDialogIncollaDati} text={"ASSICURATI DI COPIARE NEGLI APPUNTI I DATI ESPORTATI PRECEDENTEMENTE E CLICCA 'OK' PER CONFERMARE IL RIPRISTINO DEI DATI"} title={"INCOLLA DATI"} okFunc={() => BackupUtils.ripristinoBackup().then((r) => {
-        if(r === 200){
-          snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
-          setOpenDialogIncollaDati(false);
-          update();
-        } else if(r === 500){
-          snackBarFunc("DATI NON CORRETTI", SnackBarUtils.SNACKBAR_ERROR);
-        }
-      })}/>
+      <DialogPersonal textInput={true} open={openDialogIncollaDati} setOpen={setOpenDialogIncollaDati} text={"INCOLLA IN QUESTO CAMPO DI TESTO I DATI ESPORTATI PRECEDENTEMENTE E CLICCA 'OK' PER CONFERMARE IL RIPRISTINO DEI DATI"} title={"INCOLLA DATI"} okFunc={ripristinaDati}/>
     </>
   );
 }
