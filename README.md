@@ -26,7 +26,7 @@ Siamo aperti ai contributi! Se desideri contribuire, segui la procedura standard
 ## Segnalazione Problemi
 Se incontri problemi o desideri suggerire miglioramenti, apri un ticket nella sezione delle issue del repository.
 
-## Download
+## App e Sito
 
 ### App Android (Firmata)
 Puoi scaricare l'APK dell'applicazione direttamente sul tuo dispositivo Android dal seguente link: [CTV Android](https://www.dropbox.com/scl/fo/1bfh3pp216i5095hjac79/h?rlkey=dnz41b9facq2l37a66306hwam&dl=0). Non essendo gestita dal Google Play Store, l'applicazione risulta non sicura, quando ovviamente lo è, quindi deve essere installata forzatamente, cliccando su "**Altri dettagli**" -> "**Installa comunque**".
