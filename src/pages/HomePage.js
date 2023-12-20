@@ -1,5 +1,5 @@
 import HomeGrid from './../components/HomeGrid';
-import { Typography } from '@mui/material';
+import { Grow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -31,9 +31,16 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
 
   return (
     <>
-      <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography>
-      {ctv.length === 0 ? <Typography style={{textAlign:'center', marginTop:20, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography> : <></>}
+      <Grow in={true}>
+        <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography>
+      </Grow>
+      {ctv.length === 0 ? (
+        <Grow in={true}>
+          <Typography style={{textAlign:'center', marginTop:20, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
+        </Grow>
+      ) : <></>}
       <HomeGrid snackBarFunc={snackBarFunc} update={update} setSelectedPage={setSelectedPage} ctv={ctv}/>
+      
 
       {/* <Grid container justifyContent="center" alignItems="center" style={{marginTop: 50}}>
         <Grid item>
