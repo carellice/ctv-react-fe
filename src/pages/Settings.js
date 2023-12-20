@@ -164,7 +164,10 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
         setOpen={setOpenDialogDownloadAppAndroid}
         text={"CLICCA 'OK' PER SCARICARE L'APP PER ANDROID"}
         title={"DOWNLOAD APP"}
-        okFunc={downloadAppAndroid}
+        okFunc={() => {
+          downloadAppAndroid();
+          setOpenDialogDownloadAppAndroid(false);
+        }}
       />
     </>
   );
