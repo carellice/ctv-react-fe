@@ -14,6 +14,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { isApp, appVersion } from '../Config';
 import AndroidIcon from '@mui/icons-material/Android';
+import { Grow } from '@mui/material';
 
 function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -70,49 +71,56 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
       <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', margin: 'auto', marginTop: 8 }}>
         <nav aria-label="main mailbox folders">
           <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setOpenDialogCopiaDati(true)}>
-                <ListItemIcon sx={{color:'#dec507'}}>
-                  <ContentCopyIcon />
-                </ListItemIcon>
-                <ListItemText primaryTypographyProps={{color: "#dec507"}} primary="COPIA DATI" />
-              </ListItemButton>
-            </ListItem>
+            <Grow in={true}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => setOpenDialogCopiaDati(true)}>
+                  <ListItemIcon sx={{color:'#dec507'}}>
+                    <ContentCopyIcon />
+                  </ListItemIcon>
+                  <ListItemText primaryTypographyProps={{color: "#dec507"}} primary="COPIA DATI" />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
 
             <Divider />
 
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setOpenDialogIncollaDati(true)}>
-                <ListItemIcon sx={{color:'#40a11a'}}>
-                  <ContentPasteIcon />
-                </ListItemIcon>
-                <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary="INCOLLA DATI" />
-              </ListItemButton>
-            </ListItem>
+            <Grow in={true}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => setOpenDialogIncollaDati(true)}>
+                  <ListItemIcon sx={{color:'#40a11a'}}>
+                    <ContentPasteIcon />
+                  </ListItemIcon>
+                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary="INCOLLA DATI" />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
 
             <Divider />
 
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setOpenDialogCancellaDati(true)}>
-                <ListItemIcon sx={{color:'#ba0606'}}>
-                  <DeleteIcon />
-                </ListItemIcon>
-                <ListItemText primaryTypographyProps={{color: "#ba0606"}} primary="CANCELLA DATI" />
-              </ListItemButton>
-            </ListItem>
+            <Grow in={true}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => setOpenDialogCancellaDati(true)}>
+                  <ListItemIcon sx={{color:'#ba0606'}}>
+                    <DeleteIcon />
+                  </ListItemIcon>
+                  <ListItemText primaryTypographyProps={{color: "#ba0606"}} primary="CANCELLA DATI" />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
 
             {!isApp ? (
               <>
                 <Divider />
-
-                <ListItem disablePadding>
-                  <ListItemButton onClick={() => setOpenDialogDownloadAppAndroid(true)}>
-                    <ListItemIcon>
-                      <AndroidIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="DOWNLOAD APP ANDROID" />
-                  </ListItemButton>
-                </ListItem>
+                <Grow in={true}>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={() => setOpenDialogDownloadAppAndroid(true)}>
+                      <ListItemIcon>
+                        <AndroidIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="DOWNLOAD APP ANDROID" />
+                    </ListItemButton>
+                  </ListItem>
+                </Grow>
               </>
             ) : <></>}
           </List>
