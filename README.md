@@ -38,4 +38,4 @@ Assicurati di avere una copia di backup dei dati per evitare perdite indesiderat
 L'applicazione è disponibile anche online. Puoi accedere al calcolatore finanziario attraverso il seguente link: [Calcolatore Finanziario 50-30-20](https://ctvapp.netlify.app/)
 
 ### Canale Telegram
-[Clicca qui](https://t.me/ctvappofficial)  per entrare nel canale telegram ufficiale per rimanere aggiornato sulle nuove versioni
+[Clicca qui](https://t.me/ctvappofficial)  per entrare nel canale Telegram ufficiale per rimanere aggiornato sulle nuove versioni.
