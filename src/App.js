@@ -27,6 +27,9 @@ function App() {
   //USE EFFECT
   useEffect(() => {
     DataBaseUtils.getData().then(dt => setDatas(dt));
+    const currentUrl = window.location.href;
+    if(currentUrl.includes("download-app-android"))
+      setSelectedPage("SettingsPage");
   }, []);
 
   //DARK MODE
