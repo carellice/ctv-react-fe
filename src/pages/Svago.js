@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListPersonal from '../components/ListPersonal';
 import MyPopUpInsert from '../components/MyPopUpInsert';
 import MyPopUpEdit from '../components/MyPopUpEdit';
@@ -11,8 +11,27 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
 
 function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
+
+  //NASCONDE AUTOMATICAMENTE IL FAB
+  const [showFab, setShowFab] = useState(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      setShowFab(!scrolledToBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // BACK BUTTON PRESSED
   window.addEventListener("popstate", () => {
     setSelectedPage("HomePage");
@@ -56,9 +75,9 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
         </Box>
       )}
 
-      <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
+      <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
       {svago.length === 0 ? (
-        <Typography style={{ textAlign: 'center', marginTop: 40, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "AGGIUNGI" per inserirne</Typography>
+        <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
       ) : (
         <></>
       )}
@@ -69,6 +88,17 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       ) : (
         <></>
       )}
+
+      {/* FLOATING ACTION BUTTON - FAB */}
+      {showFab ? (
+        <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
+          position: 'fixed',
+          bottom: '64px',  // Puoi personalizzare la distanza dal basso
+          right: '32px',   // Puoi personalizzare la distanza da destra
+        }}>
+          <AddIcon />
+        </Fab>
+      ) : <></>}
     </>
   );
 }

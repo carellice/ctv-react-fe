@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyPopUpInsert from '../components/MyPopUpInsert';
 import MyPopUpEdit from '../components/MyPopUpEdit';
 import ListPersonal from '../components/ListPersonal';
@@ -11,8 +11,25 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update }) {
+  //NASCONDE AUTOMATICAMENTE IL FAB
+  const [showFab, setShowFab] = useState(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      setShowFab(!scrolledToBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // BACK BUTTON PRESSED
   window.addEventListener("popstate", () => {
     setSelectedPage("HomePage");
@@ -56,9 +73,9 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
         </Box>
       )}
 
-      <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA'</Typography>
+      <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA'</Typography>
       {primaNecessita.length === 0 ? (
-        <Typography style={{ textAlign: 'center', marginTop: 60, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "AGGIUNGI" per inserirne</Typography>
+        <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
       ) : (
         <></>
       )}
@@ -69,6 +86,17 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       ) : (
         <></>
       )}
+
+      {/* FLOATING ACTION BUTTON - FAB */}
+      {showFab ? (
+        <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
+          position: 'fixed',
+          bottom: '64px',  // Puoi personalizzare la distanza dal basso
+          right: '32px',   // Puoi personalizzare la distanza da destra
+        }}>
+          <AddIcon />
+        </Fab>
+      ) : <></>}
     </>
   );
 }

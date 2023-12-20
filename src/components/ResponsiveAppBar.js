@@ -7,12 +7,12 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Percent from '@mui/icons-material/Percent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SettingsIcon from '@mui/icons-material/Settings';
+import {isApp} from "./../Config"
 
 const pages = ['Svago', 'Prima Necessità'];
 // const settings = ['Logout'];
@@ -41,7 +41,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {selectedPage !== "HomePage" ? (
+          {(selectedPage !== "HomePage" && isApp) ? (
             <IconButton sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }} aria-label="indietro">
               <ArrowBackIcon sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
             </IconButton>
@@ -67,7 +67,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            {selectedPage !== "HomePage" ? (
+            {(selectedPage !== "HomePage" && isApp) ? (
               <IconButton
               size="large"
               aria-label="account of current user"
@@ -158,8 +158,13 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
 
           <Box sx={{ flexGrow: 0 }}>
             {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}> */}
-            <IconButton onClick={() => {}} sx={{ p: 0 }}>
-              <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" />
+            <IconButton onClick={() => {
+              setAnchorElNav(null);
+              window.history.pushState({}, null, null);
+              setSelectedPage("SettingsPage");
+            }}>
+              <SettingsIcon/>
+              {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
             </IconButton>
             {/* <Menu
               sx={{ mt: '45px' }}

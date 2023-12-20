@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Grid } from '@mui/material';
 import BasicCard from './BasicCard';
-import Button from '@mui/material/Button';
 
 export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
   return (
@@ -14,7 +13,7 @@ export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
         ))}
       </Grid>
 
-      <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20}}>
+      {/* <Grid container justifyContent="center" alignItems="center" style={{marginTop: 20}}>
         <Grid item>
           <Button variant="contained" color="primary" onClick={() => {
             window.history.pushState({}, null, null);
@@ -23,7 +22,7 @@ export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
             AGGIUNGI
           </Button>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Container>
   );
 }
