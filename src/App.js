@@ -14,6 +14,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import * as DataBaseUtils from "./utils/DataBaseUtils";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import ExcelGenerator from './components/ExcelGenerator';
+import PdfGenerator from './components/PdfGenerator';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -22,6 +24,43 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 function App() {
+
+  const data = {
+    "user": "test",
+    "ctv": [
+      {
+        "id": new Date().toString(),
+        "data": "DICEMBRE 2023",
+        "stipendio": "1760",
+        "svago": "200",
+        "primaNecessita": "200",
+        "risparmi": "200",
+        "percentualePrimaNecessita": 50,
+        "percentualeSvago": 30,
+        "percentualeRisparmi": 20
+      }
+    ],
+    "svago": [
+      {
+        "id": new Date().toString(),
+        "nome": "ELEMENTO",
+        "note": "/////",
+        "dataDa": "2023/12/01",
+        "dataA": "2024/01/01",
+        "costo": "100,00"
+      }
+    ],
+    "primaNecessita": [
+      {
+        "id": new Date().toString(),
+        "nome": "ELEMENTO",
+        "note": "/////",
+        "dataDa": "2023/12/01",
+        "dataA": "2024/01/01",
+        "costo": "100,00"
+      }
+    ]
+  };
 
   //USE EFFECT
   useEffect(() => {
@@ -89,7 +128,8 @@ function App() {
         </>
       )}
       
-    
+    <ExcelGenerator data={data} fileName={"pieno de sordi"}/>
+    <PdfGenerator data={data} fileName={"pieno de sordi"}/>
       <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={() => setOpenSnackBar(false)}>
         <Alert onClose={() => setOpenSnackBar(false)} severity={typeSnackBar} sx={{ width: '100%' }}>
           {messageSnackBar}
