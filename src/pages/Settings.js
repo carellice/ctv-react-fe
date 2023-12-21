@@ -176,12 +176,14 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
         text={"CLICCA 'OK' PER SCARICARE L'APP PER ANDROID"}
         title={"DOWNLOAD APP"}
         okFunc={() => {
-          setLoading(true);
+          setOpenDialogDownloadAppAndroid(false);
           downloadAppAndroid().then(() => {
-            setOpenDialogDownloadAppAndroid(false);
+            // setTimeout(() => {
+            //   setLoading(false);
+            // }, 2000);
             setTimeout(() => {
-              setLoading(false);
-            }, 2000);
+              snackBarFunc("IL DOWNLOAD PARTIRà A BREVE".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
+            }, 1000);
           });
         }}
       />
