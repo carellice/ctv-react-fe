@@ -13,7 +13,8 @@ import Divider from '@mui/material/Divider';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { isApp, appVersion } from '../Config';
+import { isApp } from '../Config';
+import { appVersion } from '../Version';
 import AndroidIcon from '@mui/icons-material/Android';
 import { Grow } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
@@ -134,12 +135,24 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
                       <ListItemIcon>
                         <AndroidIcon />
                       </ListItemIcon>
-                      <ListItemText primary="DOWNLOAD APP ANDROID" />
+                      <ListItemText primary="DOWNLOAD APP ANDROID" secondary={appVersion} />
                     </ListItemButton>
                   </ListItem>
                 </Grow>
               </>
-            ) : <></>}
+            ) : <>
+            <Divider />
+            <Grow in={true}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={null}>
+                  <ListItemIcon>
+                    <AndroidIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="VERSIONE APP ANDROID" secondary={appVersion} />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
+          </>}
           </List>
         </nav>
       </Box>
