@@ -16,6 +16,12 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Settings from './pages/Settings';
 import { Grow } from '@mui/material';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { isApp } from './Config';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -24,6 +30,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 function App() {
+
+  const [value, setValue] = React.useState(0);
 
   //USE EFFECT
   useEffect(() => {
@@ -86,6 +94,23 @@ function App() {
         </>
       ) : (
         <>
+          {isApp && (selectedPage === "HomePage" || selectedPage === "Prima Necessità" || selectedPage === "Svago") ? (
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop:7 }}>
+              <Tabs centered value={value} onChange={(event, newValue) => {
+                setValue(newValue);
+                if(newValue === 0)
+                  setSelectedPage("HomePage");
+                if(newValue === 1)
+                  setSelectedPage("Prima Necessità");
+                if(newValue === 2)
+                  setSelectedPage("Svago");
+              }} aria-label="basic tabs example">
+                <Tab label="CTV" />
+                <Tab label={"Necessità".toUpperCase()} />
+                <Tab label="SVAGO" />
+              </Tabs>
+            </Box>
+          ) : <></>}
           {selectedPage === 'LoginPage' ? <LoginPage loginFunc={loginFunc} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'HomePage' ? <HomePage snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}

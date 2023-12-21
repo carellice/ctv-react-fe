@@ -1,2 +1,2 @@
 export const isApp = true;
-export const appVersion = "1.9";
+export const appVersion = "2.0";
