@@ -81,7 +81,7 @@ function App() {
     <>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ResponsiveAppBar selectedPage={selectedPage} setSelectedPage = {setSelectedPage}/>
+      <ResponsiveAppBar setTabs={setValue} selectedPage={selectedPage} setSelectedPage = {setSelectedPage}/>
       {datas === null ? (
         <>
         <Backdrop
