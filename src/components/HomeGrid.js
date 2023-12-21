@@ -4,7 +4,7 @@ import BasicCard from './BasicCard';
 
 export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc}) {
   return (
-    <Container style={{ marginTop: 40 }}>
+    <Container style={{ marginTop: 20 }}>
       <Grid container spacing={2}>
         {ctv.map((el, index) => (
           <Grow in={true}>
