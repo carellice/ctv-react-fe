@@ -29,3 +29,14 @@ export const getDateDayMonthYear = (date) => {
 
     return giorno + " " + mese + " " + anno;
 };
+
+
+export const getDateDayMonthYearHourMinute = async (date) => {
+    const mese = monthList[date.getMonth()];
+    const anno = date.getFullYear();
+    const giorno = date.getDate();
+    const ore = date.getHours();
+    const minuti = date.getMinutes();
+
+    return giorno + " " + mese + " " + anno + " - " + ore + ":" + minuti;
+};

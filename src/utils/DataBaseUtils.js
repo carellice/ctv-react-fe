@@ -1,3 +1,5 @@
+import * as DateUtils from "./DateUtils"
+
 export const dataTemplate = {
     user: "user",
     ctv: [
@@ -23,6 +25,34 @@ export const getData = async () => {
     }else{
         return JSON.parse(localStorage.getItem("data"));
     }
+}
+
+export const getUltimoBackup = async () => {
+    if(localStorage.getItem("ultimoBackup") === null){
+        return null;
+    }else{
+        const ultimoBacukpDate = new Date(localStorage.getItem("ultimoBackup"));
+        const ultimoBackup = await DateUtils.getDateDayMonthYearHourMinute(ultimoBacukpDate);
+        return ultimoBackup;
+    }
+}
+
+export const getUltimoRipristino = async () => {
+    if(localStorage.getItem("ultimoRipristino") === null){
+        return null;
+    }else{
+        const ultimoRipristinoDate = new Date(localStorage.getItem("ultimoRipristino"));
+        const ultimoRipristino = await DateUtils.getDateDayMonthYearHourMinute(ultimoRipristinoDate);
+        return ultimoRipristino;
+    }
+}
+
+export const saveUltimoRipristino = async () => {
+    localStorage.setItem("ultimoRipristino", new Date().toString());
+}
+
+export const saveUltimoBackup = async () => {
+    localStorage.setItem("ultimoBackup", new Date().toString());
 }
 
 export const getCtv = async () => {

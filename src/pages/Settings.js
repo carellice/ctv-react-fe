@@ -8,6 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogPersonal from '../components/DialogPersonal';
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as BackupUtils from "./../utils/BackupUtils";
+import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import Divider from '@mui/material/Divider';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
@@ -17,6 +18,7 @@ import AndroidIcon from '@mui/icons-material/Android';
 import { Grow } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect } from 'react';
 
 function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -24,13 +26,25 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = React.useState(false);
   const [openDialogDownloadAppAndroid, setOpenDialogDownloadAppAndroid] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [ultimoBacukp, setUltimoBackup] = React.useState(null);
+  const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
+
+  //USE EFFECT
+  useEffect(() => {
+    DataBaseUtils.getUltimoBackup().then(r => setUltimoBackup(r));
+    DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
+  }, [])
+  
 
   const ripristinaDati = (dati) => {
     BackupUtils.ripristinoBackup(dati).then((r) => {
       if (r === 200) {
-        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
-        setOpenDialogIncollaDati(false);
-        update();
+        DataBaseUtils.saveUltimoRipristino().then(() => {
+          snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+          setOpenDialogIncollaDati(false);
+          update();
+          DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
+        })
       } else if (r === 500) {
         snackBarFunc("DATI NON CORRETTI", SnackBarUtils.SNACKBAR_ERROR);
       }
@@ -80,7 +94,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
                   <ListItemIcon sx={{color:'#dec507'}}>
                     <ContentCopyIcon />
                   </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{color: "#dec507"}} primary="COPIA DATI" />
+                  <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"COPIA DATI"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
                 </ListItemButton>
               </ListItem>
             </Grow>
@@ -93,7 +107,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
                   <ListItemIcon sx={{color:'#40a11a'}}>
                     <ContentPasteIcon />
                   </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary="INCOLLA DATI" />
+                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"INCOLLA DATI"} secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
                 </ListItemButton>
               </ListItem>
             </Grow>
@@ -142,6 +156,8 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
           setOpenDialogCancellaDati(false);
           localStorage.clear();
           update();
+          DataBaseUtils.getUltimoBackup().then(r => setUltimoBackup(r));
+          DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
         }}
       />
 
@@ -153,8 +169,11 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
         text={"SE CLICCHI 'OK' VERRà COPIATO NEGLI APPUNTI IL BACKUP, INCOLLALO COSì COM'è DA QUALCHE PARTE".toUpperCase()}
         title={"COPIA DATI"}
         okFunc={() => BackupUtils.copiaBackup().then(() => {
-          snackBarFunc("BACKUP COPIATO NEGLI APPUNTI", SnackBarUtils.SNACKBAR_INFO);
-          setOpenDialogCopiaDati(false);
+          DataBaseUtils.saveUltimoBackup().then(() => {
+            snackBarFunc("BACKUP COPIATO NEGLI APPUNTI", SnackBarUtils.SNACKBAR_INFO);
+            setOpenDialogCopiaDati(false);
+            DataBaseUtils.getUltimoBackup().then((r) => setUltimoBackup(r));
+          })
         })}
       />
 
