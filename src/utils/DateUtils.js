@@ -35,8 +35,8 @@ export const getDateDayMonthYearHourMinute = async (date) => {
     const mese = monthList[date.getMonth()];
     const anno = date.getFullYear();
     const giorno = date.getDate();
-    const ore = date.getHours();
-    const minuti = date.getMinutes();
+    const ore = date.getHours().toString().length === 1 ? ("0" + date.getHours().toString()) : date.getHours().toString();
+    const minuti = date.getMinutes().toString().length === 1 ? ("0" + date.getMinutes().toString()) : date.getMinutes().toString();
 
     return giorno + " " + mese + " " + anno + " - " + ore + ":" + minuti;
 };
