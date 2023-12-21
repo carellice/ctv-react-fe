@@ -4,7 +4,7 @@ import MyPopUpInsert from '../components/MyPopUpInsert';
 import MyPopUpEdit from '../components/MyPopUpEdit';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
-import { Typography } from '@mui/material';
+import { Grow, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { isApp } from '../Config';
 
 
 function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
@@ -61,7 +62,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
         <></>
       ) : (
         <Box display="flex" justifyContent="center">
-          <FormControl style={{ marginTop: 80 }}>
+          <FormControl style={{ marginTop: isApp ? 20 : 80 }}>
             <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
@@ -77,8 +78,12 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
 
       {svago.length === 0 ? (
         <>
-          <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
-          <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
+          <Grow in={true}>
+            <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
+          </Grow>
+          <Grow in={true}>
+            <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
+          </Grow>
         </>
       ) : (
         <>

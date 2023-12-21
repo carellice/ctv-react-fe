@@ -67,7 +67,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            {(selectedPage !== "HomePage" && isApp) ? (
+            {((selectedPage !== "HomePage" && selectedPage !== "Prima Necessità" && selectedPage !== "Svago") && isApp) ? (
               <IconButton
               size="large"
               aria-label="account of current user"
@@ -84,10 +84,11 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={isApp ? () => {} : handleOpenNavMenu}
               color="inherit"
               >
-                <MoreVertIcon />
+                {isApp ? <Percent/> : <MoreVertIcon />}
+                
               </IconButton>
             )}
             
@@ -121,7 +122,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
             </Menu>
           </Box>
 
-          <Percent onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} />
+          {isApp ? <></> : <Percent onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} />}
           <Typography
             variant="h5"
             noWrap

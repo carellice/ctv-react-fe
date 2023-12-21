@@ -3,6 +3,7 @@ import { Grow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { isApp } from '../Config';
 
 function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
   //NASCONDE AUTOMATICAMENTE IL FAB
@@ -32,7 +33,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
   return (
     <>
       <Grow in={true}>
-        <Typography style={{ textAlign: 'center', marginTop: 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography>
+        <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography>
       </Grow>
       {ctv.length === 0 ? (
         <Grow in={true}>
