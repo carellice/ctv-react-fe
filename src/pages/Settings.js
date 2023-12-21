@@ -179,7 +179,9 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
           setLoading(true);
           downloadAppAndroid().then(() => {
             setOpenDialogDownloadAppAndroid(false);
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           });
         }}
       />
