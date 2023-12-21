@@ -15,12 +15,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { isApp, appVersion } from '../Config';
 import AndroidIcon from '@mui/icons-material/Android';
 import { Grow } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
   const [openDialogIncollaDati, setOpenDialogIncollaDati] = React.useState(false);
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = React.useState(false);
   const [openDialogDownloadAppAndroid, setOpenDialogDownloadAppAndroid] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const ripristinaDati = (dati) => {
     BackupUtils.ripristinoBackup(dati).then((r) => {
@@ -35,7 +38,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   };
 
   // DOWNLOAD APP ANDROID
-  const downloadAppAndroid = () => {
+  const downloadAppAndroid =  async () => {
     const fileName = 'ctv.apk'; // Sostituisci con il nome del tuo file
     const publicFolderPath = process.env.PUBLIC_URL; // Percorso della cartella "public"
 
@@ -173,10 +176,21 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
         text={"CLICCA 'OK' PER SCARICARE L'APP PER ANDROID"}
         title={"DOWNLOAD APP"}
         okFunc={() => {
-          downloadAppAndroid();
-          setOpenDialogDownloadAppAndroid(false);
+          setLoading(true);
+          downloadAppAndroid().then(() => {
+            setOpenDialogDownloadAppAndroid(false);
+            setLoading(false);
+          });
         }}
       />
+
+    {/* LOADING SPINNER */}
+    <Backdrop
+      open={loading}
+      onClick={() => {}}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
     </>
   );
 }
