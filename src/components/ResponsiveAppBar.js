@@ -17,7 +17,7 @@ import {isApp} from "./../Config"
 const pages = ['Svago', 'Prima Necessità'];
 // const settings = ['Logout'];
 
-function ResponsiveAppBar({selectedPage, setSelectedPage}) {
+function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -73,7 +73,10 @@ function ResponsiveAppBar({selectedPage, setSelectedPage}) {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={() => setSelectedPage("HomePage")}
+              onClick={() => {
+                setSelectedPage("HomePage");
+                setTabs(0);
+              }}
               color="inherit"
               >
                 <ArrowBackIcon />
