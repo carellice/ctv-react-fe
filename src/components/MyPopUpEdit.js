@@ -63,6 +63,8 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
   const handleSave = () => {
     if(nome === '' || nota === '' || costo === ''){
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
+    } else if(scadenzaSi && new Date(dataFine) < new Date(dataInizio)){
+      snackBarFunc("LA 'DATA A' DEVE ESSERE MAGGIORE DELLA 'DATA DA'!", SnackBarUtils.SNACKBAR_ERROR);
     }else{
       setOpen(false);
       const id = JSON.parse(localStorage.getItem("elToEdit")).id;
@@ -70,7 +72,7 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
         setOpen(false);
         localStorage.removeItem("elToEdit");
         if(title.includes("SVAGO")){
-          saveSvago(id, scadenzaSi, nome, nota, dataInizio, dataFine, costo);
+          saveSvago(id, scadenzaSi, nome, nota, scadenzaSi ? dataInizio : null, scadenzaSi ? dataFine : null, costo);
         }else{
           savePrimaNecessita(id, scadenzaSi, nome, nota, dataInizio, dataFine, costo);
         }
@@ -157,6 +159,16 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
                 value={dataInizio}
                 onChange={(e) => setDataInizio(e.target.value)}
               />
+              <Button variant="text" color='success' onClick={() => {
+                const dataInizioDate = new Date(dataInizio);
+                dataInizioDate.setMonth(dataInizioDate.getMonth() + 1);
+                setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+              }}>+ 1 mese</Button>
+              <Button variant="text" color='error' onClick={() => {
+                const dataInizioDate = new Date(dataInizio);
+                dataInizioDate.setMonth(dataInizioDate.getMonth() - 1);
+                setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+              }}>- 1 mese</Button>
               {/* DATA - A */}
               <TextField
                 style={{marginTop:10}}
@@ -168,6 +180,16 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
                 value={dataFine}
                 onChange={(e) => setDataFine(e.target.value)}
               />
+              <Button variant="text" color='success' onClick={() => {
+                const dataFineDate = new Date(dataFine);
+                dataFineDate.setMonth(dataFineDate.getMonth() + 1);
+                setDataFine(dataFineDate.toISOString().split('T')[0]);
+              }}>+ 1 mese</Button>
+              <Button variant="text" color='error' onClick={() => {
+                const dataFineDate = new Date(dataFine);
+                dataFineDate.setMonth(dataFineDate.getMonth() - 1);
+                setDataFine(dataFineDate.toISOString().split('T')[0]);
+              }}>- 1 mese</Button>
             </>
           ) : <></>}
           
