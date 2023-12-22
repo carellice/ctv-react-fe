@@ -19,7 +19,7 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {el.data + " (" + el.percentualePrimaNecessita + " - " + el.percentualeSvago + " - " + el.percentualeRisparmi + ")"}
+            {el.data}
           </Typography>
           <Typography variant="h5" component="div">
             {censored ? ImportoUtils.getImportoFormatted(el.stipendio).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.stipendio)} €
@@ -28,13 +28,13 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
             adjective
           </Typography> */}
           <Typography variant="body2">
-            Svago: {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
+            Prima Necessità ({el.percentualePrimaNecessita}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography>
           <Typography variant="body2">
-            Prima Necessità: {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
+            Svago ({el.percentualeSvago}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
           </Typography>
           <Typography variant="body2">
-            Risparmi: {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
+            Risparmi ({el.percentualeRisparmi}%): {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
           </Typography>
         </CardContent>
         <CardActions>
