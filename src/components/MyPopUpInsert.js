@@ -28,8 +28,10 @@ const MyPopUpInsert = ({open, setOpen, title, snackBarFunc, saveFunc}) => {
   const handleSave = () => {
     if(nome === '' || nota === '' || costo === ''){
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
+    } else if(scadenzaSi && new Date(dataFine) < new Date(dataInizio)){
+      snackBarFunc("LA 'DATA A' DEVE ESSERE MAGGIORE DELLA 'DATA DA'!", SnackBarUtils.SNACKBAR_ERROR);
     }else{
-      saveFunc(scadenzaSi, nome, nota, dataInizio, dataFine, costo);
+      saveFunc(scadenzaSi, nome, nota, scadenzaSi ? dataInizio : null, scadenzaSi ? dataFine : null, costo);
       svuotaForm();
       setOpen(false);
     }
@@ -104,6 +106,16 @@ const MyPopUpInsert = ({open, setOpen, title, snackBarFunc, saveFunc}) => {
                 value={dataInizio}
                 onChange={(e) => setDataInizio(e.target.value)}
               />
+              <Button variant="text" color='success' onClick={() => {
+                const dataInizioDate = new Date(dataInizio);
+                dataInizioDate.setMonth(dataInizioDate.getMonth() + 1);
+                setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+              }}>+ 1 mese</Button>
+              <Button variant="text" color='error' onClick={() => {
+                const dataInizioDate = new Date(dataInizio);
+                dataInizioDate.setMonth(dataInizioDate.getMonth() - 1);
+                setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+              }}>- 1 mese</Button>
               {/* DATA - A */}
               <TextField
                 style={{marginTop:10}}
@@ -115,6 +127,16 @@ const MyPopUpInsert = ({open, setOpen, title, snackBarFunc, saveFunc}) => {
                 value={dataFine}
                 onChange={(e) => setDataFine(e.target.value)}
               />
+              <Button variant="text" color='success' onClick={() => {
+                const dataFineDate = new Date(dataFine);
+                dataFineDate.setMonth(dataFineDate.getMonth() + 1);
+                setDataFine(dataFineDate.toISOString().split('T')[0]);
+              }}>+ 1 mese</Button>
+              <Button variant="text" color='error' onClick={() => {
+                const dataFineDate = new Date(dataFine);
+                dataFineDate.setMonth(dataFineDate.getMonth() - 1);
+                setDataFine(dataFineDate.toISOString().split('T')[0]);
+              }}>- 1 mese</Button>
             </>
           ) : <></>}
           
