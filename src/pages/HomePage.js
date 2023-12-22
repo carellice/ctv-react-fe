@@ -1,13 +1,19 @@
 import HomeGrid from './../components/HomeGrid';
-import { Grow, Typography } from '@mui/material';
+import { Grid, Grow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { isApp } from '../Config';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import * as DataBaseUtils from "./../utils/DataBaseUtils";
 
-function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
+
+function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCensored}) {
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
@@ -33,14 +39,30 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc}) {
   return (
     <>
       <Grow in={true}>
-        <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography>
+        <Grid container justifyContent="center">
+          <Typography
+            style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }}
+            variant='h5'
+          >
+            CTV
+          </Typography>
+          {ctv.length !== 0 ? (
+            <IconButton onClick={() => {
+              const newCensored = !censored;
+              DataBaseUtils.saveCensored(newCensored).then(() => setCensored(newCensored));
+            }} style={{marginTop: isApp ? 15 : 75, marginLeft:10}} edge='end' >
+              {censored ? <VisibilityOffIcon /> : <VisibilityIcon />} {/* Sostituisci con l'icona desiderata */}
+            </IconButton>
+          ) : <></>}
+        </Grid>
+        {/* <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography> */}
       </Grow>
       {ctv.length === 0 ? (
         <Grow in={true}>
           <Typography style={{textAlign:'center', marginTop:20, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
         </Grow>
       ) : <></>}
-      <HomeGrid snackBarFunc={snackBarFunc} update={update} setSelectedPage={setSelectedPage} ctv={ctv}/>
+      <HomeGrid censored={censored} snackBarFunc={snackBarFunc} update={update} setSelectedPage={setSelectedPage} ctv={ctv}/>
       
 
       {/* <Grid container justifyContent="center" alignItems="center" style={{marginTop: 50}}>

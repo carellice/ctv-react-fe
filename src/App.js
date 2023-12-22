@@ -35,6 +35,10 @@ function App() {
 
   //USE EFFECT
   useEffect(() => {
+    //CONTROLLO SE SIA STATA SALVATA LA CENSURA OPPURE NO
+    DataBaseUtils.getCensored().then(r => setCensored(r));
+
+    //RECUPERO I DATI
     DataBaseUtils.getData().then(dt => setDatas(dt));
     const currentUrl = window.location.href;
     if(currentUrl.includes("download-app-android"))
@@ -58,6 +62,9 @@ function App() {
   const [typeSnackBar, setTypeScnakBar] = useState("error");
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [selectedPage, setSelectedPage] = useState("HomePage");
+  
+  //CENSURA
+  const [censored, setCensored] = useState(null);
 
   //DATI
   const [datas, setDatas] = useState(null);
@@ -82,7 +89,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <ResponsiveAppBar setTabs={setValue} selectedPage={selectedPage} setSelectedPage = {setSelectedPage}/>
-      {datas === null ? (
+      {datas === null || censored === null ? (
         <>
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -112,7 +119,7 @@ function App() {
             </Box>
           ) : <></>}
           {selectedPage === 'LoginPage' ? <LoginPage loginFunc={loginFunc} setSelectedPage={setSelectedPage}/> : <></>}
-          {selectedPage === 'HomePage' ? <HomePage snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'HomePage' ? <HomePage censored={censored} setCensored={setCensored} snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}
           {selectedPage === 'Svago' ? <Svago update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}

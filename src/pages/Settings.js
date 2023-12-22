@@ -29,6 +29,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [loading, setLoading] = React.useState(false);
   const [ultimoBacukp, setUltimoBackup] = React.useState(null);
   const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
+  const [easterEggCount, setEasterEggCount] = React.useState(0);
 
   //USE EFFECT
   useEffect(() => {
@@ -144,7 +145,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
             <Divider />
             <Grow in={true}>
               <ListItem disablePadding>
-                <ListItemButton onClick={null}>
+                <ListItemButton onClick={() => setEasterEggCount(easterEggCount + 1)}>
                   <ListItemIcon>
                     <AndroidIcon />
                   </ListItemIcon>
@@ -159,6 +160,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
 
       {/* DIALOG CONFERMA CANCELLA DATI */}
       <DialogPersonal
+        showAnnulla={true}
         textInput={false}
         open={openDialogCancellaDati}
         setOpen={setOpenDialogCancellaDati}
@@ -176,6 +178,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
 
       {/* DIALOG CONFERMA COPIA DATI */}
       <DialogPersonal
+        showAnnulla={true}
         textInput={false}
         open={openDialogCopiaDati}
         setOpen={setOpenDialogCopiaDati}
@@ -192,6 +195,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
 
       {/* DIALOG CONFERMA INCOLLA DATI */}
       <DialogPersonal
+        showAnnulla={true}
         textInput={true}
         open={openDialogIncollaDati}
         setOpen={setOpenDialogIncollaDati}
@@ -202,6 +206,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
 
       {/* DIALOG DOWNLOAD APP ANDROID */}
       <DialogPersonal
+        showAnnulla={true}
         textInput={false}
         open={openDialogDownloadAppAndroid}
         setOpen={setOpenDialogDownloadAppAndroid}
@@ -217,6 +222,19 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
               snackBarFunc("IL DOWNLOAD PARTIRà A BREVE".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
             }, 1000);
           });
+        }}
+      />
+
+      {/* DIALOG EASTER EGG APP ANDROID */}
+      <DialogPersonal
+        showAnnulla={false}
+        textInput={false}
+        open={easterEggCount === 15}
+        setOpen={() => {}}
+        text={"COMPLIMENTI! HAI TROVATO UN EASTER EGG INUTILE! MI DISPIACE MA IL BUDGET è POCO, COMPLIMENTI PERò!".toUpperCase()}
+        title={"SEGRETO"}
+        okFunc={() => {
+          setEasterEggCount(0);
         }}
       />
 
