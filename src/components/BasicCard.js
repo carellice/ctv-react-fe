@@ -10,7 +10,7 @@ import * as ImportoUtils from "./../utils/ImportoUtils"
 import DialogPersonal from '../components/DialogPersonal';
 
 
-export default function BasicCard({el, update, snackBarFunc}) {
+export default function BasicCard({censored, el, update, snackBarFunc}) {
 
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = React.useState(false);
 
@@ -22,26 +22,26 @@ export default function BasicCard({el, update, snackBarFunc}) {
             {el.data + " (" + el.percentualePrimaNecessita + " - " + el.percentualeSvago + " - " + el.percentualeRisparmi + ")"}
           </Typography>
           <Typography variant="h5" component="div">
-            {ImportoUtils.getImportoFormatted(el.stipendio)} €
+            {censored ? ImportoUtils.getImportoFormatted(el.stipendio).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.stipendio)} €
           </Typography>
           {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
             adjective
           </Typography> */}
           <Typography variant="body2">
-            {'Svago: ' + ImportoUtils.getImportoFormatted(el.svago) + ' €'}
+            Svago: {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
           </Typography>
           <Typography variant="body2">
-            {'Prima Necessità: ' + ImportoUtils.getImportoFormatted(el.primaNecessita) + ' €'}
+            Prima Necessità: {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography>
           <Typography variant="body2">
-            {'Risparmi: ' + ImportoUtils.getImportoFormatted(el.risparmi) + ' €'}
+            Risparmi: {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
           </Typography>
         </CardContent>
         <CardActions>
           <Button size="small" color="error" onClick={() => setOpenDialogCancellaDati(true)}>ELIMINA</Button>
         </CardActions>
       </Card>
-      <DialogPersonal textInput={false} open={openDialogCancellaDati} setOpen={setOpenDialogCancellaDati} text={"confermi di voler eliminare l'elemento?".toUpperCase()} title={"ELIMINA ELEMENTO"} okFunc={() => {
+      <DialogPersonal showAnnulla={true} textInput={false} open={openDialogCancellaDati} setOpen={setOpenDialogCancellaDati} text={"confermi di voler eliminare l'elemento?".toUpperCase()} title={"ELIMINA ELEMENTO"} okFunc={() => {
         DataBaseUtils.delCtvById(el.id).then(() => {
           update();
           snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);

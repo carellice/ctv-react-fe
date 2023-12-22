@@ -264,3 +264,15 @@ export const orderPrimaNecessitaByCosto = async() => {
 
     return 200;
 }
+
+export const getCensored = async () => {
+    if(localStorage.getItem("censored") === null){
+        return false;
+    }else{
+        return localStorage.getItem("censored") === "true";
+    }
+}
+
+export const saveCensored = async (value) => {
+    localStorage.setItem("censored", value.toString());
+}

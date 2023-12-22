@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
-export default function DialogPersonal({open, setOpen, okFunc, title, text, textInput}) {
+export default function DialogPersonal({open, setOpen, okFunc, title, text, textInput, showAnnulla}) {
 
   const [dati, setDati] = useState("");
 
@@ -44,7 +44,7 @@ export default function DialogPersonal({open, setOpen, okFunc, title, text, text
           ) : <></>}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Annulla</Button>
+          {showAnnulla ? <Button onClick={() => setOpen(false)}>Annulla</Button> : <></>}
           <Button onClick={textInput ? () => okFunc(dati) : okFunc} autoFocus>
             OK
           </Button>
