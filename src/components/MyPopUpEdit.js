@@ -42,7 +42,7 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
   const savePrimaNecessita = (id, scadenza, nome, note, dataDa, dataA, costo) => {
     const dataDaDate = new Date(dataDa);
     const dataADate = new Date(dataA);
-    if(dataDaDate > dataADate){
+    if(scadenza && dataDaDate > dataADate){
       DataBaseUtils.delElById(id).then(() => {
         snackBarFunc("CANCELLATO POICHè SCADUTO!".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
         update();
@@ -63,9 +63,7 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
   const handleSave = () => {
     if(nome === '' || nota === '' || costo === ''){
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
-    } else if(scadenzaSi && new Date(dataFine) < new Date(dataInizio)){
-      snackBarFunc("LA 'DATA A' DEVE ESSERE MAGGIORE DELLA 'DATA DA'!", SnackBarUtils.SNACKBAR_ERROR);
-    }else{
+    } else{
       setOpen(false);
       const id = JSON.parse(localStorage.getItem("elToEdit")).id;
       DataBaseUtils.delElById(id).then(() => {

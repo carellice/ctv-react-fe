@@ -8,50 +8,67 @@ import {
   Chip,
   Grow,
   Zoom,
+  CircularProgress,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as DateUtils from "./../utils/DateUtils";
 import * as ImportoUtils from "./../utils/ImportoUtils";
+import DialogPersonal from '../components/DialogPersonal';
+import DialogPersonalUpdate from "../components/DialogPersonalUpdate";
+import { LoadingButton } from "@mui/lab";
+import SaveIcon from '@mui/icons-material/Save';
 
-const InsertNew = ({ snackBarFunc, update, setSelectedPage }) => {
+const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => {
   //SAVE
-  const save = () => {
-    if (
-      stipendio === "" ||
-      percentualePrimaNecessita === "" ||
-      percentualeSvago === "" ||
-      percentualeRisparmi === "" ||
-      daSottrarrePrimaNecessita === "" ||
-      daSottrarreSvago === "" ||
-      daSottrarreRisparmi === ""
-    ) {
+  const save = async () => {
+    setLoading(true);
+    const checkRes = await DataBaseUtils.checkCtv(stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, daSottrarrePrimaNecessita, daSottrarreSvago, daSottrarreRisparmi);
+    if(checkRes === 400){
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
-    } else {
-      DataBaseUtils.saveCtv(
-        DateUtils.getDateMonthYear(),
-        stipendio,
-        risultatoSvago,
-        risultatoPrimaNecessita,
-        risultatoRisparmi,
-        percentualePrimaNecessita,
-        percentualeRisparmi,
-        percentualeSvago
-      ).then((r) => {
-        if (r === 200) {
-          update();
-          setSelectedPage("HomePage");
-          snackBarFunc(
-            "INSERITO CORRETTAMENTE!",
-            SnackBarUtils.SNACKBAR_SUCCESS
-          );
-        } else {
+    }else{
+      const checkEdit = await checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem();
+      console.log("checkEdit ", checkEdit);
+      if(checkEdit === null){
+        const insert = await DataBaseUtils.insertCtv(stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, risultatoSvago, risultatoPrimaNecessita, risultatoRisparmi);
+        if(insert === 500){
           snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
+        }else{
+          snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
+          setTimeout(() => {
+            update();
+            setSelectedPage("HomePage");
+            setLoading(false);
+          }, 1000);
         }
-      });
+      } else{
+          setOpenDialogUpdate(true);
+      }
     }
   };
+
+  const [loading, setLoading] = useState(false);
+  const [openDialogUpdate, setOpenDialogUpdate] = useState(false);
+  const [svagoUpdt, setSvagoUpdt] = useState(null);
+  const [primaNecessitaUpdt, setPrimaNecessitaUpdt] = useState(null);
+  //CONTROLLO SE CI SONO PRIME NECESSITà O SVAGO AGGIORNABILI DI UN MESE
+  const checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem = async () => {
+    const data = await DataBaseUtils.getData()
+    const primaNecessita = data.primaNecessita;
+    const svago = data.svago;
+
+    const primaNecessitaAggiornabili = primaNecessita.filter(p => p.dataDa !== null);
+    const svagoAggiornabili = svago.filter(p => p.dataDa !== null);
+
+    if(primaNecessitaAggiornabili.length === 0 && svagoAggiornabili.length === 0)
+      return null;
+    else{
+      setSvagoUpdt(svagoAggiornabili);
+      setPrimaNecessitaUpdt(primaNecessitaAggiornabili);
+      return 200;
+    }
+  }
 
   //BACK BUTTON PRESSED
   window.addEventListener("popstate", () => {
@@ -430,12 +447,50 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage }) => {
       >
         <Grow in={true}>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={() => save()}>
+            <LoadingButton
+              loading={loading}
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+              variant="contained"
+              onClick={() => {
+                save().then(() => {});
+              }}
+            >
               SALVA
-            </Button>
+            </LoadingButton>
+            {/* <Button variant="contained" color="primary" endIcon={loading ? <CircularProgress  /> : <></>} onClick={() => {
+              save().then(() => {});
+            }}>
+              SALVA
+            </Button> */}
           </Grid>
         </Grow>
       </Grid>
+
+      {/* DIALOG CONFERMA AGGIORNEMENTO ELEMENTI */}
+      {svagoUpdt !== null && primaNecessitaUpdt !== null ? (
+        <DialogPersonalUpdate
+        stipendio={stipendio}
+        percentualePrimaNecessita={percentualePrimaNecessita}
+        percentualeSvago={percentualeSvago}
+        percentualeRisparmi={percentualeRisparmi}
+        risultatoSvago={risultatoSvago}
+        risultatoPrimaNecessita={risultatoPrimaNecessita}
+        risultatoRisparmi={risultatoRisparmi}
+        svago={svagoUpdt}
+        primaNecessita={primaNecessitaUpdt}
+        showAnnulla={true}
+        textInput={false}
+        open={openDialogUpdate}
+        setOpen={setOpenDialogUpdate}
+        snackBarFunc={snackBarFunc}
+        setSelectedPage={setSelectedPage}
+        update={update}
+        setLoadingFather={setLoading}
+        text={"SCEGLI I DATI DA AGGIORNARE DI UN MESE (CLICCA GLI ELEMENTI)".toUpperCase()}
+        title={"AGGIORNA"}
+      />
+      ) : <></>}
     </Container>
   );
 };
