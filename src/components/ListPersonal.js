@@ -8,8 +8,8 @@ export default function ListPersonal({openPopUpInsert, setOpenPopUpInsert, editE
     <Container>
       {array.map(el => (
         <List sx={{ width: '100%', maxWidth: 1000, bgcolor: 'background.paper' }}>
-        <ListItemPersonal editElement={editElement} el={el}/>
-      </List>
+          <ListItemPersonal editElement={editElement} el={el}/>
+        </List>
       ))}
 
       {/* AGGIUNGI - BUTTON*/}

@@ -53,7 +53,7 @@ function App() {
   });
 
   //UPDATE DATAS
-  const update = () => {
+  const update = async () => {
     DataBaseUtils.getData().then(dt => setDatas(dt));
   }
 
@@ -82,8 +82,8 @@ function App() {
     setMessageScnakBar(message);
     setTypeScnakBar(type);
     setOpenSnackBar(true);
-  } 
-
+  }
+  
   return (
     <>
     <ThemeProvider theme={darkTheme}>

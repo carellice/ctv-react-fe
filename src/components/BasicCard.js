@@ -45,6 +45,7 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
         DataBaseUtils.delCtvById(el.id).then(() => {
           update();
           snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          setOpenDialogCancellaDati(false);
         })
       }}/>
     </>
