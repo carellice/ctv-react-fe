@@ -83,8 +83,9 @@ export const getTotCostiSvago = async () => {
 }
 
 export const savePrimaNecessita = async (scadenza, nome, note, dataDa, dataA, costo) => {
+    const numeroRandom = Math.floor(Math.random() * 10000000);
     const primaNec = {
-        id: new Date().toString(),
+        id: new Date().toString() + numeroRandom.toString(),
         nome: nome,
         note: note,
         dataDa: scadenza ? dataDa.toString() : null,
@@ -105,8 +106,9 @@ export const savePrimaNecessita = async (scadenza, nome, note, dataDa, dataA, co
 }
 
 export const saveSvago = async (scadenza, nome, note, dataDa, dataA, costo) => {
+    const numeroRandom = Math.floor(Math.random() * 10000000);
     const svago = {
-        id: new Date().toString(),
+        id: new Date().toString() + numeroRandom.toString(),
         nome: nome,
         note: note,
         dataDa: scadenza ? dataDa.toString() : null,
@@ -275,4 +277,71 @@ export const getCensored = async () => {
 
 export const saveCensored = async (value) => {
     localStorage.setItem("censored", value.toString());
+}
+
+export const saveEditWithUpdate = async (id) => {
+
+    const data = await getData();
+    const primaNecessita = data.primaNecessita;
+    const svago = data.svago;
+
+    const primaNecessitaFilter = primaNecessita.filter(el => el.id === id);
+    const svagoFilter = svago.filter(el => el.id === id);
+    if(primaNecessitaFilter.length !== 0){
+        const res = await delElById(primaNecessitaFilter[0].id);
+        const dataInizioDate = new Date(primaNecessitaFilter[0].dataDa);
+        dataInizioDate.setMonth(dataInizioDate.getMonth() + 1);
+        const primaNecessitaToSave = {...primaNecessitaFilter[0], dataDa: dataInizioDate.toString()};
+        const dataADate = new Date(primaNecessitaToSave.dataA);
+        if(dataInizioDate > dataADate){
+        }else{
+            const ress = await savePrimaNecessita(true, primaNecessitaToSave.nome, primaNecessitaToSave.note, primaNecessitaToSave.dataDa, primaNecessitaToSave.dataA, primaNecessitaToSave.costo);
+        }
+    } else if(svagoFilter.length !== 0){
+        const res = await delElById(svagoFilter[0].id);
+        const dataInizioDate = new Date(svagoFilter[0].dataDa);
+        dataInizioDate.setMonth(dataInizioDate.getMonth() + 1);
+        const svagoToSave = {...svagoFilter[0], dataDa: dataInizioDate.toString()};
+        const dataADate = new Date(svagoToSave.dataA);
+        if(dataInizioDate > dataADate){
+        }else{
+            const ress = await saveSvago(true, svagoToSave.nome, svagoToSave.note, svagoToSave.dataDa, svagoToSave.dataA, svagoToSave.costo);
+        }
+    }
+}
+
+export const checkCtv = async (stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, daSottrarrePrimaNecessita, daSottrarreSvago, daSottrarreRisparmi) => {
+    if (
+        stipendio === "" ||
+        percentualePrimaNecessita === "" ||
+        percentualeSvago === "" ||
+        percentualeRisparmi === "" ||
+        daSottrarrePrimaNecessita === "" ||
+        daSottrarreSvago === "" ||
+        daSottrarreRisparmi === ""
+      ) {
+        return 400; //errore popolare tutti i campi
+      } else {
+        return 200;
+    }
+}
+
+
+export const insertCtv = async (stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, risultatoSvago, risultatoPrimaNecessita, risultatoRisparmi) => {
+    saveCtv(
+        DateUtils.getDateMonthYear(),
+        stipendio,
+        risultatoSvago,
+        risultatoPrimaNecessita,
+        risultatoRisparmi,
+        percentualePrimaNecessita,
+        percentualeRisparmi,
+        percentualeSvago
+    ).then((r) => {
+    if (r === 200) {
+        return 200;
+    } else {
+    return 500; //errore inserimento
+    }
+    });
 }
