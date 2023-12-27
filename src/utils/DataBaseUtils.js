@@ -38,6 +38,15 @@ export const getUltimoBackup = async () => {
     }
 }
 
+export const getUltimoBackupRAW = async () => {
+    if(localStorage.getItem("ultimoBackup") === null){
+        return null;
+    }else{
+        const ultimoBacukpDate = new Date(localStorage.getItem("ultimoBackup"));
+        return ultimoBacukpDate.toString();
+    }
+}
+
 export const getUltimoRipristino = async () => {
     if(localStorage.getItem("ultimoRipristino") === null){
         return null;
@@ -358,5 +367,14 @@ export const getUltimoAggiornamento = async () => {
         const ultimoBacukpDate = new Date(localStorage.getItem("ultimoAggiornamento"));
         const ultimoBackup = await DateUtils.getDateDayMonthYearHourMinute(ultimoBacukpDate);
         return ultimoBackup;
+    }
+}
+
+export const getUltimoAggiornamentoRAW = async () => {
+    if(localStorage.getItem("ultimoAggiornamento") === null){
+        return null;
+    }else{
+        const ultimoBacukpDate = new Date(localStorage.getItem("ultimoAggiornamento"));
+        return ultimoBacukpDate.toString();
     }
 }
