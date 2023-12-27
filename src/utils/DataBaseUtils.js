@@ -12,6 +12,7 @@ export const dataTemplate = {
 
 export const saveData = async (data) => {
     localStorage.setItem("data", JSON.stringify(data));
+    await saveUltimoAggiornamento();
 }
 
 export const deleteData = async () => {
@@ -344,4 +345,18 @@ export const insertCtv = async (stipendio, percentualePrimaNecessita, percentual
     return 500; //errore inserimento
     }
     });
+}
+
+export const saveUltimoAggiornamento = async () => {
+    localStorage.setItem("ultimoAggiornamento", new Date().toString());
+}
+
+export const getUltimoAggiornamento = async () => {
+    if(localStorage.getItem("ultimoAggiornamento") === null){
+        return null;
+    }else{
+        const ultimoBacukpDate = new Date(localStorage.getItem("ultimoAggiornamento"));
+        const ultimoBackup = await DateUtils.getDateDayMonthYearHourMinute(ultimoBacukpDate);
+        return ultimoBackup;
+    }
 }
