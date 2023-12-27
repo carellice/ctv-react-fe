@@ -24,3 +24,25 @@ export const getImportoFormatted = (importo) => {
         return `${parteInteraFormattata},00`;
     }
 };
+
+export const getSpese = (stipendio, primaNecessita, svago, risparmi) => {
+    const stipendioFloat = parseFloat(stipendio);
+    const primaNecessitaFloat = parseFloat(primaNecessita);
+    const svagoFloat = parseFloat(svago);
+    const risparmiFloat = parseFloat(risparmi);
+
+    const speseFloat = stipendioFloat - primaNecessitaFloat - svagoFloat - risparmiFloat;
+
+    return speseFloat.toString();
+}
+
+export const  calcolaPercentualeIntera = (totale, numero) => {
+    const totaleFloat = parseFloat(totale);
+    const numeroFloat = parseFloat(numero);
+    if (totaleFloat === 0) {
+      return 0;
+    }
+  
+    var percentuale = Math.round((numeroFloat / totaleFloat) * 100);
+    return percentuale;
+}

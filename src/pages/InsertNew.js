@@ -390,7 +390,7 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
         <Zoom in={true}>
           <Grid item xs={12} style={{ marginTop: 30 }}>
             <Divider>
-              <Chip label="RISULTATI" />
+              <Chip label={isNaN(somma) ? "RISULTATI (SOMMA PERCENTUALI: ...)" : "RISULTATI (SOMMA PERCENTUALI: " + somma + "%)"} />
             </Divider>
           </Grid>
         </Zoom>
@@ -398,7 +398,7 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
         {/* PRIMA NECESSITA' - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1">Prima Necessità</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Prima Necessità ({percentualePrimaNecessita}%)</Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -406,13 +406,15 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoPrimaNecessita)}
               disabled
             />
+            <Button onClick={() => handlePercentualiChange("percentualePrimaNecessita", (parseInt(percentualePrimaNecessita) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
+            <Button onClick={() => handlePercentualiChange("percentualePrimaNecessita", (parseInt(percentualePrimaNecessita) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
           </Grid>
         </Grow>
 
         {/* SVAGO - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1">Svago</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Svago ({percentualeSvago}%)</Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -420,13 +422,15 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoSvago)}
               disabled
             />
+            <Button onClick={() => handlePercentualiChange("percentualeSvago", (parseInt(percentualeSvago) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
+            <Button onClick={() => handlePercentualiChange("percentualeSvago", (parseInt(percentualeSvago) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
           </Grid>
         </Grow>
 
         {/* RISPARMI - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1">Risparmi</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Risparmi ({percentualeRisparmi}%)</Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -434,6 +438,8 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoRisparmi)}
               disabled
             />
+            <Button onClick={() => handlePercentualiChange("percentualeRisparmi", (parseInt(percentualeRisparmi) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
+            <Button onClick={() => handlePercentualiChange("percentualeRisparmi", (parseInt(percentualeRisparmi) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
           </Grid>
         </Grow>
       </Grid>
