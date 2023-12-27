@@ -20,6 +20,7 @@ import { Grow } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect } from 'react';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -29,12 +30,14 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [loading, setLoading] = React.useState(false);
   const [ultimoBacukp, setUltimoBackup] = React.useState(null);
   const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
+  const [ultimoAggiornamento, setUltimoAggiornamento] = React.useState(null);
   const [easterEggCount, setEasterEggCount] = React.useState(0);
 
   //USE EFFECT
   useEffect(() => {
     DataBaseUtils.getUltimoBackup().then(r => setUltimoBackup(r));
     DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
+    DataBaseUtils.getUltimoAggiornamento().then(r => setUltimoAggiornamento(r));
   }, [])
   
 
@@ -46,6 +49,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
           setOpenDialogIncollaDati(false);
           update();
           DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
+          DataBaseUtils.getUltimoAggiornamento().then(r => setUltimoAggiornamento(r));
         })
       } else if (r === 500) {
         snackBarFunc("DATI NON CORRETTI", SnackBarUtils.SNACKBAR_ERROR);
@@ -115,6 +119,24 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
             </Grow>
 
             <Divider />
+
+            {ultimoAggiornamento !== null ? (
+              <>
+                <Grow in={true}>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={() => {}}>
+                      <ListItemIcon sx={{color:'#fc9803'}}>
+                        <UpgradeIcon />
+                      </ListItemIcon>
+                      <ListItemText primaryTypographyProps={{color: "#fc9803"}} primary={"ULTIMO AGGIORNAMENTO"} secondary={ultimoAggiornamento}/>
+                    </ListItemButton>
+                  </ListItem>
+                </Grow>
+
+                <Divider />
+              </>
+            ) : <></>}
+            
 
             <Grow in={true}>
               <ListItem disablePadding>

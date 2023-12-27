@@ -80,6 +80,7 @@ export const ripristinoBackup = async (dati) => {
   const clipboard = dati;
 
   if(clipboard.includes("user") && clipboard.includes("ctv") && clipboard.includes("svago") && clipboard.includes("primaNecessita")){
+    await DataBaseUtils.saveUltimoAggiornamento();
     localStorage.setItem('data', clipboard);
     return 200;
   }else{
