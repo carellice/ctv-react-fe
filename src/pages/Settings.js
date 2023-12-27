@@ -27,6 +27,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
   const [openDialogIncollaDati, setOpenDialogIncollaDati] = React.useState(false);
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = React.useState(false);
   const [openDialogDownloadAppAndroid, setOpenDialogDownloadAppAndroid] = React.useState(false);
+  const [openDialogReminderBackup, setOpenDialogReminderBackup] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [ultimoBacukp, setUltimoBackup] = React.useState(null);
   const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
@@ -38,6 +39,18 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
     DataBaseUtils.getUltimoBackup().then(r => setUltimoBackup(r));
     DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
     DataBaseUtils.getUltimoAggiornamento().then(r => setUltimoAggiornamento(r));
+    //CONTROLLO SE DEVO RICORDARE ALL'UTENTE DI FARE UN BACKUP
+    DataBaseUtils.getUltimoAggiornamentoRAW().then((dataUltimoAggiornamentoString) => {
+      if(dataUltimoAggiornamentoString !== null){
+        DataBaseUtils.getUltimoBackupRAW().then(dataUltimoBackupString => {
+          if(dataUltimoBackupString !== null){
+            const dataUltimoAggiornamento = new Date(dataUltimoAggiornamentoString);
+            const dataUltimoBackup = new Date(dataUltimoBackupString);
+            setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
+          }
+        })
+      }
+    })
   }, [])
   
 
@@ -128,7 +141,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
                       <ListItemIcon sx={{color:'#fc9803'}}>
                         <UpgradeIcon />
                       </ListItemIcon>
-                      <ListItemText primaryTypographyProps={{color: "#fc9803"}} primary={"ULTIMO AGGIORNAMENTO"} secondary={ultimoAggiornamento}/>
+                      <ListItemText primaryTypographyProps={{color: "#fc9803"}} primary={"ULTIMO AGGIORNAMENTO DATI"} secondary={ultimoAggiornamento}/>
                     </ListItemButton>
                   </ListItem>
                 </Grow>
@@ -257,6 +270,20 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
         title={"SEGRETO"}
         okFunc={() => {
           setEasterEggCount(0);
+        }}
+      />
+
+      {/* DIALOG REMINDER BACKUP */}
+      <DialogPersonal
+        showAnnulla={true}
+        textInput={false}
+        open={openDialogReminderBackup}
+        setOpen={setOpenDialogReminderBackup}
+        text={"è CONSIGLIABILE FARE UN BACKUP DEI DATI POICHè L'ULTIMO BACKUP CHE HAI FATTO RISULTA MENO AGGIORNATO DEI DATI IN LOCALE! VUOI PROCEDERE AD ESEGUIRE IL BACKUP?".toUpperCase()}
+        title={"⚠️BACKUP⚠️"}
+        okFunc={() => {
+          setOpenDialogReminderBackup(false);
+          setOpenDialogCopiaDati(true);
         }}
       />
 
