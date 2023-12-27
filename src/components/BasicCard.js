@@ -27,14 +27,29 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
           {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
             adjective
           </Typography> */}
-          <Typography variant="body2">
+          {/* <Typography variant="body2">
             Prima Necessità ({el.percentualePrimaNecessita}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
-          </Typography>
+          </Typography> */}
           <Typography variant="body2">
+            Prima Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
+          </Typography>
+          {/* <Typography variant="body2">
             Svago ({el.percentualeSvago}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
-          </Typography>
+          </Typography> */}
           <Typography variant="body2">
+            Svago ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.svago)}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
+          </Typography>
+          {/* <Typography variant="body2">
             Risparmi ({el.percentualeRisparmi}%): {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
+          </Typography> */}
+          <Typography variant="body2">
+            Risparmi ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.risparmi)}%): {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
+          </Typography>
+          {/* <Typography variant="body2">
+            Spese Mensili: {censored ? ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))} €
+          </Typography> */}
+          <Typography variant="body2">
+            Spese Mensili ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))}%): {censored ? ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))} €
           </Typography>
         </CardContent>
         <CardActions>
