@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import { List, Divider, Chip, Typography } from "@mui/material";
+import { List, Divider, Chip, Typography, IconButton } from "@mui/material";
 import ListItemPersonalUpdate from "./ListItemPersonalUpdate";
 import { LoadingButton } from "@mui/lab";
 import CalculateIcon from "@mui/icons-material/Calculate";
@@ -14,6 +14,8 @@ import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as ImportoUtils from "./../utils/ImportoUtils";
 import UndoIcon from '@mui/icons-material/Undo';
 import ListItemPersonalSum from "./ListItemPersonalSum";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function DialogPersonalSommaSpese({
   open,
@@ -25,6 +27,7 @@ export default function DialogPersonalSommaSpese({
   primaNecessita,
 }) {
   const [loading, setLoading] = useState(false);
+  const [copy, setCopy] = useState(false);
   const [toSumEl, setToSumEl] = useState([]);
   const [sum, setSum] = useState(null);
 
@@ -140,7 +143,28 @@ export default function DialogPersonalSommaSpese({
             </>
           ) : (
             <>
-              <Typography variant="h4" textAlign={'center'}>{sum} €</Typography>
+              {/* <center>
+                <Chip
+                  style={{ marginTop: 0, marginLeft: 5 }}
+                  label={toSumEl.map((el, index, array) => index === (array.length - 1) ? el.nome.toUpperCase() : el.nome.toUpperCase() + " + ")}
+                />  
+              </center> */}
+              <center>
+                <Typography variant="caption" textAlign={'center'} style={{marginTop:20}}>{toSumEl.map((el, index, array) => index === (array.length - 1) ? el.nome.toUpperCase() : el.nome.toUpperCase() + " + ")}</Typography>
+              </center>
+              <Typography variant="h4" textAlign={'center'} style={{marginTop:10}}>=</Typography>
+              <Typography variant="h4" textAlign={'center'} style={{marginTop:10, color:'white'}}>{sum} €</Typography>
+              <center>
+                <IconButton onClick={() => {
+                  setCopy(true);
+                  navigator.clipboard.writeText(sum);
+                  setTimeout(() => {
+                    setCopy(false);
+                  }, 2000);
+                }} style={{marginTop:20}}>
+                  {!copy ? <ContentCopyIcon/> : <CheckIcon/>}
+                </IconButton>
+              </center>
             </>
           )}
         </DialogContentText>
