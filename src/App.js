@@ -120,7 +120,7 @@ function App() {
           ) : <></>}
           {selectedPage === 'LoginPage' ? <LoginPage loginFunc={loginFunc} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'HomePage' ? <HomePage censored={censored} setCensored={setCensored} snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
-          {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} data={datas} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}
           {selectedPage === 'Svago' ? <Svago update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'Prima Necessità' ? <PrimaNecessita update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
