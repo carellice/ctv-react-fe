@@ -177,6 +177,20 @@ export const delElById = async(id) => {
     return 200;
 }
 
+export const getElById = async(id) => {
+    const datas = await getData();
+    const primaNecessitaArray = datas.primaNecessita;
+    const newPrimaNecessitaArray = primaNecessitaArray.filter(el => el.id === id);
+    const svagoArray = datas.svago;
+    const newSvagoArray = svagoArray.filter(el => el.id === id);
+
+    if(newSvagoArray.length !== 0){
+        return newSvagoArray[0];
+    }else{
+        return newPrimaNecessitaArray[0];
+    }
+}
+
 export const delCtvById = async(id) => {
     const datas = await getData();
     const ctvArray = datas.ctv;
