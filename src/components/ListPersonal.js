@@ -2,6 +2,7 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import Container from '@mui/material/Container';
 import ListItemPersonal from './ListItemPersonal'
+import { Divider } from '@mui/material';
 
 export default function ListPersonal({openPopUpInsert, setOpenPopUpInsert, editElement, array}) {
   return (
@@ -9,6 +10,7 @@ export default function ListPersonal({openPopUpInsert, setOpenPopUpInsert, editE
       {array.map(el => (
         <List sx={{ width: '100%', maxWidth: 1000, bgcolor: 'background.paper' }}>
           <ListItemPersonal editElement={editElement} el={el}/>
+          <Divider/>
         </List>
       ))}
 

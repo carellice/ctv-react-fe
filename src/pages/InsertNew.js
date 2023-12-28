@@ -15,35 +15,61 @@ import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as DateUtils from "./../utils/DateUtils";
 import * as ImportoUtils from "./../utils/ImportoUtils";
-import DialogPersonal from '../components/DialogPersonal';
+import DialogPersonal from "../components/DialogPersonal";
 import DialogPersonalUpdate from "../components/DialogPersonalUpdate";
 import { LoadingButton } from "@mui/lab";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveIcon from "@mui/icons-material/Save";
+import ReplayIcon from "@mui/icons-material/Replay";
 
-const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => {
+const InsertNew = ({
+  snackBarFunc,
+  update,
+  setSelectedPage,
+  snackBarFunc2,
+}) => {
   //SAVE
   const save = async () => {
     setLoading(true);
-    const checkRes = await DataBaseUtils.checkCtv(stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, daSottrarrePrimaNecessita, daSottrarreSvago, daSottrarreRisparmi);
-    if(checkRes === 400){
+    const checkRes = await DataBaseUtils.checkCtv(
+      stipendio,
+      percentualePrimaNecessita,
+      percentualeSvago,
+      percentualeRisparmi,
+      daSottrarrePrimaNecessita,
+      daSottrarreSvago,
+      daSottrarreRisparmi
+    );
+    if (checkRes === 400) {
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
-    }else{
-      const checkEdit = await checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem();
+    } else {
+      const checkEdit =
+        await checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem();
       console.log("checkEdit ", checkEdit);
-      if(checkEdit === null){
-        const insert = await DataBaseUtils.insertCtv(stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, risultatoSvago, risultatoPrimaNecessita, risultatoRisparmi);
-        if(insert === 500){
+      if (checkEdit === null) {
+        const insert = await DataBaseUtils.insertCtv(
+          stipendio,
+          percentualePrimaNecessita,
+          percentualeSvago,
+          percentualeRisparmi,
+          risultatoSvago,
+          risultatoPrimaNecessita,
+          risultatoRisparmi
+        );
+        if (insert === 500) {
           snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
-        }else{
-          snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
+        } else {
+          snackBarFunc(
+            "INSERIMENTO AVVENUTO CON SUCCESSO!",
+            SnackBarUtils.SNACKBAR_SUCCESS
+          );
           setTimeout(() => {
             update();
             setSelectedPage("HomePage");
             setLoading(false);
           }, 1000);
         }
-      } else{
-          setOpenDialogUpdate(true);
+      } else {
+        setOpenDialogUpdate(true);
       }
     }
   };
@@ -54,21 +80,26 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
   const [primaNecessitaUpdt, setPrimaNecessitaUpdt] = useState(null);
   //CONTROLLO SE CI SONO PRIME NECESSITà O SVAGO AGGIORNABILI DI UN MESE
   const checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem = async () => {
-    const data = await DataBaseUtils.getData()
+    const data = await DataBaseUtils.getData();
     const primaNecessita = data.primaNecessita;
     const svago = data.svago;
 
-    const primaNecessitaAggiornabili = primaNecessita.filter(p => p.dataDa !== null);
-    const svagoAggiornabili = svago.filter(p => p.dataDa !== null);
+    const primaNecessitaAggiornabili = primaNecessita.filter(
+      (p) => p.dataDa !== null
+    );
+    const svagoAggiornabili = svago.filter((p) => p.dataDa !== null);
 
-    if(primaNecessitaAggiornabili.length === 0 && svagoAggiornabili.length === 0)
+    if (
+      primaNecessitaAggiornabili.length === 0 &&
+      svagoAggiornabili.length === 0
+    )
       return null;
-    else{
+    else {
       setSvagoUpdt(svagoAggiornabili);
       setPrimaNecessitaUpdt(primaNecessitaAggiornabili);
       return 200;
     }
-  }
+  };
 
   //BACK BUTTON PRESSED
   window.addEventListener("popstate", () => {
@@ -390,7 +421,13 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
         <Zoom in={true}>
           <Grid item xs={12} style={{ marginTop: 30 }}>
             <Divider>
-              <Chip label={isNaN(somma) ? "RISULTATI (SOMMA PERCENTUALI: ...)" : "RISULTATI (SOMMA PERCENTUALI: " + somma + "%)"} />
+              <Chip
+                label={
+                  isNaN(somma)
+                    ? "RISULTATI (SOMMA PERCENTUALI: ...)"
+                    : "RISULTATI (SOMMA PERCENTUALI: " + somma + "%)"
+                }
+              />
             </Divider>
           </Grid>
         </Zoom>
@@ -398,7 +435,9 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
         {/* PRIMA NECESSITA' - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Prima Necessità ({percentualePrimaNecessita}%)</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
+              Prima Necessità ({percentualePrimaNecessita}%)
+            </Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -406,15 +445,41 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoPrimaNecessita)}
               disabled
             />
-            <Button onClick={() => handlePercentualiChange("percentualePrimaNecessita", (parseInt(percentualePrimaNecessita) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
-            <Button onClick={() => handlePercentualiChange("percentualePrimaNecessita", (parseInt(percentualePrimaNecessita) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualePrimaNecessita",
+                  (parseInt(percentualePrimaNecessita) - 1).toString()
+                )
+              }
+              style={{ marginTop: 10, marginRight: 10 }}
+              variant="outlined"
+              color="error"
+            >
+              - 1%
+            </Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualePrimaNecessita",
+                  (parseInt(percentualePrimaNecessita) + 1).toString()
+                )
+              }
+              style={{ marginTop: 10 }}
+              variant="outlined"
+              color="success"
+            >
+              + 1%
+            </Button>
           </Grid>
         </Grow>
 
         {/* SVAGO - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Svago ({percentualeSvago}%)</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
+              Svago ({percentualeSvago}%)
+            </Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -422,15 +487,41 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoSvago)}
               disabled
             />
-            <Button onClick={() => handlePercentualiChange("percentualeSvago", (parseInt(percentualeSvago) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
-            <Button onClick={() => handlePercentualiChange("percentualeSvago", (parseInt(percentualeSvago) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualeSvago",
+                  (parseInt(percentualeSvago) - 1).toString()
+                )
+              }
+              style={{ marginTop: 10, marginRight: 10 }}
+              variant="outlined"
+              color="error"
+            >
+              - 1%
+            </Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualeSvago",
+                  (parseInt(percentualeSvago) + 1).toString()
+                )
+              }
+              style={{ marginTop: 10 }}
+              variant="outlined"
+              color="success"
+            >
+              + 1%
+            </Button>
           </Grid>
         </Grow>
 
         {/* RISPARMI - OUTPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">Risparmi ({percentualeRisparmi}%)</Typography>
+            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
+              Risparmi ({percentualeRisparmi}%)
+            </Typography>
             <TextField
               variant="outlined"
               type="text"
@@ -438,8 +529,32 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
               value={ImportoUtils.getImportoFormatted(risultatoRisparmi)}
               disabled
             />
-            <Button onClick={() => handlePercentualiChange("percentualeRisparmi", (parseInt(percentualeRisparmi) - 1).toString())} style={{marginTop:10, marginRight:10}} variant="outlined" color="error">- 1%</Button>
-            <Button onClick={() => handlePercentualiChange("percentualeRisparmi", (parseInt(percentualeRisparmi) + 1).toString())} style={{marginTop:10}} variant="outlined" color="success">+ 1%</Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualeRisparmi",
+                  (parseInt(percentualeRisparmi) - 1).toString()
+                )
+              }
+              style={{ marginTop: 10, marginRight: 10 }}
+              variant="outlined"
+              color="error"
+            >
+              - 1%
+            </Button>
+            <Button
+              onClick={() =>
+                handlePercentualiChange(
+                  "percentualeRisparmi",
+                  (parseInt(percentualeRisparmi) + 1).toString()
+                )
+              }
+              style={{ marginTop: 10 }}
+              variant="outlined"
+              color="success"
+            >
+              + 1%
+            </Button>
           </Grid>
         </Grow>
       </Grid>
@@ -476,27 +591,29 @@ const InsertNew = ({ snackBarFunc, update, setSelectedPage, snackBarFunc2 }) => 
       {/* DIALOG CONFERMA AGGIORNEMENTO ELEMENTI */}
       {svagoUpdt !== null && primaNecessitaUpdt !== null ? (
         <DialogPersonalUpdate
-        stipendio={stipendio}
-        percentualePrimaNecessita={percentualePrimaNecessita}
-        percentualeSvago={percentualeSvago}
-        percentualeRisparmi={percentualeRisparmi}
-        risultatoSvago={risultatoSvago}
-        risultatoPrimaNecessita={risultatoPrimaNecessita}
-        risultatoRisparmi={risultatoRisparmi}
-        svago={svagoUpdt}
-        primaNecessita={primaNecessitaUpdt}
-        showAnnulla={true}
-        textInput={false}
-        open={openDialogUpdate}
-        setOpen={setOpenDialogUpdate}
-        snackBarFunc={snackBarFunc}
-        setSelectedPage={setSelectedPage}
-        update={update}
-        setLoadingFather={setLoading}
-        text={"SCEGLI I DATI DA AGGIORNARE DI UN MESE (CLICCA GLI ELEMENTI)".toUpperCase()}
-        title={"AGGIORNA"}
-      />
-      ) : <></>}
+          stipendio={stipendio}
+          percentualePrimaNecessita={percentualePrimaNecessita}
+          percentualeSvago={percentualeSvago}
+          percentualeRisparmi={percentualeRisparmi}
+          risultatoSvago={risultatoSvago}
+          risultatoPrimaNecessita={risultatoPrimaNecessita}
+          risultatoRisparmi={risultatoRisparmi}
+          svago={svagoUpdt}
+          primaNecessita={primaNecessitaUpdt}
+          showAnnulla={true}
+          textInput={false}
+          open={openDialogUpdate}
+          setOpen={setOpenDialogUpdate}
+          snackBarFunc={snackBarFunc}
+          setSelectedPage={setSelectedPage}
+          update={update}
+          setLoadingFather={setLoading}
+          text={"SCEGLI I DATI DA AGGIORNARE DI UN MESE (CLICCA GLI ELEMENTI)".toUpperCase()}
+          title={"AGGIORNA"}
+        />
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

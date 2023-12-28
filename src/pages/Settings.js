@@ -21,11 +21,14 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect } from 'react';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DialogPersonalSommaSpese from '../components/DialogPersonalSommaSpese';
 
-function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
+function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
   const [openDialogIncollaDati, setOpenDialogIncollaDati] = React.useState(false);
   const [openDialogCancellaDati, setOpenDialogCancellaDati] = React.useState(false);
+  const [openDialogSommaSpeseFisse, setOpenDialogSommaSpeseFisse] = React.useState(false);
   const [openDialogDownloadAppAndroid, setOpenDialogDownloadAppAndroid] = React.useState(false);
   const [openDialogReminderBackup, setOpenDialogReminderBackup] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -162,6 +165,21 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
               </ListItem>
             </Grow>
 
+            <Divider />
+            
+            {data.svago.length === 0 && data.primaNecessita.length === 0 ? <></> : (
+              <Grow in={true}>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => setOpenDialogSommaSpeseFisse(true)}>
+                  <ListItemIcon>
+                    <AddBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="SOMMA SPESE" />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
+            )}
+
             {!isApp ? (
               <>
                 <Divider />
@@ -208,6 +226,7 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
           update();
           DataBaseUtils.getUltimoBackup().then(r => setUltimoBackup(r));
           DataBaseUtils.getUltimoRipristino().then(r => setUltimoRipristino(r));
+          DataBaseUtils.getUltimoAggiornamento().then(r => setUltimoAggiornamento(r));
         }}
       />
 
@@ -285,6 +304,17 @@ function Settings({ setSelectedPage, ctv, update, snackBarFunc }) {
           setOpenDialogReminderBackup(false);
           setOpenDialogCopiaDati(true);
         }}
+      />
+
+      {/* DIALOG CONFERMA AGGIORNEMENTO ELEMENTI */}
+        <DialogPersonalSommaSpese
+        svago={data.svago}
+        primaNecessita={data.primaNecessita}
+        showAnnulla={true}
+        open={openDialogSommaSpeseFisse}
+        setOpen={setOpenDialogSommaSpeseFisse}
+        text={"SCEGLI LE SPESE FISSE DA SOMMARE (CLICCA GLI ELEMENTI)".toUpperCase()}
+        title={"SOMMA"}
       />
 
     {/* LOADING SPINNER */}
