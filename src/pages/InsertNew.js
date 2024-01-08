@@ -9,6 +9,7 @@ import {
   Grow,
   Zoom,
   CircularProgress,
+  Switch,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
@@ -75,6 +76,7 @@ const InsertNew = ({
   };
 
   const [loading, setLoading] = useState(false);
+  const [countSpeseFisse, setCountSpeseFisse] = useState(false);
   const [openDialogUpdate, setOpenDialogUpdate] = useState(false);
   const [svagoUpdt, setSvagoUpdt] = useState(null);
   const [primaNecessitaUpdt, setPrimaNecessitaUpdt] = useState(null);
@@ -114,13 +116,16 @@ const InsertNew = ({
     risparmiPerc,
     primaNecessitaDaSottr,
     svagoDaSottr,
-    risparmiDaSottr
+    risparmiDaSottr,
+    countSpeseFissePar
   ) => {
+    //STIPENDIO
     const stipendioFloat =
       stipendioPar === null
         ? parseFloat(stipendio.replace(",", "."))
         : parseFloat(stipendioPar.replace(",", "."));
 
+    //DA SOTTRARRE
     const primanecessitaDaSottrarreFloat =
       primaNecessitaDaSottr === null
         ? parseFloat(daSottrarrePrimaNecessita.replace(",", "."))
@@ -134,6 +139,7 @@ const InsertNew = ({
         ? parseFloat(daSottrarreRisparmi.replace(",", "."))
         : parseFloat(risparmiDaSottr.replace(",", "."));
 
+    //PERCENTUALI
     const percentualePrimaNecessitaInt =
       primaNecessitaPerc === null
         ? parseInt(percentualePrimaNecessita)
@@ -145,9 +151,12 @@ const InsertNew = ({
         ? parseInt(percentualeRisparmi)
         : parseInt(risparmiPerc);
 
-    const costoTotPrimaNecessita =
-      await DataBaseUtils.getTotCostiPrimaNecessita();
-    const costoTotSvago = await DataBaseUtils.getTotCostiSvago();
+    const costoTotPrimaNecessita = countSpeseFissePar
+      ? await DataBaseUtils.getTotCostiPrimaNecessita()
+      : parseFloat("0");
+    const costoTotSvago = countSpeseFissePar
+      ? await DataBaseUtils.getTotCostiSvago()
+      : parseFloat("0");
 
     const risultatoPrimaNecessita =
       (percentualePrimaNecessitaInt / 100) * stipendioFloat -
@@ -172,7 +181,16 @@ const InsertNew = ({
   const [stipendio, setStipendio] = useState("0");
   const handleStipendioChange = async (event) => {
     setStipendio(event.target.value);
-    calculate(event.target.value, null, null, null, null, null, null);
+    calculate(
+      event.target.value,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      countSpeseFisse
+    );
   };
 
   //PERCENTUALI
@@ -182,7 +200,7 @@ const InsertNew = ({
     useState("50");
   const [percentualeSvago, setPercentualeSvago] = useState("30");
   const [percentualeRisparmi, setPercentualeRisparmi] = useState("20");
-  const handlePercentualiChange = (campo, value) => {
+  const handlePercentualiChange = (campo, value, countSpeseFissePar) => {
     const valueWithoutVirgola = value.replace(".", "");
     if (campo === "percentualePrimaNecessita") {
       setPercentualePrimaNecessita(valueWithoutVirgola);
@@ -192,7 +210,16 @@ const InsertNew = ({
       const somma = primaNecessitaInt + svagoInt + risparmiInt;
       setSommaIs100(somma === 100);
       setSomma(somma);
-      calculate(null, valueWithoutVirgola, null, null, null, null, null);
+      calculate(
+        null,
+        valueWithoutVirgola,
+        null,
+        null,
+        null,
+        null,
+        null,
+        countSpeseFissePar
+      );
     } else if (campo === "percentualeSvago") {
       setPercentualeSvago(valueWithoutVirgola);
       const primaNecessitaInt = parseInt(percentualePrimaNecessita);
@@ -201,7 +228,16 @@ const InsertNew = ({
       const somma = primaNecessitaInt + svagoInt + risparmiInt;
       setSommaIs100(somma === 100);
       setSomma(somma);
-      calculate(null, null, valueWithoutVirgola, null, null, null, null);
+      calculate(
+        null,
+        null,
+        valueWithoutVirgola,
+        null,
+        null,
+        null,
+        null,
+        countSpeseFissePar
+      );
     } else if (campo === "percentualeRisparmi") {
       setPercentualeRisparmi(valueWithoutVirgola);
       const primaNecessitaInt = parseInt(percentualePrimaNecessita);
@@ -210,7 +246,16 @@ const InsertNew = ({
       const somma = primaNecessitaInt + svagoInt + risparmiInt;
       setSommaIs100(somma === 100);
       setSomma(somma);
-      calculate(null, null, null, valueWithoutVirgola, null, null, null);
+      calculate(
+        null,
+        null,
+        null,
+        valueWithoutVirgola,
+        null,
+        null,
+        null,
+        countSpeseFissePar
+      );
     }
   };
 
@@ -222,15 +267,15 @@ const InsertNew = ({
   const handleDaSottrarreChange = (campo, value) => {
     switch (campo) {
       case "daSottrarrePrimaNecessita":
-        calculate(null, null, null, null, value, null, null);
+        calculate(null, null, null, null, value, null, null, countSpeseFisse);
         setDaSottrarrePrimaNecessita(value);
         break;
       case "daSottrarreSvago":
-        calculate(null, null, null, null, null, value, null);
+        calculate(null, null, null, null, null, value, null, countSpeseFisse);
         setDaSottrarreSvago(value);
         break;
       case "daSottrarreRisparmi":
-        calculate(null, null, null, null, null, null, value);
+        calculate(null, null, null, null, null, null, value, countSpeseFisse);
         setDaSottrarreRisparmi(value);
         break;
       default:
@@ -254,20 +299,43 @@ const InsertNew = ({
 
       <Grid container spacing={2} style={{ marginTop: 20 }}>
         {/* STIPENDIO */}
-        <Grow in={true}>
-          <Grid item xs={12}>
-            <TextField
-              label="Stipendio"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={stipendio === ""}
-              value={stipendio}
-              onChange={handleStipendioChange}
-            />
-          </Grid>
-        </Grow>
+        <Grid item xs={12} md={6}>
+          <TextField
+            label="Stipendio"
+            variant="outlined"
+            type="number"
+            fullWidth
+            required
+            error={stipendio === ""}
+            value={stipendio}
+            onChange={handleStipendioChange}
+          />
+        </Grid>
+
+        {/* SPESE FISSE */}
+        <Grid item xs={12} md={6}>
+          <TextField
+            label={countSpeseFisse ? "Sottrai Spese Fisse (ON)" : "Sottrai Spese Fisse (OFF)"}
+            variant="outlined"
+            type="text"
+            fullWidth
+            color={countSpeseFisse ? "success" : "error"}
+            // error={!countSpeseFisse}
+            value={ImportoUtils.getImportoFormatted(
+              ImportoUtils.sommaSvagoPrimaNecessita()
+            )}
+            focused
+          />
+          <Switch checked={countSpeseFisse} onClick={() => {
+              const newCountSpeseFisse = !countSpeseFisse;
+              setCountSpeseFisse(newCountSpeseFisse);
+              handlePercentualiChange(
+                "percentualeRisparmi",
+                percentualeRisparmi,
+                newCountSpeseFisse
+              )
+            }} />
+        </Grid>
 
         {/* PERCENTUALI - CHIP */}
         <Zoom in={true}>
@@ -302,7 +370,8 @@ const InsertNew = ({
               onChange={(e) =>
                 handlePercentualiChange(
                   "percentualePrimaNecessita",
-                  e.target.value
+                  e.target.value,
+                  countSpeseFisse
                 )
               }
             />
@@ -324,7 +393,11 @@ const InsertNew = ({
                 step: "1", // Imposta il passo a 1 per accettare solo numeri interi
               }}
               onChange={(e) =>
-                handlePercentualiChange("percentualeSvago", e.target.value)
+                handlePercentualiChange(
+                  "percentualeSvago",
+                  e.target.value,
+                  countSpeseFisse
+                )
               }
             />
           </Grid>
@@ -345,7 +418,11 @@ const InsertNew = ({
                 step: "1", // Imposta il passo a 1 per accettare solo numeri interi
               }}
               onChange={(e) =>
-                handlePercentualiChange("percentualeRisparmi", e.target.value)
+                handlePercentualiChange(
+                  "percentualeRisparmi",
+                  e.target.value,
+                  countSpeseFisse
+                )
               }
             />
           </Grid>
@@ -449,7 +526,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualePrimaNecessita",
-                  (parseInt(percentualePrimaNecessita) - 1).toString()
+                  (parseInt(percentualePrimaNecessita) - 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10, marginRight: 10 }}
@@ -462,7 +540,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualePrimaNecessita",
-                  (parseInt(percentualePrimaNecessita) + 1).toString()
+                  (parseInt(percentualePrimaNecessita) + 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10 }}
@@ -491,7 +570,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualeSvago",
-                  (parseInt(percentualeSvago) - 1).toString()
+                  (parseInt(percentualeSvago) - 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10, marginRight: 10 }}
@@ -504,7 +584,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualeSvago",
-                  (parseInt(percentualeSvago) + 1).toString()
+                  (parseInt(percentualeSvago) + 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10 }}
@@ -533,7 +614,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualeRisparmi",
-                  (parseInt(percentualeRisparmi) - 1).toString()
+                  (parseInt(percentualeRisparmi) - 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10, marginRight: 10 }}
@@ -546,7 +628,8 @@ const InsertNew = ({
               onClick={() =>
                 handlePercentualiChange(
                   "percentualeRisparmi",
-                  (parseInt(percentualeRisparmi) + 1).toString()
+                  (parseInt(percentualeRisparmi) + 1).toString(),
+                  countSpeseFisse
                 )
               }
               style={{ marginTop: 10 }}

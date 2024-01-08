@@ -90,7 +90,8 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
       </Grid> */}
 
       {/* FLOATING ACTION BUTTON - FAB */}
-      {showFab ? (
+      {/* {showFab ? ( */}
+      {true ? (
         <Fab onClick={() => {
           window.history.pushState({}, null, null);
           setSelectedPage("InsertNew");
