@@ -17,7 +17,7 @@ export const getImportoFormatted = (importo) => {
         const parti = importoWithComma.split(',');
         const parteDecimale = parti[1].substring(0, 2);
         const parteInteraFormattata = parti[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        return `${parteInteraFormattata},${parteDecimale}`;
+        return `${parteInteraFormattata},${parteDecimale}${parteDecimale.length === 1 ? '0' : ''}`;
     } else {
         // Se la stringa non contiene una virgola, aggiungi ",00" alla fine
         const parteInteraFormattata = importoWithComma.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -45,4 +45,50 @@ export const  calcolaPercentualeIntera = (totale, numero) => {
   
     var percentuale = Math.round((numeroFloat / totaleFloat) * 100);
     return percentuale;
+}
+
+export const sommaPrimaNecessita = () => {
+    if(localStorage.getItem("data") === null){
+        return "0,00";
+    }else{
+        var somma = parseFloat("0");
+        const data = JSON.parse(localStorage.getItem("data"));
+        const primaNecessita = data.primaNecessita;
+        for (const primaNecessitaEl of primaNecessita) {
+            somma = somma + parseFloat(primaNecessitaEl.costo);
+        }
+        return somma;
+    }
+}
+
+export const sommaSvago = () => {
+    if(localStorage.getItem("data") === null){
+        return "0,00";
+    }else{
+        var somma = parseFloat("0");
+        const data = JSON.parse(localStorage.getItem("data"));
+        const svago = data.svago;
+        for (const svagoEl of svago) {
+            somma = somma + parseFloat(svagoEl.costo);
+        }
+        return somma;
+    }
+}
+
+export const sommaSvagoPrimaNecessita = () => {
+    if(localStorage.getItem("data") === null){
+        return "0,00";
+    }else{
+        var somma = parseFloat("0");
+        const data = JSON.parse(localStorage.getItem("data"));
+        const svago = data.svago;
+        const primaNecessita = data.primaNecessita;
+        for (const svagoEl of svago) {
+            somma = somma + parseFloat(svagoEl.costo);
+        }
+        for (const primaNecessitaEl of primaNecessita) {
+            somma = somma + parseFloat(primaNecessitaEl.costo);
+        }
+        return somma;
+    }
 }

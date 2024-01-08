@@ -4,6 +4,7 @@ import MyPopUpInsert from '../components/MyPopUpInsert';
 import MyPopUpEdit from '../components/MyPopUpEdit';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
+import * as ImportoUtils from "./../utils/ImportoUtils";
 import { Grow, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
@@ -87,7 +88,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
         </>
       ) : (
         <>
-          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
+          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>SVAGO ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaSvago())} €)</Typography>
         </>
       )}
       <ListPersonal array={svago} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
@@ -99,7 +100,8 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       )}
 
       {/* FLOATING ACTION BUTTON - FAB */}
-      {showFab ? (
+      {/* {showFab ? ( */}
+      {true ? (
         <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
           position: 'fixed',
           bottom: '64px',  // Puoi personalizzare la distanza dal basso

@@ -44,15 +44,19 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
     DataBaseUtils.getUltimoAggiornamento().then(r => setUltimoAggiornamento(r));
     //CONTROLLO SE DEVO RICORDARE ALL'UTENTE DI FARE UN BACKUP
     DataBaseUtils.getUltimoAggiornamentoRAW().then((dataUltimoAggiornamentoString) => {
-      if(dataUltimoAggiornamentoString !== null){
-        DataBaseUtils.getUltimoBackupRAW().then(dataUltimoBackupString => {
-          if(dataUltimoBackupString !== null){
-            const dataUltimoAggiornamento = new Date(dataUltimoAggiornamentoString);
-            const dataUltimoBackup = new Date(dataUltimoBackupString);
-            setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
-          }
-        })
-      }
+      DataBaseUtils.getUltimoRipristino().then(dataUltimoRipristino => {
+        if(dataUltimoAggiornamentoString !== null){
+          DataBaseUtils.getUltimoBackupRAW().then(dataUltimoBackupString => {
+            if(dataUltimoBackupString === null && dataUltimoAggiornamentoString !== null){
+              setOpenDialogReminderBackup(true);
+            } else if(dataUltimoBackupString !== null){
+              const dataUltimoAggiornamento = new Date(dataUltimoAggiornamentoString);
+              const dataUltimoBackup = new Date(dataUltimoBackupString);
+              setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
+            }
+          })
+        }
+      })
     })
   }, [])
   
@@ -167,7 +171,8 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
 
             <Divider />
             
-            {data.svago.length === 0 && data.primaNecessita.length === 0 ? <></> : (
+            {/* {data.svago.length === 0 && data.primaNecessita.length === 0 ? <></> : ( */}
+            {(data.svago.length + data.primaNecessita.length) < 1 ? <></> : (
               <Grow in={true}>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => setOpenDialogSommaSpeseFisse(true)}>

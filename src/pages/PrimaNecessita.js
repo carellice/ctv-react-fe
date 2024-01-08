@@ -4,6 +4,7 @@ import MyPopUpEdit from '../components/MyPopUpEdit';
 import ListPersonal from '../components/ListPersonal';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
+import * as ImportoUtils from "./../utils/ImportoUtils";
 import { Grow, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
@@ -85,7 +86,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
         </>
       ) : (
         <>
-          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA'</Typography>
+          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA' ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaPrimaNecessita())} €)</Typography>
         </>
       )}
       <ListPersonal array={primaNecessita} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
@@ -97,7 +98,8 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       )}
 
       {/* FLOATING ACTION BUTTON - FAB */}
-      {showFab ? (
+      {/* {showFab ? ( */}
+      {true ? (
         <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
           position: 'fixed',
           bottom: '64px',  // Puoi personalizzare la distanza dal basso
