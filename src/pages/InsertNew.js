@@ -334,7 +334,26 @@ const InsertNew = ({
                 percentualeRisparmi,
                 newCountSpeseFisse
               )
-            }} />
+          }} />
+          {countSpeseFisse ? (
+            DataBaseUtils.getSpeseFisse().map((el) => (
+              <Zoom in={true}>
+                {el.tipo === 'pn' ? (
+                  <Chip
+                    color="warning"
+                    style={{ marginTop: 10, marginLeft: 5 }}
+                    label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
+                  /> 
+                ) : (
+                  <Chip
+                    color="error"
+                    style={{ marginTop: 10, marginLeft: 5 }}
+                    label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
+                  /> 
+                )}
+              </Zoom>
+            ))
+          ) : <></>}
         </Grid>
 
         {/* PERCENTUALI - CHIP */}

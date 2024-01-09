@@ -392,3 +392,19 @@ export const getUltimoAggiornamentoRAW = async () => {
         return ultimoBacukpDate.toString();
     }
 }
+
+export const getSpeseFisse = () => {
+    if(localStorage.getItem("data") === null){
+        return [];
+    }else{
+        const svago = JSON.parse(localStorage.getItem("data")).svago;
+        const primaNecessita = JSON.parse(localStorage.getItem("data")).primaNecessita
+        svago.forEach(oggetto => {
+            oggetto.tipo = "s";
+        });
+        primaNecessita.forEach(oggetto => {
+            oggetto.tipo = "pn";
+        });
+        return [...svago, ...primaNecessita];
+    }
+}
