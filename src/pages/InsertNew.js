@@ -448,70 +448,70 @@ const InsertNew = ({
         </Grow>
 
         {/* DA SOTTRARRE - CHIP */}
-        <Zoom in={true}>
-          <Grid item xs={12} style={{ marginTop: 30 }}>
-            <Divider>
-              <Chip label="DA SOTTRARRE" />
-            </Divider>
-          </Grid>
-        </Zoom>
+        {/*<Zoom in={true}>*/}
+        {/*  <Grid item xs={12} style={{ marginTop: 30 }}>*/}
+        {/*    <Divider>*/}
+        {/*      <Chip label="DA SOTTRARRE" />*/}
+        {/*    </Divider>*/}
+        {/*  </Grid>*/}
+        {/*</Zoom>*/}
 
         {/* DA SOTTRARRE - PRIMA NECESSITA' - INPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <TextField
-              label="Prima Necessità"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={daSottrarrePrimaNecessita === ""}
-              value={daSottrarrePrimaNecessita}
-              onChange={(e) =>
-                handleDaSottrarreChange(
-                  "daSottrarrePrimaNecessita",
-                  e.target.value
-                )
-              }
-            />
-          </Grid>
-        </Grow>
+        {/*<Grow in={true}>*/}
+        {/*  <Grid item xs={12} md={4}>*/}
+        {/*    <TextField*/}
+        {/*      label="Prima Necessità"*/}
+        {/*      variant="outlined"*/}
+        {/*      type="number"*/}
+        {/*      fullWidth*/}
+        {/*      required*/}
+        {/*      error={daSottrarrePrimaNecessita === ""}*/}
+        {/*      value={daSottrarrePrimaNecessita}*/}
+        {/*      onChange={(e) =>*/}
+        {/*        handleDaSottrarreChange(*/}
+        {/*          "daSottrarrePrimaNecessita",*/}
+        {/*          e.target.value*/}
+        {/*        )*/}
+        {/*      }*/}
+        {/*    />*/}
+        {/*  </Grid>*/}
+        {/*</Grow>*/}
 
         {/* DA SOTTRARRE - SVAGO - INPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <TextField
-              label="Svago"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={daSottrarreSvago === ""}
-              value={daSottrarreSvago}
-              onChange={(e) =>
-                handleDaSottrarreChange("daSottrarreSvago", e.target.value)
-              }
-            />
-          </Grid>
-        </Grow>
+        {/*<Grow in={true}>*/}
+        {/*  <Grid item xs={12} md={4}>*/}
+        {/*    <TextField*/}
+        {/*      label="Svago"*/}
+        {/*      variant="outlined"*/}
+        {/*      type="number"*/}
+        {/*      fullWidth*/}
+        {/*      required*/}
+        {/*      error={daSottrarreSvago === ""}*/}
+        {/*      value={daSottrarreSvago}*/}
+        {/*      onChange={(e) =>*/}
+        {/*        handleDaSottrarreChange("daSottrarreSvago", e.target.value)*/}
+        {/*      }*/}
+        {/*    />*/}
+        {/*  </Grid>*/}
+        {/*</Grow>*/}
 
         {/* DA SOTTRARRE - RISPARMI - INPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <TextField
-              label="Risparmi"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={daSottrarreRisparmi === ""}
-              value={daSottrarreRisparmi}
-              onChange={(e) =>
-                handleDaSottrarreChange("daSottrarreRisparmi", e.target.value)
-              }
-            />
-          </Grid>
-        </Grow>
+        {/*<Grow in={true}>*/}
+        {/*  <Grid item xs={12} md={4}>*/}
+        {/*    <TextField*/}
+        {/*      label="Risparmi"*/}
+        {/*      variant="outlined"*/}
+        {/*      type="number"*/}
+        {/*      fullWidth*/}
+        {/*      required*/}
+        {/*      error={daSottrarreRisparmi === ""}*/}
+        {/*      value={daSottrarreRisparmi}*/}
+        {/*      onChange={(e) =>*/}
+        {/*        handleDaSottrarreChange("daSottrarreRisparmi", e.target.value)*/}
+        {/*      }*/}
+        {/*    />*/}
+        {/*  </Grid>*/}
+        {/*</Grow>*/}
 
         {/* RISULTATI - CHIP  */}
         <Zoom in={true}>
