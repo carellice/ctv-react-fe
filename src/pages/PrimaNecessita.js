@@ -19,7 +19,9 @@ import { isApp } from '../Config';
 function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update }) {
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
+
   useEffect(() => {
+    DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
     const handleScroll = () => {
       const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
       setShowFab(!scrolledToBottom);
@@ -60,19 +62,31 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       {primaNecessita.length === 0 ? (
         <></>
       ) : (
-        <Box display="flex" justifyContent="center">
-          <FormControl style={{ marginTop: isApp ? 20 : 80 }}>
-            <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue=""
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="nome" control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByNome().then(() => update())} />} label="Nome" />
-              <FormControlLabel value="costo" control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update())} />} label="Costo" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
+          <Box display="flex" justifyContent="center">
+            <FormControl style={{ marginTop: isApp ? 20 : 80 }}>
+              <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
+              <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="nome"
+                  name="radio-buttons-group"
+                  row // Aggiungi questa proprietà per allineare orizzontalmente i radio button
+              >
+                <FormControlLabel
+                    value="nome"
+                    control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByNome().then(() => update())} />}
+                    label="Nome"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                    style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
+                />
+                <FormControlLabel
+                    value="costo"
+                    control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update())} />}
+                    label="Costo"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
       )}
 
       {primaNecessita.length === 0 ? (
