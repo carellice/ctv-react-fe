@@ -21,7 +21,9 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
 
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
+
   useEffect(() => {
+    DataBaseUtils.orderSvagoByNome().then(() => update());
     const handleScroll = () => {
       const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
       setShowFab(!scrolledToBottom);
@@ -62,19 +64,31 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       {svago.length === 0 ? (
         <></>
       ) : (
-        <Box display="flex" justifyContent="center">
-          <FormControl style={{ marginTop: isApp ? 20 : 80 }}>
-            <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue=""
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="nome" control={<Radio onClick={() => DataBaseUtils.orderSvagoByNome().then(() => update())} />} label="Nome" />
-              <FormControlLabel value="costo" control={<Radio onClick={() => DataBaseUtils.orderSvagoByCosto().then(() => update())} />} label="Costo" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
+          <Box display="flex" justifyContent="center">
+            <FormControl style={{ marginTop: isApp ? 20 : 80 }}>
+              <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
+              <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="nome"
+                  name="radio-buttons-group"
+                  row // Aggiungi questa proprietà per allineare orizzontalmente i radio button
+              >
+                <FormControlLabel
+                    value="nome"
+                    control={<Radio onClick={() => DataBaseUtils.orderSvagoByNome().then(() => update())} />}
+                    label="Nome"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                    style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
+                />
+                <FormControlLabel
+                    value="costo"
+                    control={<Radio onClick={() => DataBaseUtils.orderSvagoByCosto().then(() => update())} />}
+                    label="Costo"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
       )}
 
       {svago.length === 0 ? (
