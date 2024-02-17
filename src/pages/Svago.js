@@ -3,6 +3,7 @@ import ListPersonal from '../components/ListPersonal';
 import MyPopUpInsert from '../components/MyPopUpInsert';
 import MyPopUpEdit from '../components/MyPopUpEdit';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
+import * as OrderByUtils from "./../utils/OrderByUtils";
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as ImportoUtils from "./../utils/ImportoUtils";
 import { Grow, Typography } from '@mui/material';
@@ -49,7 +50,11 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
     DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then((r) => {
       if (r === 200) {
         snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
-        update();
+        if(orderBy === OrderByUtils.orderByNome){
+          DataBaseUtils.orderSvagoByNome().then(() => update());
+        }else if(orderBy === OrderByUtils.orderByCosto){
+          DataBaseUtils.orderSvagoByCosto().then(() => update());
+        }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
       }
@@ -58,6 +63,8 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
 
   const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
+  //ORDER BY
+  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
 
   return (
     <>
@@ -75,14 +82,20 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
               >
                 <FormControlLabel
                     value="nome"
-                    control={<Radio onClick={() => DataBaseUtils.orderSvagoByNome().then(() => update())} />}
+                    control={<Radio onClick={() => {
+                      DataBaseUtils.orderSvagoByNome().then(() => update());
+                      setOrderBy(OrderByUtils.orderByNome);
+                    }} />}
                     label="Nome"
                     labelPlacement="end" // Imposta la posizione della label a destra del radio button
                     style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
                 />
                 <FormControlLabel
                     value="costo"
-                    control={<Radio onClick={() => DataBaseUtils.orderSvagoByCosto().then(() => update())} />}
+                    control={<Radio onClick={() => {
+                      DataBaseUtils.orderSvagoByCosto().then(() => update());
+                      setOrderBy(OrderByUtils.orderByCosto);
+                    }} />}
                     label="Costo"
                     labelPlacement="end" // Imposta la posizione della label a destra del radio button
                 />
@@ -108,7 +121,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       <ListPersonal array={svago} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
       <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI SVAGO'} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SVAGO'} />
+        <MyPopUpEdit orderBy={orderBy} update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SVAGO'} />
       ) : (
         <></>
       )}

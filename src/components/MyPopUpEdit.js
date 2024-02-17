@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
+import * as OrderByUtils from "../utils/OrderByUtils";
 
-const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => {
+const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orderBy}) => {
 
   const [nome, setNome] = useState(JSON.parse(localStorage.getItem("elToEdit")).nome);
   const [nota, setNota] = useState(JSON.parse(localStorage.getItem("elToEdit")).note);
@@ -30,7 +31,11 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
       DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
         if(r === 200){
           snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
-          update();
+          if(orderBy === OrderByUtils.orderByNome){
+            DataBaseUtils.orderSvagoByNome().then(() => update());
+          }else if(orderBy === OrderByUtils.orderByCosto){
+            DataBaseUtils.orderSvagoByCosto().then(() => update());
+          }
         }else{
           snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
           update();
@@ -51,7 +56,11 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update}) => 
       DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
         if(r === 200){
           snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
-          update();
+          if(orderBy === OrderByUtils.orderByNome){
+            DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
+          }else if(orderBy === OrderByUtils.orderByCosto){
+            DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update());
+          }
         }else{
           snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
           update();
