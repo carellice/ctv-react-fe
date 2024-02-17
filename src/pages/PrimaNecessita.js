@@ -15,6 +15,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { isApp } from '../Config';
+import * as OrderByUtils from "../utils/OrderByUtils";
 
 function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update }) {
   //NASCONDE AUTOMATICAMENTE IL FAB
@@ -47,7 +48,11 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
     DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then((r) => {
       if (r === 200) {
         snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
-        update();
+        if(orderBy === OrderByUtils.orderByNome){
+          DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
+        }else if(orderBy === OrderByUtils.orderByCosto){
+          DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update());
+        }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
       }
@@ -56,6 +61,8 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
 
   const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
+  //ORDER BY
+  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
 
   return (
     <>
@@ -73,14 +80,20 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
               >
                 <FormControlLabel
                     value="nome"
-                    control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByNome().then(() => update())} />}
+                    control={<Radio onClick={() => {
+                      DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
+                      setOrderBy(OrderByUtils.orderByNome);
+                    }} />}
                     label="Nome"
                     labelPlacement="end" // Imposta la posizione della label a destra del radio button
                     style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
                 />
                 <FormControlLabel
                     value="costo"
-                    control={<Radio onClick={() => DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update())} />}
+                    control={<Radio onClick={() => {
+                      DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update());
+                      setOrderBy(OrderByUtils.orderByCosto);
+                    }} />}
                     label="Costo"
                     labelPlacement="end" // Imposta la posizione della label a destra del radio button
                 />
@@ -106,7 +119,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       <ListPersonal array={primaNecessita} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
       <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI PRIMA NECESSITA\''} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA PRIMA NECESSITA\''} />
+        <MyPopUpEdit orderBy={orderBy} update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA PRIMA NECESSITA\''} />
       ) : (
         <></>
       )}
