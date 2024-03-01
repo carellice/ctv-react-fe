@@ -47,9 +47,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
       DataBaseUtils.getUltimoRipristino().then(dataUltimoRipristino => {
         if(dataUltimoAggiornamentoString !== null){
           DataBaseUtils.getUltimoBackupRAW().then(dataUltimoBackupString => {
-            if(dataUltimoBackupString === null && dataUltimoAggiornamentoString !== null){
-              setOpenDialogReminderBackup(true);
-            } else if(dataUltimoBackupString !== null){
+            if(dataUltimoBackupString !== null){
               const dataUltimoAggiornamento = new Date(dataUltimoAggiornamentoString);
               const dataUltimoBackup = new Date(dataUltimoBackupString);
               setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
