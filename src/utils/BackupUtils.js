@@ -1,4 +1,6 @@
 import * as DataBaseUtils from "./DataBaseUtils"
+import {getDateDayMonthYearHourMinute} from "./DateUtils";
+import * as DateUtils from "./DateUtils";
 
 export const scaricaBackup = async () => {
     // Ottieni i dati dal localStorage
@@ -65,7 +67,11 @@ export const copiaBackup = async () => {
   // Converte la stringa JSON in un oggetto JavaScript
   // const datiBackup = JSON.parse(datiLocalStorage);
 
-  const datiBackup = await DataBaseUtils.getData();
+  let datiBackup = await DataBaseUtils.getData();
+
+  // aggiungo la data attuale al json di backup
+    const dataEsportazione = await DateUtils.getDateDayMonthYearHourMinute(new Date());
+  datiBackup = {dataEsportazione: dataEsportazione, ...datiBackup}
 
   // Converti gli oggetti in una stringa JSON
   const datiJson = JSON.stringify(datiBackup);
