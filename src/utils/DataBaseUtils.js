@@ -15,6 +15,10 @@ export const saveData = async (data) => {
     await saveUltimoAggiornamento();
 }
 
+export const saveDataWithoutUtilmoAggiornamento = async (data) => {
+    localStorage.setItem("data", JSON.stringify(data));
+}
+
 export const deleteData = async () => {
     localStorage.removeItem("data");
 }
@@ -219,7 +223,7 @@ export const orderSvagoByNome = async() => {
       });
     const newDatas = {...datas, svago: arrayOrdinato}
 
-    await saveData(newDatas);
+    await saveDataWithoutUtilmoAggiornamento(newDatas);
 
     return 200;
 }
@@ -241,7 +245,7 @@ export const orderSvagoByCosto = async() => {
       });
     const newDatas = {...datas, svago: arrayOrdinato}
 
-    await saveData(newDatas);
+    await saveDataWithoutUtilmoAggiornamento(newDatas);
 
     return 200;
 }
@@ -264,7 +268,7 @@ export const orderPrimaNecessitaByNome = async() => {
       });
     const newDatas = {...datas, primaNecessita: arrayOrdinato}
 
-    await saveData(newDatas);
+    await saveDataWithoutUtilmoAggiornamento(newDatas);
 
     return 200;
 }
@@ -286,7 +290,7 @@ export const orderPrimaNecessitaByCosto = async() => {
       });
     const newDatas = {...datas, primaNecessita: arrayOrdinato}
 
-    await saveData(newDatas);
+    await saveDataWithoutUtilmoAggiornamento(newDatas);
 
     return 200;
 }

@@ -237,7 +237,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
 
       {/* FLOATING ACTION BUTTON - FAB */}
       {/* {showFab ? ( */}
-      {true ? (
+      {searchValue === "" ? (
         <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
           position: 'fixed',
           bottom: '64px',  // Puoi personalizzare la distanza dal basso
