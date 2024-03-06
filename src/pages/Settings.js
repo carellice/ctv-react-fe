@@ -16,13 +16,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { isApp } from '../Config';
 import { appVersion } from '../Version';
 import AndroidIcon from '@mui/icons-material/Android';
-import { Grow } from '@mui/material';
+import {Button, Grid, Grow, Switch, ToggleButton, ToggleButtonGroup, Tooltip, Typography} from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useEffect } from 'react';
+import {useEffect, useRef} from 'react';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DialogPersonalSommaSpese from '../components/DialogPersonalSommaSpese';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import SubjectIcon from '@mui/icons-material/Subject';
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from '@mui/icons-material/Info';
 
 function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -36,6 +41,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
   const [ultimoAggiornamento, setUltimoAggiornamento] = React.useState(null);
   const [easterEggCount, setEasterEggCount] = React.useState(0);
+  const [backupType, setBackupType] = React.useState("text");
 
   //USE EFFECT
   useEffect(() => {
@@ -57,6 +63,16 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
       })
     })
   }, [])
+
+    const fileInputRef = useRef(null);
+
+    const handleClick = () => {
+      // Attiva l'input file nascosto
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+      }
+    };
   
 
   const ripristinaDati = (dati) => {
@@ -103,50 +119,118 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   };
 
   // BACK BUTTON PRESSED
-  window.addEventListener("popstate", () => {
-    setSelectedPage("HomePage");
-  });
+  // window.addEventListener("popstate", () => {
+  //   setSelectedPage("HomePage");
+  // });
 
   return (
     <>
       <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', margin: 'auto', marginTop: 8 }}>
         <nav aria-label="main mailbox folders">
           <List>
-            <Grow in={true}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => setOpenDialogCopiaDati(true)}>
-                  <ListItemIcon sx={{color:'#dec507'}}>
-                    <ContentCopyIcon />
-                  </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"COPIA DATI"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
-                </ListItemButton>
-              </ListItem>
-            </Grow>
+              {!isApp ? (
+                  <center>
+                      <Typography style={{marginTop: 20, marginBottom: 0}} variant="subtitle1">
+                          {backupType === "text" ? "TIPO BACKUP (TESTO)" : "TIPO BACKUP (FILE)"}
+                          <Tooltip title={backupType === "text" ? "IL BACKUP VERRà SALVATO NEGLI APPUNTI COME TESTO".toUpperCase() : "IL BACKUP VERRà SCARICATO SOTTOFORMA DI FILE".toUpperCase()}>
+                              <IconButton>
+                                  <InfoIcon />
+                              </IconButton>
+                          </Tooltip>
+                      </Typography>
+                      <ToggleButtonGroup
+                          style={{marginTop: 0, marginBottom: 20}}
+                          color="primary"
+                          value={backupType}
+                          exclusive
+                          onChange={(event, newBackupType) => {
+                              setBackupType(newBackupType);
+                          }}
+                          aria-label="Platform"
+                      >
+                          <ToggleButton value="file"><InsertDriveFileIcon /></ToggleButton>
+                          <ToggleButton value="text"><SubjectIcon /></ToggleButton>
+                      </ToggleButtonGroup>
+                  </center>
+              ) : <></>}
+
+              {backupType === "text" ? (
+                  <Grow in={true}>
+                      <ListItem disablePadding>
+                          <ListItemButton onClick={() => setOpenDialogCopiaDati(true)}>
+                              {/*<ListItemButton onClick={() => BackupUtils.scaricaBackup()}>*/}
+                              <ListItemIcon sx={{color:'#dec507'}}>
+                                  <ContentCopyIcon />
+                              </ListItemIcon>
+                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"COPIA DATI"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
+                          </ListItemButton>
+                      </ListItem>
+                  </Grow>
+              ) : (
+                  <Grow in={true}>
+                      <ListItem disablePadding>
+                          <ListItemButton onClick={() => BackupUtils.scaricaBackup()}>
+                              <ListItemIcon sx={{color:'#dec507'}}>
+                                  <ContentCopyIcon />
+                              </ListItemIcon>
+                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESEGUI BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
+                          </ListItemButton>
+                      </ListItem>
+                  </Grow>
+              )}
 
             <Divider />
 
-            <Grow in={true}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => setOpenDialogIncollaDati(true)}>
-                  <ListItemIcon sx={{color:'#40a11a'}}>
-                    <ContentPasteIcon />
-                  </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"INCOLLA DATI"} secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
-                </ListItemButton>
-              </ListItem>
-            </Grow>
-
-            <Divider />
-
-            {ultimoAggiornamento !== null ? (
-              <>
+              {backupType === "text" ? (
                 <Grow in={true}>
                   <ListItem disablePadding>
-                    <ListItemButton onClick={() => {}}>
-                      <ListItemIcon sx={{color:'#fc9803'}}>
-                        <UpgradeIcon />
+                    <ListItemButton onClick={() => setOpenDialogIncollaDati(true)}>
+                      <ListItemIcon sx={{color:'#40a11a'}}>
+                        <ContentPasteIcon />
                       </ListItemIcon>
-                      <ListItemText primaryTypographyProps={{color: "#fc9803"}} primary={"ULTIMO AGGIORNAMENTO DATI"} secondary={ultimoAggiornamento}/>
+                      <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"INCOLLA DATI"} secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
+                    </ListItemButton>
+                  </ListItem>
+                </Grow>
+              ) : (
+                  <>
+                      <Grow in={true}>
+                          <ListItem disablePadding>
+                              <ListItemButton onClick={handleClick}>
+                                  <ListItemIcon sx={{color: '#40a11a'}}>
+                                      <ContentPasteIcon/>
+                                  </ListItemIcon>
+                                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"RIPRISTINO BACKUP"}
+                                                secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
+                              </ListItemButton>
+                          </ListItem>
+                      </Grow>
+                      <div>
+                          <input
+                              type="file"
+                              accept=".json"
+                              ref={fileInputRef}
+                              onChange={(e) => {
+                                  BackupUtils.handleFileChange(e).then(() => update())
+                              }}
+                              style={{display: 'none'}}
+                          />
+                      </div>
+                  </>
+            )}
+
+            <Divider/>
+
+            {ultimoAggiornamento !== null ? (
+                <>
+                    <Grow in={true}>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => {
+                            }}>
+                                <ListItemIcon sx={{color: '#fc9803'}}>
+                                    <UpgradeIcon/>
+                                </ListItemIcon>
+                                <ListItemText primaryTypographyProps={{color: "#fc9803"}} primary={"ULTIMO AGGIORNAMENTO DATI"} secondary={ultimoAggiornamento}/>
                     </ListItemButton>
                   </ListItem>
                 </Grow>

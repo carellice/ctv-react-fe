@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
+import * as HistoryUtils from "../utils/HistoryUtils";
 
 
 function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCensored}) {
@@ -93,7 +94,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
       {/* {showFab ? ( */}
       {true ? (
         <Fab onClick={() => {
-          window.history.pushState({}, null, null);
+          HistoryUtils.pushState("nuovo-stipendio");
           setSelectedPage("InsertNew");
         }} color="primary" aria-label="add" sx={{
           position: 'fixed',

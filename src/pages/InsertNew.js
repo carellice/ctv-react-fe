@@ -104,9 +104,9 @@ const InsertNew = ({
   };
 
   //BACK BUTTON PRESSED
-  window.addEventListener("popstate", () => {
-    setSelectedPage("HomePage");
-  });
+  // window.addEventListener("popstate", () => {
+  //   setSelectedPage("HomePage");
+  // });
 
   //CALCOLO IN TEMPO REALE
   const calculate = async (
