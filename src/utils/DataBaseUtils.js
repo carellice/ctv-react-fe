@@ -227,7 +227,6 @@ export const orderSvagoByNome = async() => {
 
     return 200;
 }
-
 export const orderSvagoByCosto = async() => {
     const datas = await getData();
     const svagoArray = datas.svago;

@@ -13,6 +13,7 @@ import Percent from '@mui/icons-material/Percent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {isApp} from "./../Config"
+import * as HistoryUtils from "../utils/HistoryUtils";
 
 const pages = ['Svago', 'Prima Necessità'];
 // const settings = ['Logout'];
@@ -46,9 +47,15 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
               <ArrowBackIcon sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
             </IconButton>
           ) : <></>}
-          <Percent sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
+          <Percent sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => {
+              HistoryUtils.pushState("ctv");
+              setSelectedPage("HomePage")
+          }} />
           <Typography
-            onClick={() => setSelectedPage("HomePage")} 
+            onClick={() => {
+              HistoryUtils.pushState("ctv");
+                setSelectedPage("HomePage")
+            }}
             variant="h6"
             noWrap
             component="a"
@@ -74,6 +81,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={() => {
+                HistoryUtils.pushState("ctv");
                 setSelectedPage("HomePage");
                 setTabs(0);
               }}
@@ -116,7 +124,11 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => {
                   setAnchorElNav(null);
-                  window.history.pushState({}, null, null);
+                    if(page === "Svago") {
+                        HistoryUtils.pushState("svago");
+                    }else if(page === "Prima Necessità"){
+                      HistoryUtils.pushState("necessita");
+                    }
                   setSelectedPage(page);
                 }}>
                   <Typography textAlign="center">{page}</Typography>
@@ -129,7 +141,10 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
           <Typography
             variant="h5"
             noWrap
-            onClick={() => setSelectedPage("HomePage")}
+            onClick={() => {
+                HistoryUtils.pushState("ctv");
+                setSelectedPage("HomePage")
+            }}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -150,7 +165,12 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
                 variant={page === selectedPage ? "outlined" : "text"}
                 key={page}
                 onClick={() => {
-                  window.history.pushState({}, null, null);
+                  // window.history.pushState({}, null, null);
+                    if(page === "Svago") {
+                      HistoryUtils.pushState("svago");
+                    }else if(page === "Prima Necessità"){
+                      HistoryUtils.pushState("necessita");
+                    }
                   setSelectedPage(page);
                 }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
@@ -164,8 +184,8 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
             {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}> */}
             <IconButton onClick={() => {
               setAnchorElNav(null);
-              window.history.pushState({}, null, null);
-              setSelectedPage("SettingsPage");
+              HistoryUtils.pushState("impostazioni");
+                setSelectedPage("SettingsPage");
             }}>
               <SettingsIcon/>
               {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}

@@ -97,9 +97,9 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
   }, []);
 
   // BACK BUTTON PRESSED
-  window.addEventListener("popstate", () => {
-    setSelectedPage("HomePage");
-  });
+  // window.addEventListener("popstate", () => {
+  //   setSelectedPage("HomePage");
+  // });
 
   const editElement = () => {
     setOpenPopUpEdit(true);
@@ -110,9 +110,15 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       if (r === 200) {
         snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
         if(orderBy === OrderByUtils.orderByNome){
-          DataBaseUtils.orderSvagoByNome().then(() => update());
+          DataBaseUtils.orderSvagoByNome().then(() =>  {
+            DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
+            update();
+          });
         }else if(orderBy === OrderByUtils.orderByCosto){
-          DataBaseUtils.orderSvagoByCosto().then(() => update());
+          DataBaseUtils.orderSvagoByCosto().then(() => {
+            DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
+            update();
+          });
         }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
@@ -233,7 +239,10 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       <ListPersonal array={svagoArray} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
       <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI SVAGO'} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit orderBy={orderBy} update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SVAGO'} />
+        <MyPopUpEdit orderBy={orderBy} update={() => {
+          DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
+          update();
+        }} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SVAGO'} />
       ) : (
         <></>
       )}

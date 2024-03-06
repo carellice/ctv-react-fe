@@ -94,9 +94,9 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
   }, []);
 
   // BACK BUTTON PRESSED
-  window.addEventListener("popstate", () => {
-    setSelectedPage("HomePage");
-  });
+  // window.addEventListener("popstate", () => {
+  //   setSelectedPage("HomePage");
+  // });
 
   const editElement = () => {
     setOpenPopUpEdit(true);
@@ -107,10 +107,15 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       if (r === 200) {
         snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
         if(orderBy === OrderByUtils.orderByNome){
-          DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
+          DataBaseUtils.orderPrimaNecessitaByNome().then(() =>  {
+            DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
+            update();
+          });
         }else if(orderBy === OrderByUtils.orderByCosto){
-          DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update());
-        }
+          DataBaseUtils.orderPrimaNecessitaByCosto().then(() =>  {
+            DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
+            update();
+          });        }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
       }
@@ -230,7 +235,10 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       <ListPersonal array={primaNecessitaArray} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
       <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI PRIMA NECESSITA\''} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit orderBy={orderBy} update={update} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA PRIMA NECESSITA\''} />
+        <MyPopUpEdit orderBy={orderBy} update={() => {
+          DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
+          update();
+        }} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA PRIMA NECESSITA\''} />
       ) : (
         <></>
       )}
