@@ -26,8 +26,9 @@ export const scaricaBackup = async () => {
     link.href = url;
     // filename
     const now = new Date();
-    const filename = [now.getDate(), "-", now.getMonth() + 1, "-", now.getFullYear(), "_", now.getHours(), "-", now.getMinutes(), ".json"].join("");
-    link.download = filename; 
+    const fileNamePart1 = DateUtils.getDateDayMonthYear(now);
+    const fileName = fileNamePart1 + " - " + now.getHours() + "." + now.getMinutes() + ".json";
+    link.download = fileName;
     document.body.appendChild(link);
 
     // Simula il clic sul link per avviare il download
