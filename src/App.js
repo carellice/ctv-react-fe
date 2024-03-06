@@ -22,6 +22,8 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { isApp } from './Config';
+import * as HistoryUtils from "./utils/HistoryUtils";
+import {getCurrentUrl} from "./utils/HistoryUtils";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -40,10 +42,17 @@ function App() {
 
     //RECUPERO I DATI
     DataBaseUtils.getData().then(dt => setDatas(dt));
-    const currentUrl = window.location.href;
-    if(currentUrl.includes("download-app-android"))
-      setSelectedPage("SettingsPage");
+
+    //CONTROLLO IL CONTENUTO DELL'URL
+    if(!isApp){
+      HistoryUtils.handleUrl(setSelectedPage);
+    }
   }, []);
+
+  // BACK BUTTON PRESSED
+  window.addEventListener("popstate", () => {
+    HistoryUtils.handleUrl(setSelectedPage);
+  });
 
   //DARK MODE
   const darkTheme = createTheme({
