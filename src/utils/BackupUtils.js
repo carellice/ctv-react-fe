@@ -2,6 +2,7 @@ import * as DataBaseUtils from "./DataBaseUtils"
 import {getDateDayMonthYearHourMinute} from "./DateUtils";
 import * as DateUtils from "./DateUtils";
 
+//ESEGUI BACKUP
 export const scaricaBackup = async () => {
     // Ottieni i dati dal localStorage
     // const datiLocalStorage = localStorage.getItem('user');
@@ -37,8 +38,12 @@ export const scaricaBackup = async () => {
 
     // Rilascia l'URL del Blob
     URL.revokeObjectURL(url);
+
+    //salvo ultimo backup
+    await DataBaseUtils.saveUltimoBackup();
 };
 
+//RIPRISTINO BACKUP
 export const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
@@ -54,6 +59,9 @@ export const handleFileChange = async (event) => {
         localStorage.setItem('data', JSON.stringify(datiJson));
 
         console.log('Dati inseriti nel localStorage:', datiJson);
+
+        //salvo ultimo ripristino
+         await DataBaseUtils.saveUltimoRipristino();
       } catch (errore) {
         console.error('Errore durante la lettura del file JSON:', errore);
       }

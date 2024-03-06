@@ -28,6 +28,9 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import SubjectIcon from '@mui/icons-material/Subject';
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from '@mui/icons-material/Info';
+import DownloadIcon from '@mui/icons-material/Download';
+import UploadIcon from '@mui/icons-material/Upload';
+import * as DateUtils from "../utils/DateUtils";
 
 function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -41,7 +44,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [ultimoRipristino, setUltimoRipristino] = React.useState(null);
   const [ultimoAggiornamento, setUltimoAggiornamento] = React.useState(null);
   const [easterEggCount, setEasterEggCount] = React.useState(0);
-  const [backupType, setBackupType] = React.useState("text");
+  const [backupType, setBackupType] = React.useState("file");
 
   //USE EFFECT
   useEffect(() => {
@@ -70,7 +73,6 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
       // Attiva l'input file nascosto
       if (fileInputRef.current) {
         fileInputRef.current.click();
-        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
       }
     };
   
@@ -128,31 +130,31 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
       <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', margin: 'auto', marginTop: 8 }}>
         <nav aria-label="main mailbox folders">
           <List>
-              {!isApp ? (
-                  <center>
-                      <Typography style={{marginTop: 20, marginBottom: 0}} variant="subtitle1">
-                          {backupType === "text" ? "TIPO BACKUP (TESTO)" : "TIPO BACKUP (FILE)"}
-                          <Tooltip title={backupType === "text" ? "IL BACKUP VERRà SALVATO NEGLI APPUNTI COME TESTO".toUpperCase() : "IL BACKUP VERRà SCARICATO SOTTOFORMA DI FILE".toUpperCase()}>
-                              <IconButton>
-                                  <InfoIcon />
-                              </IconButton>
-                          </Tooltip>
-                      </Typography>
-                      <ToggleButtonGroup
-                          style={{marginTop: 0, marginBottom: 20}}
-                          color="primary"
-                          value={backupType}
-                          exclusive
-                          onChange={(event, newBackupType) => {
-                              setBackupType(newBackupType);
-                          }}
-                          aria-label="Platform"
-                      >
-                          <ToggleButton value="file"><InsertDriveFileIcon /></ToggleButton>
-                          <ToggleButton value="text"><SubjectIcon /></ToggleButton>
-                      </ToggleButtonGroup>
-                  </center>
-              ) : <></>}
+              {/*{!isApp ? (*/}
+              {/*    <center>*/}
+              {/*        <Typography style={{marginTop: 20, marginBottom: 0}} variant="subtitle1">*/}
+              {/*            {backupType === "text" ? "TIPO BACKUP (TESTO)" : "TIPO BACKUP (FILE)"}*/}
+              {/*            <Tooltip title={backupType === "text" ? "IL BACKUP VERRà SALVATO NEGLI APPUNTI COME TESTO".toUpperCase() : "IL BACKUP VERRà SCARICATO SOTTOFORMA DI FILE".toUpperCase()}>*/}
+              {/*                <IconButton>*/}
+              {/*                    <InfoIcon />*/}
+              {/*                </IconButton>*/}
+              {/*            </Tooltip>*/}
+              {/*        </Typography>*/}
+              {/*        <ToggleButtonGroup*/}
+              {/*            style={{marginTop: 0, marginBottom: 20}}*/}
+              {/*            color="primary"*/}
+              {/*            value={backupType}*/}
+              {/*            exclusive*/}
+              {/*            onChange={(event, newBackupType) => {*/}
+              {/*                setBackupType(newBackupType);*/}
+              {/*            }}*/}
+              {/*            aria-label="Platform"*/}
+              {/*        >*/}
+              {/*            <ToggleButton value="file"><InsertDriveFileIcon /></ToggleButton>*/}
+              {/*            <ToggleButton value="text"><SubjectIcon /></ToggleButton>*/}
+              {/*        </ToggleButtonGroup>*/}
+              {/*    </center>*/}
+              {/*) : <></>}*/}
 
               {backupType === "text" ? (
                   <Grow in={true}>
@@ -169,9 +171,12 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
               ) : (
                   <Grow in={true}>
                       <ListItem disablePadding>
-                          <ListItemButton onClick={() => BackupUtils.scaricaBackup()}>
+                          <ListItemButton onClick={() => {
+                              BackupUtils.scaricaBackup().then(r => {});
+                              DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoBackup(r));
+                          }}>
                               <ListItemIcon sx={{color:'#dec507'}}>
-                                  <ContentCopyIcon />
+                                  <DownloadIcon />
                               </ListItemIcon>
                               <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESEGUI BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
                           </ListItemButton>
@@ -198,7 +203,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                           <ListItem disablePadding>
                               <ListItemButton onClick={handleClick}>
                                   <ListItemIcon sx={{color: '#40a11a'}}>
-                                      <ContentPasteIcon/>
+                                      <UploadIcon/>
                                   </ListItemIcon>
                                   <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"RIPRISTINO BACKUP"}
                                                 secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
@@ -211,7 +216,11 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                               accept=".json"
                               ref={fileInputRef}
                               onChange={(e) => {
-                                  BackupUtils.handleFileChange(e).then(() => update())
+                                  BackupUtils.handleFileChange(e).then(() => {
+                                      update();
+                                      DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoRipristino(r));
+                                        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+                                  });
                               }}
                               style={{display: 'none'}}
                           />
@@ -267,33 +276,33 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
             </Grow>
             )}
 
-            {!isApp ? (
-              <>
-                <Divider />
-                <Grow in={true}>
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={() => setOpenDialogDownloadAppAndroid(true)}>
-                      <ListItemIcon>
-                        <AndroidIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="DOWNLOAD APP ANDROID" secondary={appVersion} />
-                    </ListItemButton>
-                  </ListItem>
-                </Grow>
-              </>
-            ) : <>
-            <Divider />
-            <Grow in={true}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => setEasterEggCount(easterEggCount + 1)}>
-                  <ListItemIcon>
-                    <AndroidIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="VERSIONE APP ANDROID" secondary={appVersion} />
-                </ListItemButton>
-              </ListItem>
-            </Grow>
-          </>}
+            {/*{!isApp ? (*/}
+            {/*  <>*/}
+            {/*    <Divider />*/}
+            {/*    <Grow in={true}>*/}
+            {/*      <ListItem disablePadding>*/}
+            {/*        <ListItemButton onClick={() => setOpenDialogDownloadAppAndroid(true)}>*/}
+            {/*          <ListItemIcon>*/}
+            {/*            <AndroidIcon />*/}
+            {/*          </ListItemIcon>*/}
+            {/*          <ListItemText primary="DOWNLOAD APP ANDROID" secondary={appVersion} />*/}
+            {/*        </ListItemButton>*/}
+            {/*      </ListItem>*/}
+            {/*    </Grow>*/}
+            {/*  </>*/}
+            {/*) : <>*/}
+            {/*<Divider />*/}
+            {/*<Grow in={true}>*/}
+            {/*  <ListItem disablePadding>*/}
+            {/*    <ListItemButton onClick={() => setEasterEggCount(easterEggCount + 1)}>*/}
+            {/*      <ListItemIcon>*/}
+            {/*        <AndroidIcon />*/}
+            {/*      </ListItemIcon>*/}
+            {/*      <ListItemText primary="VERSIONE APP ANDROID" secondary={appVersion} />*/}
+            {/*    </ListItemButton>*/}
+            {/*  </ListItem>*/}
+            {/*</Grow>*/}
+          {/*</>}*/}
           </List>
         </nav>
       </Box>
@@ -389,7 +398,8 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
         title={"⚠️BACKUP⚠️"}
         okFunc={() => {
           setOpenDialogReminderBackup(false);
-          setOpenDialogCopiaDati(true);
+          BackupUtils.scaricaBackup();
+          DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoBackup(r));
         }}
       />
 
