@@ -66,7 +66,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
       </Grow>
 
       {/*TOTALE STIPENDI PER MESE*/}
-      {totaleEntrateByMese === null || censored ? <></> : (
+      {censored || totaleEntrateByMese === null || totaleEntrateByMese.length === 0 ? <></> : (
         <>
           <Grow in={true}>
             <Grid container justifyContent="center">
