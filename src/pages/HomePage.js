@@ -1,5 +1,5 @@
 import HomeGrid from './../components/HomeGrid';
-import { Grid, Grow, Typography } from '@mui/material';
+import {Chip, Grid, Grow, Stack, Typography} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,13 +9,19 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as HistoryUtils from "../utils/HistoryUtils";
+import EuroIcon from '@mui/icons-material/Euro';
 
 
 function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCensored}) {
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
+  //TOTALE ENTRATE PER MESE
+  const [totaleEntrateByMese, setTotaleEntrateByMese] = useState(null);
   
   useEffect(() => {
+    //RECUPERO TOTALE ENTRATE BY MESE
+    DataBaseUtils.getTotalEntrateByMese().then(r => setTotaleEntrateByMese(r));
+
     const handleScroll = () => {
       const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
       setShowFab(!scrolledToBottom);
@@ -42,22 +48,48 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
       <Grow in={true}>
         <Grid container justifyContent="center">
           <Typography
-            style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }}
-            variant='h5'
+              style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }}
+              variant='h5'
           >
             CTV
           </Typography>
           {ctv.length !== 0 ? (
-            <IconButton onClick={() => {
-              const newCensored = !censored;
-              DataBaseUtils.saveCensored(newCensored).then(() => setCensored(newCensored));
-            }} style={{marginTop: isApp ? 15 : 75, marginLeft:10}} edge='end' >
-              {censored ? <VisibilityOffIcon /> : <VisibilityIcon />} {/* Sostituisci con l'icona desiderata */}
-            </IconButton>
+              <IconButton onClick={() => {
+                const newCensored = !censored;
+                DataBaseUtils.saveCensored(newCensored).then(() => setCensored(newCensored));
+              }} style={{marginTop: isApp ? 15 : 75, marginLeft:10}} edge='end' >
+                {censored ? <VisibilityOffIcon /> : <VisibilityIcon />} {/* Sostituisci con l'icona desiderata */}
+              </IconButton>
           ) : <></>}
         </Grid>
         {/* <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>CTV</Typography> */}
       </Grow>
+
+      {/*TOTALE STIPENDI PER MESE*/}
+      {totaleEntrateByMese === null || censored ? <></> : (
+        <>
+          <Grow in={true}>
+            <Grid container justifyContent="center">
+              <Typography
+                  style={{ textAlign: 'center', marginTop: 10, fontWeight: 'bold' }}
+                  variant='h5'
+              >
+                ENTRATE
+              </Typography>
+            </Grid>
+          </Grow>
+          <Grid container justifyContent="center" marginTop={2}>
+            {/*<Stack direction="row" spacing={1}>*/}
+              {totaleEntrateByMese.map(t => {
+                return(
+                    <Chip style={{ marginTop: 10, marginLeft: 5 }} icon={<EuroIcon/>} label={t} color="success" variant="filled" />
+                );
+              })}
+            {/*</Stack>*/}
+          </Grid>
+        </>
+      )}
+
       {ctv.length === 0 ? (
         <Grow in={true}>
           <Typography style={{textAlign:'center', marginTop:20, marginBottom:40, marginLeft: 20, marginRight: 20}} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
