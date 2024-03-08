@@ -1,4 +1,5 @@
 import * as DateUtils from "./DateUtils"
+import * as ImportoUtils from "./ImportoUtils"
 
 export const dataTemplate = {
     user: "user",
@@ -410,4 +411,31 @@ export const getSpeseFisse = () => {
         });
         return [...svago, ...primaNecessita];
     }
+}
+
+export const getTotalEntrateByMese = async () => {
+    const datas = await getData();
+    const ctvArray = datas.ctv;
+    const meseArray = [];
+    const meseArrayFinal = [];
+    //PRENDO TUTTE LE DATE
+    ctvArray.forEach(ctv => {
+        const ctvData = ctv.data;
+        if(!meseArray.includes(ctvData)){
+            meseArray.push(ctvData);
+        }
+    });
+    //CREO UN NUOVO ARRAY CHE CONTENGA LE DATE CON I RELATIVI TOTALI DI STIPENDI
+    meseArray.forEach(mese => {
+        const ctvMese = ctvArray.filter(ctv => ctv.data === mese);
+        let stipendioTotale = 0;
+        ctvMese.forEach(ctv => {
+            const stipendioCtvFloat = parseFloat(ctv.stipendio);
+            stipendioTotale = stipendioTotale + stipendioCtvFloat;
+        });
+        const stipendioTotaleFormatted = ImportoUtils.getImportoFormatted(stipendioTotale.toString());
+        meseArrayFinal.push(mese + " - " + stipendioTotaleFormatted + " €");
+    })
+
+    return meseArrayFinal.reverse();
 }
