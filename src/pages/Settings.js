@@ -31,6 +31,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import * as DateUtils from "../utils/DateUtils";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -251,6 +252,19 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
 
             <Grow in={true}>
               <ListItem disablePadding>
+                <ListItemButton onClick={() => window.open("https://bagget.netlify.app/", "_blank")}>
+                  <ListItemIcon >
+                    <ShoppingBagIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="BAGGET APP" />
+                </ListItemButton>
+              </ListItem>
+            </Grow>
+
+            <Divider />
+
+            <Grow in={true}>
+              <ListItem disablePadding>
                 <ListItemButton onClick={() => setOpenDialogCancellaDati(true)}>
                   <ListItemIcon sx={{color:'#ba0606'}}>
                     <DeleteIcon />
@@ -261,7 +275,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
             </Grow>
 
             <Divider />
-            
+
             {/* {data.svago.length === 0 && data.primaNecessita.length === 0 ? <></> : ( */}
             {(data.svago.length + data.primaNecessita.length) < 1 ? <></> : (
               <Grow in={true}>
