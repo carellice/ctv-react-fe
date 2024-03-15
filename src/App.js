@@ -59,6 +59,12 @@ function App() {
     palette: {
       mode: 'dark',
     },
+    typography: {
+      fontFamily: [
+        'Google Sans', // Aggiungi 'Google Sans' come primo font della lista
+        'sans-serif', // Aggiungi altri fallback di font qui se necessario
+      ].join(','),
+    },
   });
 
   //UPDATE DATAS
