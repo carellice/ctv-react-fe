@@ -217,10 +217,14 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                               accept=".json"
                               ref={fileInputRef}
                               onChange={(e) => {
-                                  BackupUtils.handleFileChange(e).then(() => {
-                                      update();
-                                      DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoRipristino(r));
-                                        snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+                                  BackupUtils.handleFileChange(e).then((r) => {
+                                      if(r !== 500){
+                                          update();
+                                          DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoRipristino(r));
+                                            snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
+                                      }else{
+                                        snackBarFunc("ERRORE BACKUP. DATI NON CORRETTI!", SnackBarUtils.SNACKBAR_ERROR);
+                                      }
                                   });
                               }}
                               style={{display: 'none'}}
