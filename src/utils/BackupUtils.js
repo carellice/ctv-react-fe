@@ -27,7 +27,7 @@ export const scaricaBackup = async () => {
     // filename
     const now = new Date();
     const fileNamePart1 = DateUtils.getDateDayMonthYear(now);
-    const fileName = fileNamePart1 + " - " + now.getHours() + "." + now.getMinutes() + ".json";
+    const fileName = "CTV - " + fileNamePart1 + " - " + now.getHours() + "." + now.getMinutes() + ".json";
     link.download = fileName;
     document.body.appendChild(link);
 
