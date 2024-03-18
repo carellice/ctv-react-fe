@@ -57,7 +57,11 @@ export const handleFileChange = async (event) => {
         const datiJson = JSON.parse(fileContent);
 
         // Inserisci i dati nel localStorage
-        localStorage.setItem('data', JSON.stringify(datiJson));
+        if(datiJson.ctv !== undefined && datiJson.primaNecessita !== undefined && datiJson.svago !== undefined){
+            localStorage.setItem('data', JSON.stringify(datiJson));
+        }else{
+            return 500;
+        }
 
         console.log('Dati inseriti nel localStorage:', datiJson);
 
