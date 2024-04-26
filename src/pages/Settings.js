@@ -179,7 +179,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                               <ListItemIcon sx={{color:'#dec507'}}>
                                   <DownloadIcon />
                               </ListItemIcon>
-                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESEGUI BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
+                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESPORTA BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
                           </ListItemButton>
                       </ListItem>
                   </Grow>
@@ -206,7 +206,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                                   <ListItemIcon sx={{color: '#40a11a'}}>
                                       <UploadIcon/>
                                   </ListItemIcon>
-                                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"RIPRISTINO BACKUP"}
+                                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"IMPORTA BACKUP"}
                                                 secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
                               </ListItemButton>
                           </ListItem>

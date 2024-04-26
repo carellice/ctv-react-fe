@@ -10,6 +10,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as HistoryUtils from "../utils/HistoryUtils";
 import EuroIcon from '@mui/icons-material/Euro';
+import Box from "@mui/material/Box";
 
 
 function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCensored}) {
@@ -96,6 +97,9 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
         </Grow>
       ) : <></>}
       <HomeGrid censored={censored} snackBarFunc={snackBarFunc} update={update} setSelectedPage={setSelectedPage} ctv={ctv}/>
+
+      {/*PER CREARE SPAZIO ALLA FINE*/}
+      <Box marginTop={5}/>
       
 
       {/* <Grid container justifyContent="center" alignItems="center" style={{marginTop: 50}}>
