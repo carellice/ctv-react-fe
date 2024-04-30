@@ -177,7 +177,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                               DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoBackup(r));
                           }}>
                               <ListItemIcon sx={{color:'#dec507'}}>
-                                  <DownloadIcon />
+                                  <UploadIcon />
                               </ListItemIcon>
                               <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESPORTA BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
                           </ListItemButton>
@@ -204,7 +204,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
                           <ListItem disablePadding>
                               <ListItemButton onClick={handleClick}>
                                   <ListItemIcon sx={{color: '#40a11a'}}>
-                                      <UploadIcon/>
+                                      <DownloadIcon/>
                                   </ListItemIcon>
                                   <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"IMPORTA BACKUP"}
                                                 secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>

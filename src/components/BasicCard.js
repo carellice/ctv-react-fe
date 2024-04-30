@@ -31,7 +31,7 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
             Prima Necessità ({el.percentualePrimaNecessita}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography> */}
           <Typography variant="body2">
-            Prima Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
+            Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography>
           {/* <Typography variant="body2">
             Svago ({el.percentualeSvago}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €

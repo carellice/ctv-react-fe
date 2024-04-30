@@ -4,7 +4,7 @@ import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as OrderByUtils from "../utils/OrderByUtils";
 
-const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orderBy}) => {
+const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orderBy, setSearchValue}) => {
 
   const [nome, setNome] = useState(JSON.parse(localStorage.getItem("elToEdit")).nome);
   const [nota, setNota] = useState(JSON.parse(localStorage.getItem("elToEdit")).note);
@@ -78,7 +78,7 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orde
       DataBaseUtils.delElById(id).then(() => {
         setOpen(false);
         localStorage.removeItem("elToEdit");
-        if(title.includes("SVAGO")){
+        if(title.includes("SFIZIO")){
           saveSvago(id, scadenzaSi, nome, nota, scadenzaSi ? dataInizio : null, scadenzaSi ? dataFine : null, costo);
         }else{
           savePrimaNecessita(id, scadenzaSi, nome, nota, dataInizio, dataFine, costo);
@@ -93,6 +93,7 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orde
       update();
       snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
       setOpen(false);
+      setSearchValue("");
       localStorage.removeItem("elToEdit");
     });
   };

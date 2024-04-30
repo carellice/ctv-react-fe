@@ -376,7 +376,7 @@ const InsertNew = ({
         <Grow in={true}>
           <Grid item xs={12} md={4}>
             <TextField
-              label="Prima Necessità"
+              label="Necessità"
               variant="outlined"
               type="number"
               fullWidth
@@ -401,7 +401,7 @@ const InsertNew = ({
         <Grow in={true}>
           <Grid item xs={12} md={4}>
             <TextField
-              label="Svago"
+              label="Sfizio"
               variant="outlined"
               type="number"
               fullWidth
@@ -481,7 +481,7 @@ const InsertNew = ({
         {/*<Grow in={true}>*/}
         {/*  <Grid item xs={12} md={4}>*/}
         {/*    <TextField*/}
-        {/*      label="Svago"*/}
+        {/*      label="Sfizio"*/}
         {/*      variant="outlined"*/}
         {/*      type="number"*/}
         {/*      fullWidth*/}
@@ -532,7 +532,7 @@ const InsertNew = ({
         <Grow in={true}>
           <Grid item xs={12} md={4}>
             <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
-              Prima Necessità ({percentualePrimaNecessita}%)
+              Necessità ({percentualePrimaNecessita}%)
             </Typography>
             <TextField
               variant="outlined"

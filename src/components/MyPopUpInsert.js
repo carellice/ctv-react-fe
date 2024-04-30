@@ -104,17 +104,25 @@ const MyPopUpInsert = ({open, setOpen, title, snackBarFunc, saveFunc}) => {
                 fullWidth
                 required
                 value={dataInizio}
-                onChange={(e) => setDataInizio(e.target.value)}
+                onChange={(e) => {
+                  setDataInizio(e.target.value);
+                  if(e.target.value > dataFine)
+                    setDataFine(e.target.value);
+                }}
               />
               <Button variant="text" color='success' onClick={() => {
                 const dataInizioDate = new Date(dataInizio);
                 dataInizioDate.setMonth(dataInizioDate.getMonth() + 1);
                 setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+                if(dataInizioDate.toISOString().split('T')[0] > dataFine)
+                  setDataFine(dataInizioDate.toISOString().split('T')[0]);
               }}>+ 1 mese</Button>
               <Button variant="text" color='error' onClick={() => {
                 const dataInizioDate = new Date(dataInizio);
                 dataInizioDate.setMonth(dataInizioDate.getMonth() - 1);
                 setDataInizio(dataInizioDate.toISOString().split('T')[0]);
+                if(dataInizioDate.toISOString().split('T')[0] > dataFine)
+                  setDataFine(dataInizioDate.toISOString().split('T')[0]);
               }}>- 1 mese</Button>
               {/* DATA - A */}
               <TextField
@@ -125,17 +133,25 @@ const MyPopUpInsert = ({open, setOpen, title, snackBarFunc, saveFunc}) => {
                 fullWidth
                 required
                 value={dataFine}
-                onChange={(e) => setDataFine(e.target.value)}
+                onChange={(e) => {
+                  setDataFine(e.target.value);
+                  if(e.target.value < dataInizio)
+                    setDataInizio(e.target.value);
+                }}
               />
               <Button variant="text" color='success' onClick={() => {
                 const dataFineDate = new Date(dataFine);
                 dataFineDate.setMonth(dataFineDate.getMonth() + 1);
                 setDataFine(dataFineDate.toISOString().split('T')[0]);
+                if(dataFineDate.toISOString().split('T')[0] < dataInizio)
+                  setDataInizio(dataFineDate.toISOString().split('T')[0]);
               }}>+ 1 mese</Button>
               <Button variant="text" color='error' onClick={() => {
                 const dataFineDate = new Date(dataFine);
                 dataFineDate.setMonth(dataFineDate.getMonth() - 1);
                 setDataFine(dataFineDate.toISOString().split('T')[0]);
+                if(dataFineDate.toISOString().split('T')[0] < dataInizio)
+                  setDataInizio(dataFineDate.toISOString().split('T')[0]);
               }}>- 1 mese</Button>
             </>
           ) : <></>}

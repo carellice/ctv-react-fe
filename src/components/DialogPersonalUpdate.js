@@ -65,7 +65,7 @@ export default function DialogPersonalUpdate({open, setOpen, title, text, showAn
             {svago.length !== 0 ? (
               <>
                 <Divider style={{marginTop:10, marginBottom:5}}>
-                  <Chip label="SVAGO" />
+                  <Chip label="SFIZIO" />
                 </Divider>
                 <List sx={{ width: '100%', maxWidth: 1000, bgcolor: 'background.paper' }}>
                   {svago.map(el => <ListItemPersonalUpdate el={el} onClickFunc={() => {
