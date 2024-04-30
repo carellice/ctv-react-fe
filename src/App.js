@@ -116,20 +116,20 @@ function App() {
         </>
       ) : (
         <>
-          {isApp && (selectedPage === "HomePage" || selectedPage === "Prima Necessità" || selectedPage === "Svago") ? (
+          {isApp && (selectedPage === "HomePage" || selectedPage === "Necessità" || selectedPage === "Sfizio") ? (
             <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop:7 }}>
               <Tabs centered value={value} onChange={(event, newValue) => {
                 setValue(newValue);
                 if(newValue === 0)
                   setSelectedPage("HomePage");
                 if(newValue === 1)
-                  setSelectedPage("Prima Necessità");
+                  setSelectedPage("Necessità");
                 if(newValue === 2)
-                  setSelectedPage("Svago");
+                  setSelectedPage("Sfizio");
               }} aria-label="basic tabs example">
                 <Tab label="CTV" />
                 <Tab label={"Necessità".toUpperCase()} />
-                <Tab label="SVAGO" />
+                <Tab label="SFIZIO" />
               </Tabs>
             </Box>
           ) : <></>}
@@ -137,8 +137,8 @@ function App() {
           {selectedPage === 'HomePage' ? <HomePage censored={censored} setCensored={setCensored} snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv.slice().reverse()} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} data={datas} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}
-          {selectedPage === 'Svago' ? <Svago update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
-          {selectedPage === 'Prima Necessità' ? <PrimaNecessita update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'Sfizio' ? <Svago update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'Necessità' ? <PrimaNecessita update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
         </>
       )}
 

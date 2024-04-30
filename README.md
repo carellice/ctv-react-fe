@@ -5,8 +5,8 @@
 
 ## Descrizione del Progetto
 Questo progetto è un'applicazione web sviluppata con React JS che offre una soluzione per il calcolo della regola finanziaria del 50-30-20. La regola stabilisce come dovresti allocare il tuo reddito mensile nelle seguenti categorie:
-- **50%:** Prima Necessità
-- **30%:** Svago
+- **50%:** Necessità
+- **30%:** Sfizio
 - **20%:** Risparmi
 
 ## Caratteristiche Principali

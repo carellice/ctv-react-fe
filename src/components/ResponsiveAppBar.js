@@ -15,7 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {isApp} from "./../Config"
 import * as HistoryUtils from "../utils/HistoryUtils";
 
-const pages = ['Svago', 'Prima Necessità'];
+const pages = ['Sfizio', 'Necessità'];
 // const settings = ['Logout'];
 
 function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
@@ -74,7 +74,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            {((selectedPage !== "HomePage" && selectedPage !== "Prima Necessità" && selectedPage !== "Svago") && isApp) ? (
+            {((selectedPage !== "HomePage" && selectedPage !== "Necessità" && selectedPage !== "Sfizio") && isApp) ? (
               <IconButton
               size="large"
               aria-label="account of current user"
@@ -124,9 +124,9 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => {
                   setAnchorElNav(null);
-                    if(page === "Svago") {
-                        HistoryUtils.pushState("svago");
-                    }else if(page === "Prima Necessità"){
+                    if(page === "Sfizio") {
+                        HistoryUtils.pushState("sfizio");
+                    }else if(page === "Necessità"){
                       HistoryUtils.pushState("necessita");
                     }
                   setSelectedPage(page);
@@ -166,9 +166,9 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
                 key={page}
                 onClick={() => {
                   // window.history.pushState({}, null, null);
-                    if(page === "Svago") {
-                      HistoryUtils.pushState("svago");
-                    }else if(page === "Prima Necessità"){
+                    if(page === "Sfizio") {
+                      HistoryUtils.pushState("sfizio");
+                    }else if(page === "Necessità"){
                       HistoryUtils.pushState("necessita");
                     }
                   setSelectedPage(page);

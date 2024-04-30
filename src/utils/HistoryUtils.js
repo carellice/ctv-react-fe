@@ -4,12 +4,12 @@ const pageList = [
         url: "/download-app-android",
     },
     {
-        pageName: "Prima Necessità",
+        pageName: "Necessità",
         url: "/necessita",
     },
     {
-        pageName: "Svago",
-        url: "/svago",
+        pageName: "Sfizio",
+        url: "/sfizio",
     },
     {
         pageName: "SettingsPage",

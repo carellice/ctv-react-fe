@@ -189,7 +189,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       {primaNecessita.length === 0 ? (
         <>
           <Grow in={true}>
-            <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA'</Typography>
+            <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>{"necessità".toUpperCase()}</Typography>
           </Grow>
           <Grow in={true}>
             <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
@@ -197,7 +197,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
         </>
       ) : (
         <>
-          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>PRIMA NECESSITA' ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaPrimaNecessita())} €)</Typography>
+          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>{"necessità".toUpperCase()} ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaPrimaNecessita())} €)</Typography>
 
           {/*BARRA DI RICERCA*/}
           <Box display="flex" justifyContent="center" style={{marginTop:20, marginBottom:20}}>
@@ -235,7 +235,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
       <ListPersonal array={primaNecessitaArray} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
       <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI PRIMA NECESSITA\''} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit orderBy={orderBy} update={() => {
+        <MyPopUpEdit setSearchValue={setSearchValue} orderBy={orderBy} update={() => {
           DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
           update();
         }} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA PRIMA NECESSITA\''} />

@@ -70,7 +70,7 @@ export default function DialogPersonalSommaSpese({
               {svago.length !== 0 ? (
                 <>
                   <Divider style={{ marginTop: 10, marginBottom: 5 }}>
-                    <Chip label="SVAGO" />
+                    <Chip label="SFIZIO" />
                   </Divider>
                   <List
                     sx={{

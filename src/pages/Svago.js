@@ -193,7 +193,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
       {svago.length === 0 ? (
         <>
           <Grow in={true}>
-            <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>SVAGO</Typography>
+            <Typography style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }} variant='h5'>SFIZIO</Typography>
           </Grow>
           <Grow in={true}>
             <Typography style={{ textAlign: 'center', marginTop: 20, marginBottom: 40, marginLeft: 20, marginRight: 20 }} variant='h6'>Non ci sono dati, clicca "+" per inserirne</Typography>
@@ -201,7 +201,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
         </>
       ) : (
         <>
-          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>SVAGO ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaSvago())} €)</Typography>
+          <Typography style={{ textAlign: 'center', marginTop: 20, fontWeight: 'bold' }} variant='h5'>SFIZIO ({ImportoUtils.getImportoFormatted(ImportoUtils.sommaSvago())} €)</Typography>
 
           {/*BARRA DI RICERCA*/}
           <Box display="flex" justifyContent="center" style={{marginTop:20, marginBottom:20}}>
@@ -237,12 +237,12 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
         </>
       )}
       <ListPersonal array={svagoArray} editElement={editElement} openPopUpInsert={openPopUpInsert} setOpenPopUpInsert={setOpenPopUpInsert} />
-      <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI SVAGO'} />
+      <MyPopUpInsert saveFunc={saveElement} snackBarFunc={snackBarFunc} open={openPopUpInsert} setOpen={setOpenPopUpInsert} title={'INSERISCI SFIZIO'} />
       {localStorage.getItem("elToEdit") !== null ? (
-        <MyPopUpEdit orderBy={orderBy} update={() => {
+        <MyPopUpEdit setSearchValue={setSearchValue} orderBy={orderBy} update={() => {
           DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
           update();
-        }} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SVAGO'} />
+        }} snackBarFunc={snackBarFunc} open={openPopUpEdit} setOpen={setOpenPopUpEdit} title={'MODIFICA SFIZIO'} />
       ) : (
         <></>
       )}
