@@ -16,46 +16,72 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
 
   return (
     <>
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+      <Card
+          sx={{
+            minWidth: 300,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 2,
+            borderRadius: 10
+          }}
+      >
+        <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+        >
+          <Typography sx={{ fontSize: 25 }} color="text.primary" gutterBottom>
             {el.data}
           </Typography>
-          <Typography variant="h5" component="div">
-            {censored ? ImportoUtils.getImportoFormatted(el.stipendio).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.stipendio)} €
+          <Typography variant="h5" component="div" sx={{ fontSize: 22 }}>
+            {censored
+                ? ImportoUtils.getImportoFormatted(el.stipendio).replace(/[^,]/g, '*')
+                : "+ " + ImportoUtils.getImportoFormatted(el.stipendio)} €
           </Typography>
-          {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            adjective
-          </Typography> */}
-          {/* <Typography variant="body2">
-            Prima Necessità ({el.percentualePrimaNecessita}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
-          </Typography> */}
-          <Typography variant="body2">
-            Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%): {censored ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
+          <Typography variant="body2" sx={{ fontSize: 18, color: 'orange' }}>
+            Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%):{' '}
+            {censored
+                ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*')
+                : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography>
-          {/* <Typography variant="body2">
-            Svago ({el.percentualeSvago}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
-          </Typography> */}
-          <Typography variant="body2">
-            Svago ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.svago)}%): {censored ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.svago)} €
+          <Typography variant="body2" sx={{ fontSize: 18, color: 'red' }}>
+            Svago ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.svago)}%):{' '}
+            {censored
+                ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*')
+                : ImportoUtils.getImportoFormatted(el.svago)} €
           </Typography>
-          {/* <Typography variant="body2">
-            Risparmi ({el.percentualeRisparmi}%): {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
-          </Typography> */}
-          <Typography variant="body2">
-            Risparmi ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.risparmi)}%): {censored ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(el.risparmi)} €
+          <Typography variant="body2" sx={{ fontSize: 18, color: 'green' }}>
+            Risparmi ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.risparmi)}%):{' '}
+            {censored
+                ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*')
+                : ImportoUtils.getImportoFormatted(el.risparmi)} €
           </Typography>
-          {/* <Typography variant="body2">
-            Spese Mensili: {censored ? ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))} €
-          </Typography> */}
-          <Typography variant="body2">
-            Spese Mensili ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))}%): {censored ? ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)).replace(/[^,]/g, '*') : ImportoUtils.getImportoFormatted(ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi))} €
+          <Typography variant="body2" sx={{ fontSize: 18, color: '#11b194' }}>
+            Spese Mensili ({ImportoUtils.calcolaPercentualeIntera(
+              el.stipendio,
+              ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)
+          )}%):{' '}
+            {censored
+                ? ImportoUtils.getImportoFormatted(
+                    ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)
+                ).replace(/[^,]/g, '*')
+                : ImportoUtils.getImportoFormatted(
+                    ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)
+                )} €
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button size="small" color="error" onClick={() => setOpenDialogCancellaDati(true)}>ELIMINA</Button>
+        <CardActions sx={{ justifyContent: 'center' }}>
+          <Button variant={"contained"} size="small" color="error" onClick={() => setOpenDialogCancellaDati(true)}>
+            ELIMINA
+          </Button>
         </CardActions>
       </Card>
+
       <DialogPersonal showAnnulla={true} textInput={false} open={openDialogCancellaDati} setOpen={setOpenDialogCancellaDati} text={"confermi di voler eliminare l'elemento?".toUpperCase()} title={"ELIMINA ELEMENTO"} okFunc={() => {
         DataBaseUtils.delCtvById(el.id).then(() => {
           update();

@@ -13,7 +13,7 @@ export default function MyBottomNavigation({setSelectedPage, selectedPage}) {
   const [value, setValue] = React.useState(selectedPage === 'HomePage' ? 0 : selectedPage === 'Sfizio' ? 1 : selectedPage === 'Necessità' ? 2 : selectedPage === 'SettingsPage' ? 3 : 0);
 
   return (
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, height:80 }} elevation={3}>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, height:80, zIndex: 1300 }} elevation={3}>
           <BottomNavigation
               showLabels
               value={value}
