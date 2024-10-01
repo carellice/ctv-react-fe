@@ -26,6 +26,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
 
 const InsertNew = ({
   snackBarFunc,
@@ -305,7 +306,7 @@ const InsertNew = ({
         </Typography>
       </Zoom>
 
-      <Grid container spacing={2} style={{ marginTop: 20 }}>
+      <Grid container spacing={1} style={{ marginTop: 20 }}>
         {/* STIPENDIO */}
         <Grid item xs={12} md={6}>
           <TextField
@@ -383,19 +384,32 @@ const InsertNew = ({
 
         {/* PERCENTUALI - CHIP */}
         <Grid item xs={12} style={{ marginTop: 30 }}></Grid>
-        <AppBar elevation={0} sx={{backgroundColor: '#121212'}} color={'transparent'} style={{height:60}} position="sticky">
+        <Box
+            sx={{
+              position: 'sticky', // Mantiene il Box fisso in alto mentre si scrolla
+              top: 0, // Fissato in cima allo schermo
+              width: '100vw', // Larghezza uguale a quella del viewport
+              // backgroundColor: '#121212', // Stesso colore di sfondo dell'AppBar
+              height: 50, // Altezza personalizzabile
+              // display: 'flex',
+              // justifyContent: 'center', // Centra il contenuto orizzontalmente
+              // alignItems: 'center', // Centra il contenuto verticalmente
+              zIndex: 1100, // Assicurati che rimanga sopra gli altri elementi
+            }}
+        >
+          {/* Sostituisce il testo dell'AppBar con un Typography */}
           <center>
             <Chip
-                style={{maxWidth: 200, marginTop:15}}
+                style={{ maxWidth: 250, marginTop: 15 }}
                 color={sommaIs100 ? "success" : "error"}
                 label={
                   isNaN(somma)
-                      ? "PERCENTUALI: SOMMA = ..."
-                      : "PERCENTUALI: SOMMA = " + somma
+                      ? "SOMMA PERCENTUALI = ..."
+                      : "SOMMA PERCENTUALI = " + somma + "%"
                 }
             />
           </center>
-        </AppBar>
+        </Box>
         {/*<Zoom in={true}>*/}
         {/*  <Grid item xs={12} style={{ marginTop: 30 }}>*/}
 
@@ -455,7 +469,7 @@ const InsertNew = ({
                   </CircularProgressbarWithChildren>
                 </div>
               </center>
-              <CardActions style={{marginTop:20}}>
+              <CardActions style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
                 <Button variant={'contained'} color={'error'} size="small" onClick={() =>
                     handlePercentualiChange(
                         "percentualePrimaNecessita",
@@ -531,7 +545,7 @@ const InsertNew = ({
                   </CircularProgressbarWithChildren>
                 </div>
               </center>
-              <CardActions style={{marginTop:20}}>
+              <CardActions style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
                 <Button variant={'contained'} color={'error'} size="small" onClick={() =>
                     handlePercentualiChange(
                         "percentualeSvago",
@@ -607,7 +621,7 @@ const InsertNew = ({
                   </CircularProgressbarWithChildren>
                 </div>
               </center>
-              <CardActions style={{marginTop:20}}>
+              <CardActions style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
                 <Button variant={'contained'} color={'error'} size="small" onClick={() =>
                     handlePercentualiChange(
                         "percentualeRisparmi",
@@ -713,7 +727,7 @@ const InsertNew = ({
         container
         justifyContent="center"
         alignItems="center"
-        style={{ marginTop: 20, marginBottom: 70 }}
+        style={{ marginTop: 20, marginBottom: 90 }}
       >
         <Grow in={true}>
           <Grid item>

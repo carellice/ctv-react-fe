@@ -40,201 +40,153 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs, openPopupInse
   // };
 
   return (
-    <AppBar position="fixed">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+      <AppBar position="fixed" sx={{ maxWidth: 1200, mx: 'auto', left: 0, right: 0, margin: '0 auto' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           {(selectedPage !== "HomePage" && isApp) ? (
-            <IconButton sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }} aria-label="indietro">
-              <ArrowBackIcon sx={{ display: { xs: 'none', md: 'flex' }, cursor:'pointer' }}  onClick={() => setSelectedPage("HomePage")} />
-            </IconButton>
-          ) : <></>}
-          <Percent sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor:'pointer' }}  onClick={() => {
-              HistoryUtils.pushState("ctv");
-              setSelectedPage("HomePage")
-          }} />
-          <Typography
-            onClick={() => {
-              HistoryUtils.pushState("ctv");
+              <IconButton
+                  sx={{ display: { xs: 'none', md: 'flex' }, cursor: 'pointer' }}
+                  aria-label="indietro"
+              >
+                <ArrowBackIcon
+                    sx={{ display: { xs: 'none', md: 'flex' }, cursor: 'pointer' }}
+                    onClick={() => setSelectedPage("HomePage")}
+                />
+              </IconButton>
+          ) : null}
+          <Percent
+              sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor: 'pointer' }}
+              onClick={() => {
+                HistoryUtils.pushState("ctv");
                 setSelectedPage("HomePage")
-            }}
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-              cursor:'pointer'
-            }}
+              }}
+          />
+          <Typography
+              onClick={() => {
+                HistoryUtils.pushState("ctv");
+                setSelectedPage("HomePage")
+              }}
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
           >
             CTV
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             {((selectedPage !== "HomePage" && selectedPage !== "Necessità" && selectedPage !== "Sfizio") && isApp) ? (
-              <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={() => {
-                HistoryUtils.pushState("ctv");
-                setSelectedPage("HomePage");
-                setTabs(0);
-              }}
-              color="inherit"
-              >
-                <ArrowBackIcon />
-              </IconButton>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => {
+                      HistoryUtils.pushState("ctv");
+                      setSelectedPage("HomePage");
+                      setTabs(0);
+                    }}
+                    color="inherit"
+                >
+                  <ArrowBackIcon />
+                </IconButton>
             ) : (
-              <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={() => {}}
-              color="inherit"
-              >
-                <Percent/>
-              </IconButton>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={() => {}}
+                    color="inherit"
+                >
+                  <Percent />
+                </IconButton>
             )}
-            
+
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
-                  setAnchorElNav(null);
-                    if(page === "Sfizio") {
-                        HistoryUtils.pushState("sfizio");
-                    }else if(page === "Necessità"){
+                  <MenuItem key={page} onClick={() => {
+                    setAnchorElNav(null);
+                    if (page === "Sfizio") {
+                      HistoryUtils.pushState("sfizio");
+                    } else if (page === "Necessità") {
                       HistoryUtils.pushState("necessita");
                     }
-                  setSelectedPage(page);
-                }}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                    setSelectedPage(page);
+                  }}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          <></>
           <Typography
-            variant="h5"
-            noWrap
-            onClick={() => {
-                // HistoryUtils.pushState("ctv");
-                // setSelectedPage("HomePage")
-            }}
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-              // cursor:'pointer'
-            }}
+              variant="h5"
+              noWrap
+              onClick={() => {}}
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
           >
             CTV {true ? "" : "Mobile"}
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                variant={page === selectedPage ? "outlined" : "text"}
-                key={page}
-                onClick={() => {
-                  // window.history.pushState({}, null, null);
-                    if(page === "Sfizio") {
-                      HistoryUtils.pushState("sfizio");
-                    }else if(page === "Necessità"){
-                      HistoryUtils.pushState("necessita");
-                    }
-                  setSelectedPage(page);
-                }}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}> */}
             {selectedPage === "SettingsPage" ? (
                 <IconButton onClick={() => {}}>
-                  <Percent/>
-                  {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
+                  <Percent />
                 </IconButton>
             ) : (
                 <IconButton onClick={() => {
                   setAnchorElNav(null);
-                  if(selectedPage === 'HomePage'){
+                  if (selectedPage === 'HomePage') {
                     HistoryUtils.pushState("nuovo-stipendio");
                     setSelectedPage("InsertNew");
-                  } else if(selectedPage === 'Sfizio'){
+                  } else if (selectedPage === 'Sfizio') {
                     setOpenPopupInsertSvago(true)
-                  } else if(selectedPage === 'Necessità'){
+                  } else if (selectedPage === 'Necessità') {
                     setOpenPopupInsertNecessita(true)
                   }
                 }}>
-                  <AddIcon/>
-                  {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
+                  <AddIcon />
                 </IconButton>
             )}
-            {/* <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={(() => {
-                  if(setting === 'Logout'){
-                    localStorage.removeItem("user");
-                  }
-                  setSelectedPage("LoginPage");
-                  handleCloseUserMenu();
-                })}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
           </Box>
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+
   );
 }
 export default ResponsiveAppBar;
