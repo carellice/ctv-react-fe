@@ -21,12 +21,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 
 
-function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
+function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, setOpenPopUpInsert}) {
 
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
 
-  const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
+  // const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //ORDER BY
   const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
@@ -249,15 +249,15 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update }) {
 
       {/* FLOATING ACTION BUTTON - FAB */}
       {/* {showFab ? ( */}
-      {searchValue === "" ? (
-        <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
-          position: 'fixed',
-          bottom: '64px',  // Puoi personalizzare la distanza dal basso
-          right: '32px',   // Puoi personalizzare la distanza da destra
-        }}>
-          <AddIcon />
-        </Fab>
-      ) : <></>}
+      {/*{searchValue === "" ? (*/}
+      {/*  <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{*/}
+      {/*    position: 'fixed',*/}
+      {/*    bottom: '64px',  // Puoi personalizzare la distanza dal basso*/}
+      {/*    right: '32px',   // Puoi personalizzare la distanza da destra*/}
+      {/*  }}>*/}
+      {/*    <AddIcon />*/}
+      {/*  </Fab>*/}
+      {/*) : <></>}*/}
     </>
   );
 }

@@ -128,7 +128,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
 
   return (
     <>
-      <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', margin: 'auto', marginTop: 8 }}>
+      <Box sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper', margin: 'auto', marginTop: 8 }}>
         <nav aria-label="main mailbox folders">
           <List>
               {/*{!isApp ? (*/}

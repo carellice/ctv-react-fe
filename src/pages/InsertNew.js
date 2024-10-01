@@ -21,6 +21,11 @@ import DialogPersonalUpdate from "../components/DialogPersonalUpdate";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 import ReplayIcon from "@mui/icons-material/Replay";
+import {buildStyles, CircularProgressbar, CircularProgressbarWithChildren} from "react-circular-progressbar";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 const InsertNew = ({
   snackBarFunc,
@@ -196,66 +201,69 @@ const InsertNew = ({
   //PERCENTUALI
   const [somma, setSomma] = useState(100);
   const [sommaIs100, setSommaIs100] = useState(true);
+  const [sommaIsNegative, setSommaIsNegative] = useState(true);
   const [percentualePrimaNecessita, setPercentualePrimaNecessita] =
     useState("50");
   const [percentualeSvago, setPercentualeSvago] = useState("30");
   const [percentualeRisparmi, setPercentualeRisparmi] = useState("20");
   const handlePercentualiChange = (campo, value, countSpeseFissePar) => {
     const valueWithoutVirgola = value.replace(".", "");
-    if (campo === "percentualePrimaNecessita") {
-      setPercentualePrimaNecessita(valueWithoutVirgola);
-      const primaNecessitaInt = parseInt(valueWithoutVirgola);
-      const svagoInt = parseInt(percentualeSvago);
-      const risparmiInt = parseInt(percentualeRisparmi);
-      const somma = primaNecessitaInt + svagoInt + risparmiInt;
-      setSommaIs100(somma === 100);
-      setSomma(somma);
-      calculate(
-        null,
-        valueWithoutVirgola,
-        null,
-        null,
-        null,
-        null,
-        null,
-        countSpeseFissePar
-      );
-    } else if (campo === "percentualeSvago") {
-      setPercentualeSvago(valueWithoutVirgola);
-      const primaNecessitaInt = parseInt(percentualePrimaNecessita);
-      const svagoInt = parseInt(valueWithoutVirgola);
-      const risparmiInt = parseInt(percentualeRisparmi);
-      const somma = primaNecessitaInt + svagoInt + risparmiInt;
-      setSommaIs100(somma === 100);
-      setSomma(somma);
-      calculate(
-        null,
-        null,
-        valueWithoutVirgola,
-        null,
-        null,
-        null,
-        null,
-        countSpeseFissePar
-      );
-    } else if (campo === "percentualeRisparmi") {
-      setPercentualeRisparmi(valueWithoutVirgola);
-      const primaNecessitaInt = parseInt(percentualePrimaNecessita);
-      const svagoInt = parseInt(percentualeSvago);
-      const risparmiInt = parseInt(valueWithoutVirgola);
-      const somma = primaNecessitaInt + svagoInt + risparmiInt;
-      setSommaIs100(somma === 100);
-      setSomma(somma);
-      calculate(
-        null,
-        null,
-        null,
-        valueWithoutVirgola,
-        null,
-        null,
-        null,
-        countSpeseFissePar
-      );
+    if(valueWithoutVirgola >= 0){
+      if (campo === "percentualePrimaNecessita") {
+        setPercentualePrimaNecessita(valueWithoutVirgola);
+        const primaNecessitaInt = parseInt(valueWithoutVirgola);
+        const svagoInt = parseInt(percentualeSvago);
+        const risparmiInt = parseInt(percentualeRisparmi);
+        const somma = primaNecessitaInt + svagoInt + risparmiInt;
+        setSommaIs100(somma === 100);
+        setSomma(somma);
+        calculate(
+            null,
+            valueWithoutVirgola,
+            null,
+            null,
+            null,
+            null,
+            null,
+            countSpeseFissePar
+        );
+      } else if (campo === "percentualeSvago") {
+        setPercentualeSvago(valueWithoutVirgola);
+        const primaNecessitaInt = parseInt(percentualePrimaNecessita);
+        const svagoInt = parseInt(valueWithoutVirgola);
+        const risparmiInt = parseInt(percentualeRisparmi);
+        const somma = primaNecessitaInt + svagoInt + risparmiInt;
+        setSommaIs100(somma === 100);
+        setSomma(somma);
+        calculate(
+            null,
+            null,
+            valueWithoutVirgola,
+            null,
+            null,
+            null,
+            null,
+            countSpeseFissePar
+        );
+      } else if (campo === "percentualeRisparmi") {
+        setPercentualeRisparmi(valueWithoutVirgola);
+        const primaNecessitaInt = parseInt(percentualePrimaNecessita);
+        const svagoInt = parseInt(percentualeSvago);
+        const risparmiInt = parseInt(valueWithoutVirgola);
+        const somma = primaNecessitaInt + svagoInt + risparmiInt;
+        setSommaIs100(somma === 100);
+        setSomma(somma);
+        calculate(
+            null,
+            null,
+            null,
+            valueWithoutVirgola,
+            null,
+            null,
+            null,
+            countSpeseFissePar
+        );
+      }
     }
   };
 
@@ -315,135 +323,321 @@ const InsertNew = ({
         {/* SPESE FISSE */}
         <Grid item xs={12} md={6}>
           <TextField
-            label={countSpeseFisse ? "Sottrai Spese Fisse (ON)" : "Sottrai Spese Fisse (OFF)"}
-            variant="outlined"
-            type="text"
-            fullWidth
-            color={countSpeseFisse ? "success" : "error"}
-            // error={!countSpeseFisse}
-            value={ImportoUtils.getImportoFormatted(
-              ImportoUtils.sommaSvagoPrimaNecessita()
-            )}
-            focused
+              label={countSpeseFisse ? "Sottrai Spese Fisse (ON)" : "Sottrai Spese Fisse (OFF)"}
+              variant="outlined"
+              type="text"
+              fullWidth
+              color={countSpeseFisse ? "success" : "error"}
+              // error={!countSpeseFisse}
+              value={ImportoUtils.getImportoFormatted(
+                  ImportoUtils.sommaSvagoPrimaNecessita()
+              )}
+              focused
           />
           <Switch checked={countSpeseFisse} onClick={() => {
-              const newCountSpeseFisse = !countSpeseFisse;
-              setCountSpeseFisse(newCountSpeseFisse);
-              handlePercentualiChange(
+            const newCountSpeseFisse = !countSpeseFisse;
+            setCountSpeseFisse(newCountSpeseFisse);
+            handlePercentualiChange(
                 "percentualeRisparmi",
                 percentualeRisparmi,
                 newCountSpeseFisse
-              )
+            )
           }} />
+          {countSpeseFisse && (
+            <>
+              <Chip
+                  color="warning"
+                  variant="outlined"
+                  style={{ marginTop: 10, marginLeft: 5 }}
+                  label={'Necessità'}
+              />
+              <Chip
+                  color="error"
+                  variant="outlined"
+                  style={{ marginTop: 10, marginLeft: 5 }}
+                  label={'Sfizio'}
+              />
+              <br/>
+            </>
+          )}
           {countSpeseFisse ? (
-            DataBaseUtils.getSpeseFisse().map((el) => (
-              <Zoom in={true}>
-                {el.tipo === 'pn' ? (
-                  <Chip
-                    color="warning"
-                    style={{ marginTop: 10, marginLeft: 5 }}
-                    label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
-                  /> 
-                ) : (
-                  <Chip
-                    color="error"
-                    style={{ marginTop: 10, marginLeft: 5 }}
-                    label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
-                  /> 
-                )}
-              </Zoom>
-            ))
+              DataBaseUtils.getSpeseFisse().map((el) => (
+                  <Zoom in={true}>
+                    {el.tipo === 'pn' ? (
+                        <Chip
+                            color="warning"
+                            style={{ marginTop: 10, marginLeft: 5 }}
+                            label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
+                        />
+                    ) : (
+                        <Chip
+                            color="error"
+                            style={{ marginTop: 10, marginLeft: 5 }}
+                            label={el.nome.toUpperCase() + " (" + ImportoUtils.getImportoFormatted(el.costo) + " €)"}
+                        />
+                    )}
+                  </Zoom>
+              ))
           ) : <></>}
         </Grid>
 
         {/* PERCENTUALI - CHIP */}
-        <Zoom in={true}>
-          <Grid item xs={12} style={{ marginTop: 30 }}>
-            <Divider>
-              <Chip
+        <Grid item xs={12} style={{ marginTop: 30 }}></Grid>
+        <AppBar elevation={0} sx={{backgroundColor: '#121212'}} color={'transparent'} style={{height:60}} position="sticky">
+          <center>
+            <Chip
+                style={{maxWidth: 200, marginTop:15}}
                 color={sommaIs100 ? "success" : "error"}
                 label={
                   isNaN(somma)
-                    ? "PERCENTUALI: SOMMA = ..."
-                    : "PERCENTUALI: SOMMA = " + somma
+                      ? "PERCENTUALI: SOMMA = ..."
+                      : "PERCENTUALI: SOMMA = " + somma
                 }
-              />
-            </Divider>
-          </Grid>
-        </Zoom>
+            />
+          </center>
+        </AppBar>
+        {/*<Zoom in={true}>*/}
+        {/*  <Grid item xs={12} style={{ marginTop: 30 }}>*/}
+
+        {/*    <Divider>*/}
+        {/*      <Chip*/}
+        {/*        color={sommaIs100 ? "success" : "error"}*/}
+        {/*        label={*/}
+        {/*          isNaN(somma)*/}
+        {/*            ? "PERCENTUALI: SOMMA = ..."*/}
+        {/*            : "PERCENTUALI: SOMMA = " + somma*/}
+        {/*        }*/}
+        {/*      />*/}
+        {/*    </Divider>*/}
+        {/*  </Grid>*/}
+        {/*</Zoom>*/}
+
 
         {/* PERCENTUALI - PRIMA NECESSITA' - INPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <TextField
-              label="Necessità"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={!sommaIs100 || percentualePrimaNecessita === ""}
-              value={percentualePrimaNecessita}
-              inputProps={{
-                step: "1", // Imposta il passo a 1 per accettare solo numeri interi
-              }}
-              onChange={(e) =>
-                handlePercentualiChange(
-                  "percentualePrimaNecessita",
-                  e.target.value,
-                  countSpeseFisse
-                )
-              }
-            />
+            <Card style={{padding: 20, borderRadius: 20}}>
+              <Typography style={{textAlign: 'center', fontSize: 20}}>Necessità</Typography>
+              <Typography style={{textAlign: 'center', fontSize: 15}}>{ImportoUtils.getImportoFormatted(risultatoPrimaNecessita)} €</Typography>
+              <TextField
+                  style={{marginTop: 10}}
+                label="Percentuale (%)"
+                variant="outlined"
+                type="number"
+                fullWidth
+                required
+                error={!sommaIs100 || percentualePrimaNecessita === ""}
+                value={percentualePrimaNecessita}
+                inputProps={{
+                  step: "1", // Imposta il passo a 1 per accettare solo numeri interi
+                }}
+                onChange={(e) =>
+                  handlePercentualiChange(
+                    "percentualePrimaNecessita",
+                    e.target.value,
+                    countSpeseFisse
+                  )
+                }
+              />
+              <center>
+                <div style={{maxWidth: 150, marginTop: 20}}>
+                  <CircularProgressbarWithChildren strokeWidth={10} value={percentualePrimaNecessita}
+                                                   styles={buildStyles({
+                                                     trailColor: 'white',
+                                                     pathTransitionDuration: 0.5,
+                                                     pathColor: 'orange',
+                                                     strokeLinecap: 'round'
+                                                   })}>
+                    {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+                    <div style={{fontSize: 20, marginTop: -20}}>
+                      <strong>{percentualePrimaNecessita}%</strong>
+                    </div>
+                  </CircularProgressbarWithChildren>
+                </div>
+              </center>
+              <CardActions style={{marginTop:20}}>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualePrimaNecessita",
+                        (parseInt(percentualePrimaNecessita) - 1).toString(),
+                        countSpeseFisse
+                    )
+                }>-1%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualePrimaNecessita",
+                        (parseInt(percentualePrimaNecessita) + 1).toString(),
+                        countSpeseFisse
+                    )
+                }>+1%</Button>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualePrimaNecessita",
+                        (parseInt(percentualePrimaNecessita) - 10).toString(),
+                        countSpeseFisse
+                    )
+                }>-10%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualePrimaNecessita",
+                        (parseInt(percentualePrimaNecessita) + 10).toString(),
+                        countSpeseFisse
+                    )
+                }>+10%</Button>
+              </CardActions>
+            </Card>
           </Grid>
         </Grow>
 
         {/* PERCENTUALI - SVAGO - INPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <TextField
-              label="Sfizio"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={!sommaIs100 || percentualeSvago === ""}
-              value={percentualeSvago}
-              inputProps={{
-                step: "1", // Imposta il passo a 1 per accettare solo numeri interi
-              }}
-              onChange={(e) =>
-                handlePercentualiChange(
-                  "percentualeSvago",
-                  e.target.value,
-                  countSpeseFisse
-                )
-              }
-            />
+            <Card style={{padding: 20, borderRadius: 20}}>
+              <Typography style={{textAlign: 'center', fontSize: 20}}>Sfizi</Typography>
+              <Typography style={{textAlign: 'center', fontSize: 15}}>{ImportoUtils.getImportoFormatted(risultatoSvago)} €</Typography>
+              <TextField
+                  label="Percentuale (%)"
+                  style={{marginTop: 10}}
+                  variant="outlined"
+                  type="number"
+                  fullWidth
+                  required
+                  error={!sommaIs100 || percentualeSvago === ""}
+                  value={percentualeSvago}
+                  inputProps={{
+                    step: "1", // Imposta il passo a 1 per accettare solo numeri interi
+                  }}
+                  onChange={(e) =>
+                      handlePercentualiChange(
+                          "percentualeSvago",
+                          e.target.value,
+                          countSpeseFisse
+                      )
+                  }
+              />
+              <center>
+                <div style={{maxWidth: 150, marginTop: 20}}>
+                  <CircularProgressbarWithChildren strokeWidth={10} value={percentualeSvago}
+                                                   styles={buildStyles({
+                                                     trailColor: 'white',
+                                                     pathTransitionDuration: 0.5,
+                                                     pathColor: 'red',
+                                                     strokeLinecap: 'round'
+                                                   })}>
+                    {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+                    <div style={{fontSize: 20, marginTop: -20}}>
+                      <strong>{percentualeSvago}%</strong>
+                    </div>
+                  </CircularProgressbarWithChildren>
+                </div>
+              </center>
+              <CardActions style={{marginTop:20}}>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeSvago",
+                        (parseInt(percentualeSvago) - 1).toString(),
+                        countSpeseFisse
+                    )
+                }>-1%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeSvago",
+                        (parseInt(percentualeSvago) + 1).toString(),
+                        countSpeseFisse
+                    )
+                }>+1%</Button>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeSvago",
+                        (parseInt(percentualeSvago) - 10).toString(),
+                        countSpeseFisse
+                    )
+                }>-10%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeSvago",
+                        (parseInt(percentualeSvago) + 10).toString(),
+                        countSpeseFisse
+                    )
+                }>+10%</Button>
+              </CardActions>
+            </Card>
           </Grid>
         </Grow>
 
         {/* PERCENTUALI - RISPARMI - INPUT */}
         <Grow in={true}>
           <Grid item xs={12} md={4}>
-            <TextField
-              label="Risparmi"
-              variant="outlined"
-              type="number"
-              fullWidth
-              required
-              error={!sommaIs100 || percentualeRisparmi === ""}
-              value={percentualeRisparmi}
-              inputProps={{
-                step: "1", // Imposta il passo a 1 per accettare solo numeri interi
-              }}
-              onChange={(e) =>
-                handlePercentualiChange(
-                  "percentualeRisparmi",
-                  e.target.value,
-                  countSpeseFisse
-                )
-              }
-            />
+            <Card style={{padding: 20, borderRadius: 20}}>
+              <Typography style={{textAlign: 'center', fontSize: 20}}>Risparmi</Typography>
+              <Typography style={{textAlign: 'center', fontSize: 15}}>{ImportoUtils.getImportoFormatted(risultatoRisparmi)} €</Typography>
+              <TextField
+                  style={{marginTop:10}}
+                  label="Percentuale (%)"
+                  variant="outlined"
+                  type="number"
+                  fullWidth
+                  required
+                  error={!sommaIs100 || percentualeRisparmi === ""}
+                  value={percentualeRisparmi}
+                  inputProps={{
+                    step: "1", // Imposta il passo a 1 per accettare solo numeri interi
+                  }}
+                  onChange={(e) =>
+                      handlePercentualiChange(
+                          "percentualeRisparmi",
+                          e.target.value,
+                          countSpeseFisse
+                      )
+                  }
+              />
+              <center>
+                <div style={{maxWidth: 150, marginTop: 20}}>
+                  <CircularProgressbarWithChildren strokeWidth={10} value={percentualeRisparmi}
+                                                   styles={buildStyles({
+                                                     trailColor: 'white',
+                                                     pathTransitionDuration: 0.5,
+                                                     pathColor: 'green',
+                                                     strokeLinecap: 'round'
+                                                   })}>
+                    {/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+                    <div style={{fontSize: 20, marginTop: -20}}>
+                      <strong>{percentualeRisparmi}%</strong>
+                    </div>
+                  </CircularProgressbarWithChildren>
+                </div>
+              </center>
+              <CardActions style={{marginTop:20}}>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeRisparmi",
+                        (parseInt(percentualeRisparmi) - 1).toString(),
+                        countSpeseFisse
+                    )
+                }>-1%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeRisparmi",
+                        (parseInt(percentualeRisparmi) + 1).toString(),
+                        countSpeseFisse
+                    )
+                }>+1%</Button>
+                <Button variant={'contained'} color={'error'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeRisparmi",
+                        (parseInt(percentualeRisparmi) - 10).toString(),
+                        countSpeseFisse
+                    )
+                }>-10%</Button>
+                <Button variant={'contained'} color={'success'} size="small" onClick={() =>
+                    handlePercentualiChange(
+                        "percentualeRisparmi",
+                        (parseInt(percentualeRisparmi) + 10).toString(),
+                        countSpeseFisse
+                    )
+                }>+10%</Button>
+              </CardActions>
+            </Card>
           </Grid>
         </Grow>
 
@@ -512,153 +706,6 @@ const InsertNew = ({
         {/*    />*/}
         {/*  </Grid>*/}
         {/*</Grow>*/}
-
-        {/* RISULTATI - CHIP  */}
-        <Zoom in={true}>
-          <Grid item xs={12} style={{ marginTop: 30 }}>
-            <Divider>
-              <Chip
-                label={
-                  isNaN(somma)
-                    ? "RISULTATI (SOMMA PERCENTUALI: ...)"
-                    : "RISULTATI (SOMMA PERCENTUALI: " + somma + "%)"
-                }
-              />
-            </Divider>
-          </Grid>
-        </Zoom>
-
-        {/* PRIMA NECESSITA' - OUTPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
-              Necessità ({percentualePrimaNecessita}%)
-            </Typography>
-            <TextField
-              variant="outlined"
-              type="text"
-              fullWidth
-              value={ImportoUtils.getImportoFormatted(risultatoPrimaNecessita)}
-              disabled
-            />
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualePrimaNecessita",
-                  (parseInt(percentualePrimaNecessita) - 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10, marginRight: 10 }}
-              variant="outlined"
-              color="error"
-            >
-              - 1%
-            </Button>
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualePrimaNecessita",
-                  (parseInt(percentualePrimaNecessita) + 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10 }}
-              variant="outlined"
-              color="success"
-            >
-              + 1%
-            </Button>
-          </Grid>
-        </Grow>
-
-        {/* SVAGO - OUTPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
-              Svago ({percentualeSvago}%)
-            </Typography>
-            <TextField
-              variant="outlined"
-              type="text"
-              fullWidth
-              value={ImportoUtils.getImportoFormatted(risultatoSvago)}
-              disabled
-            />
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualeSvago",
-                  (parseInt(percentualeSvago) - 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10, marginRight: 10 }}
-              variant="outlined"
-              color="error"
-            >
-              - 1%
-            </Button>
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualeSvago",
-                  (parseInt(percentualeSvago) + 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10 }}
-              variant="outlined"
-              color="success"
-            >
-              + 1%
-            </Button>
-          </Grid>
-        </Grow>
-
-        {/* RISPARMI - OUTPUT */}
-        <Grow in={true}>
-          <Grid item xs={12} md={4}>
-            <Typography color={!sommaIs100 ? "error" : ""} variant="subtitle1">
-              Risparmi ({percentualeRisparmi}%)
-            </Typography>
-            <TextField
-              variant="outlined"
-              type="text"
-              fullWidth
-              value={ImportoUtils.getImportoFormatted(risultatoRisparmi)}
-              disabled
-            />
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualeRisparmi",
-                  (parseInt(percentualeRisparmi) - 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10, marginRight: 10 }}
-              variant="outlined"
-              color="error"
-            >
-              - 1%
-            </Button>
-            <Button
-              onClick={() =>
-                handlePercentualiChange(
-                  "percentualeRisparmi",
-                  (parseInt(percentualeRisparmi) + 1).toString(),
-                  countSpeseFisse
-                )
-              }
-              style={{ marginTop: 10 }}
-              variant="outlined"
-              color="success"
-            >
-              + 1%
-            </Button>
-          </Grid>
-        </Grow>
       </Grid>
 
       {/* SALVA - BUTTON*/}
@@ -666,7 +713,7 @@ const InsertNew = ({
         container
         justifyContent="center"
         alignItems="center"
-        style={{ marginTop: 20, marginBottom: 20 }}
+        style={{ marginTop: 20, marginBottom: 70 }}
       >
         <Grow in={true}>
           <Grid item>
