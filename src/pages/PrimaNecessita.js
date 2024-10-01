@@ -20,11 +20,11 @@ import IconButton from "@mui/material/IconButton";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import SearchIcon from "@mui/icons-material/Search";
 
-function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update }) {
+function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update, openPopUpInsert, setOpenPopUpInsert }) {
   //NASCONDE AUTOMATICAMENTE IL FAB
   const [showFab, setShowFab] = useState(true);
 
-  const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
+  // const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //ORDER BY
   const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
@@ -245,15 +245,15 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update 
 
       {/* FLOATING ACTION BUTTON - FAB */}
       {/* {showFab ? ( */}
-      {searchValue === "" ? (
-        <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{
-          position: 'fixed',
-          bottom: '64px',  // Puoi personalizzare la distanza dal basso
-          right: '32px',   // Puoi personalizzare la distanza da destra
-        }}>
-          <AddIcon />
-        </Fab>
-      ) : <></>}
+      {/*{searchValue === "" ? (*/}
+      {/*  <Fab onClick={() => {setOpenPopUpInsert(true)}} color="primary" aria-label="add" sx={{*/}
+      {/*    position: 'fixed',*/}
+      {/*    bottom: '64px',  // Puoi personalizzare la distanza dal basso*/}
+      {/*    right: '32px',   // Puoi personalizzare la distanza da destra*/}
+      {/*  }}>*/}
+      {/*    <AddIcon />*/}
+      {/*  </Fab>*/}
+      {/*) : <></>}*/}
     </>
   );
 }

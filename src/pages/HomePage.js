@@ -52,7 +52,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
               style={{ textAlign: 'center', marginTop: isApp ? 20 : 80, fontWeight: 'bold' }}
               variant='h5'
           >
-            CTV
+            ENTRATE
           </Typography>
           {ctv.length !== 0 ? (
               <IconButton onClick={() => {
@@ -71,19 +71,19 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
         <>
           <Grow in={true}>
             <Grid container justifyContent="center">
-              <Typography
-                  style={{ textAlign: 'center', marginTop: 10, fontWeight: 'bold' }}
-                  variant='h5'
-              >
-                ENTRATE
-              </Typography>
+              {/*<Typography*/}
+              {/*    style={{ textAlign: 'center', marginTop: 10, fontWeight: 'bold' }}*/}
+              {/*    variant='h5'*/}
+              {/*>*/}
+              {/*  ENTRATE*/}
+              {/*</Typography>*/}
             </Grid>
           </Grow>
           <Grid container justifyContent="center" marginTop={2}>
             {/*<Stack direction="row" spacing={1}>*/}
               {totaleEntrateByMese.map(t => {
                 return(
-                    <Chip style={{ marginTop: 10, marginLeft: 5 }} icon={<EuroIcon/>} label={t} color="success" variant="filled" />
+                    <Chip style={{ marginTop: 0, marginLeft: 5 }} icon={<EuroIcon/>} label={t} color="success" variant="filled" />
                 );
               })}
             {/*</Stack>*/}
@@ -128,7 +128,7 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
 
       {/* FLOATING ACTION BUTTON - FAB */}
       {/* {showFab ? ( */}
-      {true ? (
+      {false ? (
         <Fab onClick={() => {
           HistoryUtils.pushState("nuovo-stipendio");
           setSelectedPage("InsertNew");

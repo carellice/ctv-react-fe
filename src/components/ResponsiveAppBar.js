@@ -14,11 +14,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {isApp} from "./../Config"
 import * as HistoryUtils from "../utils/HistoryUtils";
+import AddIcon from '@mui/icons-material/Add';
 
 const pages = ['Sfizio', 'Necessità'];
 // const settings = ['Logout'];
 
-function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
+function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs, openPopupInsertSvago, setOpenPopupInsertSvago, openPopupInsertNecessita, setOpenPopupInsertNecessita}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -95,11 +96,10 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={isApp ? () => {} : handleOpenNavMenu}
+              onClick={() => {}}
               color="inherit"
               >
-                {isApp ? <Percent/> : <MoreVertIcon />}
-                
+                <Percent/>
               </IconButton>
             )}
             
@@ -137,13 +137,13 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
             </Menu>
           </Box>
 
-          {isApp ? <></> : <Percent onClick={() => setSelectedPage("HomePage")} sx={{ display: { xs: 'flex', md: 'none' }, mr: 1}} />}
+          <></>
           <Typography
             variant="h5"
             noWrap
             onClick={() => {
-                HistoryUtils.pushState("ctv");
-                setSelectedPage("HomePage")
+                // HistoryUtils.pushState("ctv");
+                // setSelectedPage("HomePage")
             }}
             sx={{
               mr: 2,
@@ -182,14 +182,27 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs}) {
 
           <Box sx={{ flexGrow: 0 }}>
             {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}> */}
-            <IconButton onClick={() => {
-              setAnchorElNav(null);
-              HistoryUtils.pushState("impostazioni");
-                setSelectedPage("SettingsPage");
-            }}>
-              <SettingsIcon/>
-              {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
-            </IconButton>
+            {selectedPage === "SettingsPage" ? (
+                <IconButton onClick={() => {}}>
+                  <Percent/>
+                  {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
+                </IconButton>
+            ) : (
+                <IconButton onClick={() => {
+                  setAnchorElNav(null);
+                  if(selectedPage === 'HomePage'){
+                    HistoryUtils.pushState("nuovo-stipendio");
+                    setSelectedPage("InsertNew");
+                  } else if(selectedPage === 'Sfizio'){
+                    setOpenPopupInsertSvago(true)
+                  } else if(selectedPage === 'Necessità'){
+                    setOpenPopupInsertNecessita(true)
+                  }
+                }}>
+                  <AddIcon/>
+                  {/* <Avatar alt={localStorage.getItem("user")} src="/static/images/avatar/2.jpg" /> */}
+                </IconButton>
+            )}
             {/* <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

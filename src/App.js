@@ -15,15 +15,12 @@ import * as DataBaseUtils from "./utils/DataBaseUtils";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Settings from './pages/Settings';
-import { Grow } from '@mui/material';
-import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { isApp } from './Config';
 import * as HistoryUtils from "./utils/HistoryUtils";
-import {getCurrentUrl} from "./utils/HistoryUtils";
+import MyBottomNavigation from "./components/MyBottomNavigation";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -34,6 +31,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function App() {
 
   const [value, setValue] = React.useState(0);
+  const [openPopUpInsertSvago, setOpenPopUpInsertSvago] = useState(false);
+  const [openPopUpInsertNecessita, setOpenPopUpInsertNecessita] = useState(false);
 
   //USE EFFECT
   useEffect(() => {
@@ -103,7 +102,7 @@ function App() {
     <>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ResponsiveAppBar setTabs={setValue} selectedPage={selectedPage} setSelectedPage = {setSelectedPage}/>
+      <ResponsiveAppBar openPopupInsertNecessita={openPopUpInsertNecessita} setOpenPopupInsertNecessita={setOpenPopUpInsertNecessita} openPopupInsertSvago={openPopUpInsertSvago} setOpenPopupInsertSvago={setOpenPopUpInsertSvago} setTabs={setValue} selectedPage={selectedPage} setSelectedPage = {setSelectedPage}/>
       {datas === null || censored === null ? (
         <>
         <Backdrop
@@ -137,8 +136,9 @@ function App() {
           {selectedPage === 'HomePage' ? <HomePage censored={censored} setCensored={setCensored} snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv.slice().reverse()} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} data={datas} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}
-          {selectedPage === 'Sfizio' ? <Svago update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
-          {selectedPage === 'Necessità' ? <PrimaNecessita update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'Sfizio' ? <Svago setOpenPopUpInsert={setOpenPopUpInsertSvago} openPopUpInsert={openPopUpInsertSvago} update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'Necessità' ? <PrimaNecessita openPopUpInsert={openPopUpInsertNecessita} setOpenPopUpInsert={setOpenPopUpInsertNecessita} update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          <MyBottomNavigation setSelectedPage={setSelectedPage} selectedPage={selectedPage}/>
         </>
       )}
 
