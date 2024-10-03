@@ -23,7 +23,7 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 2,
+            padding: 0,
             borderRadius: 10
           }}
       >
@@ -35,7 +35,7 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
               textAlign: 'center'
             }}
         >
-          <Typography sx={{ fontSize: 25 }} color="text.primary" gutterBottom>
+          <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
             {el.data}
           </Typography>
           <Typography variant="h5" component="div" sx={{ fontSize: 22 }}>
@@ -43,25 +43,25 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
                 ? ImportoUtils.getImportoFormatted(el.stipendio).replace(/[^,]/g, '*')
                 : "+ " + ImportoUtils.getImportoFormatted(el.stipendio)} €
           </Typography>
-          <Typography variant="body2" sx={{ fontSize: 18, color: 'orange' }}>
+          <Typography variant="body2" sx={{ fontSize: 14, color: 'orange' }}>
             Necessità ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.primaNecessita)}%):{' '}
             {censored
                 ? ImportoUtils.getImportoFormatted(el.primaNecessita).replace(/[^,]/g, '*')
                 : ImportoUtils.getImportoFormatted(el.primaNecessita)} €
           </Typography>
-          <Typography variant="body2" sx={{ fontSize: 18, color: 'red' }}>
+          <Typography variant="body2" sx={{ fontSize: 14, color: 'red' }}>
             Svago ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.svago)}%):{' '}
             {censored
                 ? ImportoUtils.getImportoFormatted(el.svago).replace(/[^,]/g, '*')
                 : ImportoUtils.getImportoFormatted(el.svago)} €
           </Typography>
-          <Typography variant="body2" sx={{ fontSize: 18, color: 'green' }}>
+          <Typography variant="body2" sx={{ fontSize: 14, color: 'green' }}>
             Risparmi ({ImportoUtils.calcolaPercentualeIntera(el.stipendio, el.risparmi)}%):{' '}
             {censored
                 ? ImportoUtils.getImportoFormatted(el.risparmi).replace(/[^,]/g, '*')
                 : ImportoUtils.getImportoFormatted(el.risparmi)} €
           </Typography>
-          <Typography variant="body2" sx={{ fontSize: 18, color: '#11b194' }}>
+          <Typography variant="body2" sx={{ fontSize: 14, color: '#11b194' }}>
             Spese Mensili ({ImportoUtils.calcolaPercentualeIntera(
               el.stipendio,
               ImportoUtils.getSpese(el.stipendio, el.primaNecessita, el.svago, el.risparmi)

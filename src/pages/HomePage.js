@@ -69,21 +69,11 @@ function HomePage({setSelectedPage, ctv, update, snackBarFunc, censored, setCens
       {/*TOTALE STIPENDI PER MESE*/}
       {censored || totaleEntrateByMese === null || totaleEntrateByMese.length === 0 ? <></> : (
         <>
-          <Grow in={true}>
-            <Grid container justifyContent="center">
-              {/*<Typography*/}
-              {/*    style={{ textAlign: 'center', marginTop: 10, fontWeight: 'bold' }}*/}
-              {/*    variant='h5'*/}
-              {/*>*/}
-              {/*  ENTRATE*/}
-              {/*</Typography>*/}
-            </Grid>
-          </Grow>
-          <Grid container justifyContent="center" marginTop={2}>
-            {/*<Stack direction="row" spacing={1}>*/}
+          <Grid container justifyContent="center" marginTop={0}>
+            {/*<Stack direction="column" spacing={1}>*/}
               {totaleEntrateByMese.map(t => {
                 return(
-                    <Chip style={{ marginTop: 0, marginLeft: 5 }} icon={<EuroIcon/>} label={t} color="success" variant="filled" />
+                    <Chip style={{ marginTop: 5, marginLeft: 5 }} icon={<EuroIcon/>} label={t} color="success" variant="filled" />
                 );
               })}
             {/*</Stack>*/}

@@ -15,6 +15,7 @@ export default function MyBottomNavigation({setSelectedPage, selectedPage}) {
   return (
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, height:80, zIndex: 1300 }} elevation={3}>
           <BottomNavigation
+              sx={{backgroundColor: '#272727'}}
               showLabels
               value={value}
               onChange={(event, newValue) => {

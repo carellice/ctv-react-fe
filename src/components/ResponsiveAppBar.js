@@ -164,7 +164,7 @@ function ResponsiveAppBar({selectedPage, setSelectedPage, setTabs, openPopupInse
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            {selectedPage === "SettingsPage" ? (
+            {selectedPage === "SettingsPage" || selectedPage === "LoginPage" ? (
                 <IconButton onClick={() => {}}>
                   <Percent />
                 </IconButton>

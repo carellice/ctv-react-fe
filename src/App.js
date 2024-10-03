@@ -90,17 +90,8 @@ function App() {
   const [datas, setDatas] = useState(null);
 
   //LOGIN
-  const loginFunc = (username, pass) => {
-    ApiUtils.login(username, pass).then(r => {
-      if(r !== 'ok'){
-        snackBarFunc(r, SNACKBAR_ERROR);
-      }else{
-        snackBarFunc("Login effettuato con successo", SNACKBAR_SUCCESS);
-        localStorage.setItem("user", username);
-        setSelectedPage("HomePage");
-        HistoryUtils.pushState("ctv");
-      }
-    })
+  const loginFunc = async (username, pass) => {
+    return await ApiUtils.login(username, pass);
   }
 
   //SNACKBAR
@@ -144,7 +135,7 @@ function App() {
               </Tabs>
             </Box>
           ) : <></>}
-          {selectedPage === 'LoginPage' ? <LoginPage loginFunc={loginFunc} setSelectedPage={setSelectedPage}/> : <></>}
+          {selectedPage === 'LoginPage' ? <LoginPage snackBarFunc={snackBarFunc} loginFunc={loginFunc} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'HomePage' ? <HomePage censored={censored} setCensored={setCensored} snackBarFunc={snackBarFunc} update={update} ctv={datas.ctv.slice().reverse()} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'SettingsPage' ? <Settings snackBarFunc={snackBarFunc} update={update} data={datas} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}

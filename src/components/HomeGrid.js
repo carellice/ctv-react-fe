@@ -4,11 +4,11 @@ import BasicCard from './BasicCard';
 
 export default function HomeGrid({setSelectedPage, ctv, update, snackBarFunc, censored}) {
   return (
-    <Container style={{ marginTop: 20 }}>
+    <Container style={{ marginTop: 20, marginBottom: 90 }}>
       <Grid container spacing={2}>
         {ctv.map((el, index) => (
           <Grow in={true}>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
               <BasicCard censored={censored} snackBarFunc={snackBarFunc} el={el}  update={update}/>
             </Grid>
           </Grow>
