@@ -23,6 +23,10 @@ const pageList = [
         pageName: "InsertNew",
         url: "/nuovo-stipendio",
     },
+    {
+        pageName: "LoginPage",
+        url: "/login",
+    },
 ]
 export const pushState = (url) => {
     window.history.pushState({}, '', '/' + url);
@@ -36,10 +40,15 @@ export const handleUrl = (setSelectedPage) => {
     const currentUrl = getCurrentUrl();
     const page = pageList.filter(p => currentUrl.includes(p.url))[0];
     if(page === undefined){
-        pushState("ctv");
-        setSelectedPage("HomePage");
+        pushState("login");
+        setSelectedPage("LoginPage");
     }else{
-        setSelectedPage(page.pageName);
+        if(localStorage.getItem("user") == null || localStorage.getItem("user") === undefined){
+            pushState("login");
+            setSelectedPage("LoginPage");
+        }else{
+            setSelectedPage(page.pageName);
+        }
     }
 }
 

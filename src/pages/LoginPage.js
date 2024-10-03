@@ -20,7 +20,7 @@ const LoginPage = ({loginFunc}) => {
   // };
 
   return (
-    <Container component="main" maxWidth="xs" style={{marginTop:30}}>
+    <Container component="main" maxWidth="xs" style={{marginTop:80}}>
       <Paper elevation={3} style={{ padding: 20, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant="h5" gutterBottom>
           Accedi

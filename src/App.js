@@ -21,6 +21,9 @@ import Box from '@mui/material/Box';
 import { isApp } from './Config';
 import * as HistoryUtils from "./utils/HistoryUtils";
 import MyBottomNavigation from "./components/MyBottomNavigation";
+import * as ApiUtils from "./utils/ApiUtils";
+import {SNACKBAR_ERROR, SNACKBAR_SUCCESS} from "./utils/SnackBarUtils";
+import {pushState} from "./utils/HistoryUtils";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -43,8 +46,11 @@ function App() {
     DataBaseUtils.getData().then(dt => setDatas(dt));
 
     //CONTROLLO IL CONTENUTO DELL'URL
-    if(!isApp){
+    if(!isApp && localStorage.getItem("user") === null){
       HistoryUtils.handleUrl(setSelectedPage);
+    }else if(localStorage.getItem("user") !== null){
+      pushState("ctv");
+      setSelectedPage("HomePage");
     }
   }, []);
 
@@ -75,7 +81,7 @@ function App() {
   const [messageSnackBar, setMessageScnakBar] = useState("");
   const [typeSnackBar, setTypeScnakBar] = useState("error");
   const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [selectedPage, setSelectedPage] = useState("HomePage");
+  const [selectedPage, setSelectedPage] = useState("LoginPage");
   
   //CENSURA
   const [censored, setCensored] = useState(null);
@@ -85,11 +91,17 @@ function App() {
 
   //LOGIN
   const loginFunc = (username, pass) => {
-    if(username === "" && pass === ""){
-      localStorage.setItem("user", username);
-      setSelectedPage("HomePage");
-    }
-  } 
+    ApiUtils.login(username, pass).then(r => {
+      if(r !== 'ok'){
+        snackBarFunc(r, SNACKBAR_ERROR);
+      }else{
+        snackBarFunc("Login effettuato con successo", SNACKBAR_SUCCESS);
+        localStorage.setItem("user", username);
+        setSelectedPage("HomePage");
+        HistoryUtils.pushState("ctv");
+      }
+    })
+  }
 
   //SNACKBAR
   const snackBarFunc = (message, type) => {
@@ -138,11 +150,11 @@ function App() {
           {selectedPage === 'InsertNew' ? <InsertNew setSelectedPage={setSelectedPage} update={update} snackBarFunc={snackBarFunc}/> : <></>}
           {selectedPage === 'Sfizio' ? <Svago setOpenPopUpInsert={setOpenPopUpInsertSvago} openPopUpInsert={openPopUpInsertSvago} update={update}  svago={datas.svago} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
           {selectedPage === 'Necessità' ? <PrimaNecessita openPopUpInsert={openPopUpInsertNecessita} setOpenPopUpInsert={setOpenPopUpInsertNecessita} update={update} primaNecessita={datas.primaNecessita} snackBarFunc={snackBarFunc} setSelectedPage={setSelectedPage}/> : <></>}
-          <MyBottomNavigation setSelectedPage={setSelectedPage} selectedPage={selectedPage}/>
+          {selectedPage !== 'LoginPage' ? <MyBottomNavigation setSelectedPage={setSelectedPage} selectedPage={selectedPage}/> : <></>}
         </>
       )}
 
-      <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={() => setOpenSnackBar(false)}>
+      <Snackbar sx={{marginBottom: 10}} open={openSnackBar} autoHideDuration={6000} onClose={() => setOpenSnackBar(false)}>
         <Alert onClose={() => setOpenSnackBar(false)} severity={typeSnackBar} sx={{ width: '100%' }}>
           {messageSnackBar}
         </Alert>

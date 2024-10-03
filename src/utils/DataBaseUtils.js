@@ -25,7 +25,7 @@ export const deleteData = async () => {
 }
 
 export const getData = async () => {
-    if(localStorage.getItem("data") === null){
+    if(localStorage.getItem("data") === undefined || localStorage.getItem("data") === 'undefined' || localStorage.getItem("data") === null){
         localStorage.setItem("data", JSON.stringify(dataTemplate));
         return dataTemplate;
     }else{

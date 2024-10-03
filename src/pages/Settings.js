@@ -32,6 +32,11 @@ import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import * as DateUtils from "../utils/DateUtils";
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import * as ApiUtils from "./../utils/ApiUtils";
+import {uploadJson} from "./../utils/ApiUtils";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Settings({ setSelectedPage, data, update, snackBarFunc }) {
   const [openDialogCopiaDati, setOpenDialogCopiaDati] = React.useState(false);
@@ -60,7 +65,7 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
             if(dataUltimoBackupString !== null){
               const dataUltimoAggiornamento = new Date(dataUltimoAggiornamentoString);
               const dataUltimoBackup = new Date(dataUltimoBackupString);
-              setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
+              // setOpenDialogReminderBackup(dataUltimoAggiornamento > dataUltimoBackup);
             }
           })
         }
@@ -157,83 +162,53 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
               {/*    </center>*/}
               {/*) : <></>}*/}
 
-              {backupType === "text" ? (
-                  <Grow in={true}>
-                      <ListItem disablePadding>
-                          <ListItemButton onClick={() => setOpenDialogCopiaDati(true)}>
-                              {/*<ListItemButton onClick={() => BackupUtils.scaricaBackup()}>*/}
-                              <ListItemIcon sx={{color:'#dec507'}}>
-                                  <ContentCopyIcon />
-                              </ListItemIcon>
-                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"COPIA DATI"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
-                          </ListItemButton>
-                      </ListItem>
-                  </Grow>
-              ) : (
-                  <Grow in={true}>
-                      <ListItem disablePadding>
-                          <ListItemButton onClick={() => {
-                              BackupUtils.scaricaBackup().then(r => {});
-                              DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoBackup(r));
-                          }}>
-                              <ListItemIcon sx={{color:'#dec507'}}>
-                                  <UploadIcon />
-                              </ListItemIcon>
-                              <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESPORTA BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
-                          </ListItemButton>
-                      </ListItem>
-                  </Grow>
-              )}
 
-            <Divider />
-
-              {backupType === "text" ? (
-                <Grow in={true}>
+              <Grow in={true}>
                   <ListItem disablePadding>
-                    <ListItemButton onClick={() => setOpenDialogIncollaDati(true)}>
-                      <ListItemIcon sx={{color:'#40a11a'}}>
-                        <ContentPasteIcon />
-                      </ListItemIcon>
-                      <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"INCOLLA DATI"} secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
-                    </ListItemButton>
-                  </ListItem>
-                </Grow>
-              ) : (
-                  <>
-                      <Grow in={true}>
-                          <ListItem disablePadding>
-                              <ListItemButton onClick={handleClick}>
-                                  <ListItemIcon sx={{color: '#40a11a'}}>
-                                      <DownloadIcon/>
-                                  </ListItemIcon>
-                                  <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"IMPORTA BACKUP"}
-                                                secondary={ultimoRipristino === null ? '' : ultimoRipristino}/>
-                              </ListItemButton>
-                          </ListItem>
-                      </Grow>
-                      <div>
-                          <input
-                              type="file"
-                              accept=".json"
-                              ref={fileInputRef}
-                              onChange={(e) => {
-                                  BackupUtils.handleFileChange(e).then((r) => {
-                                      if(r !== 500){
-                                          update();
-                                          DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => setUltimoRipristino(r));
-                                            snackBarFunc("BACKUP RIPRISTINATO CORRETTAMENTE", SnackBarUtils.SNACKBAR_SUCCESS);
-                                      }else{
-                                        snackBarFunc("ERRORE BACKUP. DATI NON CORRETTI!", SnackBarUtils.SNACKBAR_ERROR);
-                                      }
+                      <ListItemButton onClick={() => {
+                          ApiUtils.uploadJson().then((res) =>{
+                              if(res === 'ok'){
+                                  snackBarFunc("BACKUP AVVENUTO CON SUCCESSO", SnackBarUtils.SNACKBAR_SUCCESS);
+                                  DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => {
+                                      DataBaseUtils.saveUltimoBackup().then(() => setUltimoBackup(r));
                                   });
-                              }}
-                              style={{display: 'none'}}
-                          />
-                      </div>
-                  </>
-            )}
+                              }else{
+                                  snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+                              }
+                          })
+                      }}>
+                          <ListItemIcon sx={{color:'#dec507'}}>
+                              <CloudUploadIcon />
+                          </ListItemIcon>
+                          <ListItemText primaryTypographyProps={{color: "#dec507"}} primary={"ESEGUI BACKUP"} secondary={ultimoBacukp === null ? '' : ultimoBacukp} />
+                      </ListItemButton>
+                  </ListItem>
+              </Grow>
+              <Divider />
 
-            <Divider/>
+              <Grow in={true}>
+                  <ListItem disablePadding>
+                      <ListItemButton onClick={() => {
+                          ApiUtils.getJson().then((res) =>{
+                              if(res === 'ok'){
+                                  snackBarFunc("BACKUP RIPRISTINATO CON SUCCESSO", SnackBarUtils.SNACKBAR_SUCCESS);
+                                  DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => {
+                                      DataBaseUtils.saveUltimoRipristino().then(() => setUltimoRipristino(r));
+                                      window.location.reload();
+                                  });
+                              }else{
+                                  snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+                              }
+                          })
+                      }}>
+                          <ListItemIcon sx={{color:'#40a11a'}}>
+                              <CloudDownloadIcon />
+                          </ListItemIcon>
+                          <ListItemText primaryTypographyProps={{color: "#40a11a"}} primary={"RIPRISTINA BACKUP"} secondary={ultimoRipristino === null ? '' : ultimoRipristino} />
+                      </ListItemButton>
+                  </ListItem>
+              </Grow>
+              <Divider />
 
             {ultimoAggiornamento !== null ? (
                 <>
@@ -267,19 +242,6 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
 
             <Divider />
 
-            <Grow in={true}>
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => setOpenDialogCancellaDati(true)}>
-                  <ListItemIcon sx={{color:'#ba0606'}}>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                  <ListItemText primaryTypographyProps={{color: "#ba0606"}} primary="CANCELLA DATI" />
-                </ListItemButton>
-              </ListItem>
-            </Grow>
-
-            <Divider />
-
             {/* {data.svago.length === 0 && data.primaNecessita.length === 0 ? <></> : ( */}
             {(data.svago.length + data.primaNecessita.length) < 1 ? <></> : (
               <Grow in={true}>
@@ -293,6 +255,36 @@ function Settings({ setSelectedPage, data, update, snackBarFunc }) {
               </ListItem>
             </Grow>
             )}
+            <Divider/>
+              <Grow in={true}>
+                  <ListItem disablePadding>
+                      <ListItemButton onClick={() => {
+                          localStorage.removeItem("user");
+                          localStorage.removeItem("data");
+                          window.location.reload();
+                      }}>
+                          <ListItemIcon sx={{color:'#f42525'}}>
+                              <LogoutIcon />
+                          </ListItemIcon>
+                          <ListItemText primaryTypographyProps={{color: "#f42525"}} primary="LOGOUT" />
+                      </ListItemButton>
+                  </ListItem>
+              </Grow>
+
+
+              <Box marginTop={5}/>
+              <Divider />
+              <Grow in={true}>
+                  <ListItem disablePadding>
+                      <ListItemButton onClick={() => setOpenDialogCancellaDati(true)}>
+                          <ListItemIcon sx={{color:'#f42525'}}>
+                              <DeleteIcon />
+                          </ListItemIcon>
+                          <ListItemText primaryTypographyProps={{color: "#f42525"}} primary="CANCELLA DATI" />
+                      </ListItemButton>
+                  </ListItem>
+              </Grow>
+              <Divider />
 
             {/*{!isApp ? (*/}
             {/*  <>*/}
