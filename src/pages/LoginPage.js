@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { TextField, Button, Paper, Typography, Container } from '@mui/material';
+import {TextField, Button, Paper, Typography, Container, Checkbox} from '@mui/material';
 import {LoadingButton} from "@mui/lab";
 import LoginIcon from '@mui/icons-material/Login';
 import {SNACKBAR_ERROR, SNACKBAR_SUCCESS} from "../utils/SnackBarUtils";
 import * as HistoryUtils from "../utils/HistoryUtils";
+import * as ApiUtils from "../utils/ApiUtils";
+import * as SnackBarUtils from "../utils/SnackBarUtils";
+import * as DateUtils from "../utils/DateUtils";
+import * as DataBaseUtils from "../utils/DataBaseUtils";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const LoginPage = ({loginFunc, snackBarFunc, setSelectedPage}) => {
   const [user, setUser] = useState('');
@@ -32,8 +37,15 @@ const LoginPage = ({loginFunc, snackBarFunc, setSelectedPage}) => {
         if(r === 'ok'){
           snackBarFunc("Login effettuato con successo", SNACKBAR_SUCCESS);
           localStorage.setItem("user", user);
-          setSelectedPage("HomePage");
-          HistoryUtils.pushState("ctv");
+          ApiUtils.getJson().then((res) =>{
+            if(res === 'ok'){
+              setSelectedPage("HomePage");
+              HistoryUtils.pushState("ctv");
+              window.location.reload();
+            }else{
+              snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+            }
+          })
         }else{
           snackBarFunc(r, SNACKBAR_ERROR);
           setLoading(false);
@@ -78,8 +90,15 @@ const LoginPage = ({loginFunc, snackBarFunc, setSelectedPage}) => {
                 if(r === 'ok'){
                   snackBarFunc("Login effettuato con successo", SNACKBAR_SUCCESS);
                   localStorage.setItem("user", user);
-                  setSelectedPage("HomePage");
-                  HistoryUtils.pushState("ctv");
+                  ApiUtils.getJson().then((res) =>{
+                    if(res === 'ok'){
+                      setSelectedPage("HomePage");
+                      HistoryUtils.pushState("ctv");
+                      window.location.reload();
+                    }else{
+                      snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+                    }
+                  })
                 }else{
                   snackBarFunc(r, SNACKBAR_ERROR);
                   setLoading(false);
