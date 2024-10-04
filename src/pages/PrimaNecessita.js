@@ -19,6 +19,7 @@ import * as OrderByUtils from "../utils/OrderByUtils";
 import IconButton from "@mui/material/IconButton";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import SearchIcon from "@mui/icons-material/Search";
+import * as ApiUtils from "../utils/ApiUtils";
 
 function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update, openPopUpInsert, setOpenPopUpInsert }) {
   //NASCONDE AUTOMATICAMENTE IL FAB
@@ -27,7 +28,7 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update,
   // const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //ORDER BY
-  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
+  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNiente);
 
   // LISTA DI PRIMA NECESSITA'
   const [primaNecessitaArray, setPrimaNecessitaArray] = useState(primaNecessita);
@@ -81,16 +82,6 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update,
 
   useEffect(() => {
     DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
-    const handleScroll = () => {
-      const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      setShowFab(!scrolledToBottom);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
   }, []);
 
   // BACK BUTTON PRESSED
@@ -105,7 +96,13 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update,
   const saveElement = (scadenza, nome, note, dataDa, dataA, costo) => {
     DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then((r) => {
       if (r === 200) {
-        snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+        ApiUtils.uploadJson().then((res) =>{
+          if(res === 'ok'){
+            snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          }else{
+            snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+          }
+        })
         if(orderBy === OrderByUtils.orderByNome){
           DataBaseUtils.orderPrimaNecessitaByNome().then(() =>  {
             DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
@@ -115,7 +112,11 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update,
           DataBaseUtils.orderPrimaNecessitaByCosto().then(() =>  {
             DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
             update();
-          });        }
+          });
+        }else{
+          DataBaseUtils.getData().then(datas => setPrimaNecessitaArray(datas.primaNecessita));
+          update();
+        }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
       }
@@ -132,10 +133,19 @@ function PrimaNecessita({ setSelectedPage, snackBarFunc, primaNecessita, update,
               <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
               <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="nome"
+                  defaultValue="niente"
                   name="radio-buttons-group"
                   row // Aggiungi questa proprietà per allineare orizzontalmente i radio button
               >
+                <FormControlLabel
+                    value="niente"
+                    control={<Radio onClick={() => {
+                      setOrderBy(OrderByUtils.orderByNome);
+                    }} />}
+                    label="Niente"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                    style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
+                />
                 <FormControlLabel
                     value="nome"
                     control={<Radio onClick={() => {

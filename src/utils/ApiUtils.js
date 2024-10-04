@@ -26,7 +26,7 @@ export const getJson = async () => {
     const username = localStorage.getItem('user');
     const response = await axios.get(ENDPOINT_GET_JSON + '?username=' + username);
 
-    DataBaseUtils.saveData(response.data.json).then(() => {});
+    await DataBaseUtils.saveData(response.data.json);
 
     console.log(response.data.msg);
     return response.data.msg;

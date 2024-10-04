@@ -24,6 +24,8 @@ import MyBottomNavigation from "./components/MyBottomNavigation";
 import * as ApiUtils from "./utils/ApiUtils";
 import {SNACKBAR_ERROR, SNACKBAR_SUCCESS} from "./utils/SnackBarUtils";
 import {pushState} from "./utils/HistoryUtils";
+import * as SnackBarUtils from "./utils/SnackBarUtils";
+import * as DateUtils from "./utils/DateUtils";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -43,14 +45,27 @@ function App() {
     DataBaseUtils.getCensored().then(r => setCensored(r));
 
     //RECUPERO I DATI
-    DataBaseUtils.getData().then(dt => setDatas(dt));
+    // DataBaseUtils.getData().then(dt => setDatas(dt));
 
     //CONTROLLO IL CONTENUTO DELL'URL
     if(!isApp && localStorage.getItem("user") === null){
+      DataBaseUtils.getData().then(dt => setDatas(dt));
       HistoryUtils.handleUrl(setSelectedPage);
     }else if(localStorage.getItem("user") !== null){
-      pushState("ctv");
-      setSelectedPage("HomePage");
+      ApiUtils.getJson().then((res) =>{
+        DataBaseUtils.getData().then(dt => setDatas(dt));
+        if(res === 'ok'){
+          HistoryUtils.handleUrl(setSelectedPage);
+          // pushState("ctv");
+          // setSelectedPage("HomePage");
+          // window.location.reload();
+          // DateUtils.getDateDayMonthYearHourMinute(new Date()).then(r => {
+          //   DataBaseUtils.saveUltimoRipristino().then(() => setUltimoRipristino(r));
+          // });
+        }else{
+          snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+        }
+      })
     }
   }, []);
 
@@ -145,7 +160,7 @@ function App() {
         </>
       )}
 
-      <Snackbar sx={{marginBottom: 10}} open={openSnackBar} autoHideDuration={6000} onClose={() => setOpenSnackBar(false)}>
+      <Snackbar sx={{marginBottom: 10}} open={openSnackBar} autoHideDuration={3000} onClose={() => setOpenSnackBar(false)}>
         <Alert onClose={() => setOpenSnackBar(false)} severity={typeSnackBar} sx={{ width: '100%' }}>
           {messageSnackBar}
         </Alert>

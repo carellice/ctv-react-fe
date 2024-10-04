@@ -66,6 +66,7 @@ const LoginPage = ({loginFunc, snackBarFunc, setSelectedPage}) => {
           margin="normal"
           fullWidth
           value={user}
+          onKeyPress={handleKeyPress}
           onChange={handleUserChange}
         />
         <TextField

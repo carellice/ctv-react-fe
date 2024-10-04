@@ -27,6 +27,7 @@ import CardActions from "@mui/material/CardActions";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
+import * as ApiUtils from "../utils/ApiUtils";
 
 const InsertNew = ({
   snackBarFunc,
@@ -48,6 +49,7 @@ const InsertNew = ({
     );
     if (checkRes === 400) {
       snackBarFunc("POPOLARE TUTTI I CAMPI!", SnackBarUtils.SNACKBAR_ERROR);
+      setLoading(false);
     } else {
       const checkEdit =
         await checkIfSvagoOrPrimaNecessitaAggiornabiliAndReturnThem();
@@ -65,10 +67,13 @@ const InsertNew = ({
         if (insert === 500) {
           snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
         } else {
-          snackBarFunc(
-            "INSERIMENTO AVVENUTO CON SUCCESSO!",
-            SnackBarUtils.SNACKBAR_SUCCESS
-          );
+          ApiUtils.uploadJson().then((res) =>{
+            if(res === 'ok'){
+              snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
+            }else{
+              snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+            }
+          })
           setTimeout(() => {
             update();
             setSelectedPage("HomePage");
@@ -737,7 +742,8 @@ const InsertNew = ({
               startIcon={<SaveIcon />}
               variant="contained"
               onClick={() => {
-                save().then(() => {});
+                save().then(() => {
+                });
               }}
             >
               SALVA

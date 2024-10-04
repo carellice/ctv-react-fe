@@ -39,9 +39,12 @@ export const getCurrentUrl = () => {
 export const handleUrl = (setSelectedPage) => {
     const currentUrl = getCurrentUrl();
     const page = pageList.filter(p => currentUrl.includes(p.url))[0];
-    if(page === undefined){
+    if(page === undefined && (localStorage.getItem("user") === null || localStorage.getItem("user") === undefined)){
         pushState("login");
         setSelectedPage("LoginPage");
+    }if(page === undefined && (localStorage.getItem("user") !== null || localStorage.getItem("user") !== undefined)){
+        pushState("ctv");
+        setSelectedPage("HomePage");
     }else{
         if(localStorage.getItem("user") == null || localStorage.getItem("user") === undefined){
             pushState("login");

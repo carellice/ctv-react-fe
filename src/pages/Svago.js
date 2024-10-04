@@ -19,6 +19,7 @@ import { isApp } from '../Config';
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import BackspaceIcon from '@mui/icons-material/Backspace';
+import * as ApiUtils from "../utils/ApiUtils";
 
 
 function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, setOpenPopUpInsert}) {
@@ -29,7 +30,7 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, 
   // const [openPopUpInsert, setOpenPopUpInsert] = useState(false);
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //ORDER BY
-  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNome);
+  const [orderBy, setOrderBy] = useState(OrderByUtils.orderByNiente);
 
   // LISTA DI SVAGO
   const [svagoArray, setSvagoArray] = useState(svago);
@@ -108,7 +109,13 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, 
   const saveElement = (scadenza, nome, note, dataDa, dataA, costo) => {
     DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then((r) => {
       if (r === 200) {
-        snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+        ApiUtils.uploadJson().then((res) =>{
+          if(res === 'ok'){
+            snackBarFunc("INSERITO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          }else{
+            snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+          }
+        })
         if(orderBy === OrderByUtils.orderByNome){
           DataBaseUtils.orderSvagoByNome().then(() =>  {
             DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
@@ -119,6 +126,9 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, 
             DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
             update();
           });
+        }else{
+          DataBaseUtils.getData().then(datas => setSvagoArray(datas.svago));
+          update();
         }
       } else {
         snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
@@ -136,10 +146,17 @@ function Svago({ setSelectedPage, snackBarFunc, svago, update, openPopUpInsert, 
               <FormLabel id="demo-radio-buttons-group-label">Ordina per</FormLabel>
               <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="nome"
+                  defaultValue="niente"
                   name="radio-buttons-group"
                   row // Aggiungi questa proprietà per allineare orizzontalmente i radio button
               >
+                <FormControlLabel
+                    value="niente"
+                    control={<Radio onClick={() => {setOrderBy(OrderByUtils.orderByNiente);}} />}
+                    label="Niente"
+                    labelPlacement="end" // Imposta la posizione della label a destra del radio button
+                    style={{ marginRight: 20 }} // Aggiungi uno spazio tra i radio button
+                />
                 <FormControlLabel
                     value="nome"
                     control={<Radio onClick={() => {

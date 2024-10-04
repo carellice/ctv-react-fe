@@ -8,6 +8,8 @@ import * as DataBaseUtils from "./../utils/DataBaseUtils"
 import * as SnackBarUtils from "./../utils/SnackBarUtils"
 import * as ImportoUtils from "./../utils/ImportoUtils"
 import DialogPersonal from '../components/DialogPersonal';
+import * as ApiUtils from "../utils/ApiUtils";
+import * as DateUtils from "../utils/DateUtils";
 
 
 export default function BasicCard({censored, el, update, snackBarFunc}) {
@@ -87,6 +89,13 @@ export default function BasicCard({censored, el, update, snackBarFunc}) {
           update();
           snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
           setOpenDialogCancellaDati(false);
+            ApiUtils.uploadJson().then((res) =>{
+                if(res === 'ok'){
+                    snackBarFunc("BACKUP AVVENUTO CON SUCCESSO", SnackBarUtils.SNACKBAR_SUCCESS);
+                }else{
+                    snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+                }
+            })
         })
       }}/>
     </>

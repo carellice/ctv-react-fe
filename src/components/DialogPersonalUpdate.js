@@ -14,6 +14,8 @@ import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import RedoIcon from '@mui/icons-material/Redo';
+import * as ApiUtils from "../utils/ApiUtils";
+import {pushState} from "../utils/HistoryUtils";
 
 
 export default function DialogPersonalUpdate({open, setOpen, title, text, showAnnulla, svago, primaNecessita, snackBarFunc, stipendio, percentualePrimaNecessita, percentualeSvago, percentualeRisparmi, risultatoSvago, risultatoPrimaNecessita, risultatoRisparmi, update, setSelectedPage, setLoadingFather}) {
@@ -36,8 +38,15 @@ export default function DialogPersonalUpdate({open, setOpen, title, text, showAn
       setTimeout(() => {
         setLoading(false);
         update();
-        snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
-        setSelectedPage("HomePage");
+        ApiUtils.uploadJson().then((res) =>{
+          if(res === 'ok'){
+            snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
+            pushState("ctv");
+            setSelectedPage("HomePage");
+          }else{
+            snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+          }
+        })
       }, 1000);
     }
   };

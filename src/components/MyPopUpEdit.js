@@ -3,6 +3,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, C
 import * as SnackBarUtils from "./../utils/SnackBarUtils";
 import * as DataBaseUtils from "./../utils/DataBaseUtils";
 import * as OrderByUtils from "../utils/OrderByUtils";
+import * as ApiUtils from "../utils/ApiUtils";
 
 const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orderBy, setSearchValue}) => {
 
@@ -30,11 +31,19 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orde
     }else{
       DataBaseUtils.saveSvago(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
         if(r === 200){
-          snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          ApiUtils.uploadJson().then((res) =>{
+            if(res === 'ok'){
+              snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+            }else{
+              snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+            }
+          })
           if(orderBy === OrderByUtils.orderByNome){
             DataBaseUtils.orderSvagoByNome().then(() => update());
           }else if(orderBy === OrderByUtils.orderByCosto){
             DataBaseUtils.orderSvagoByCosto().then(() => update());
+          }else{
+            update();
           }
         }else{
           snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
@@ -49,17 +58,31 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orde
     const dataADate = new Date(dataA);
     if(scadenza && dataDaDate > dataADate){
       DataBaseUtils.delElById(id).then(() => {
-        snackBarFunc("CANCELLATO POICHè SCADUTO!".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
+        ApiUtils.uploadJson().then((res) =>{
+          if(res === 'ok'){
+            snackBarFunc("CANCELLATO POICHè SCADUTO!".toUpperCase(), SnackBarUtils.SNACKBAR_INFO);
+          }else{
+            snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+          }
+        })
         update();
       })
     }else{
       DataBaseUtils.savePrimaNecessita(scadenza, nome, note, dataDa, dataA, costo).then( (r) => {
         if(r === 200){
-          snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+          ApiUtils.uploadJson().then((res) =>{
+            if(res === 'ok'){
+              snackBarFunc("MODIFICATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+            }else{
+              snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+            }
+          })
           if(orderBy === OrderByUtils.orderByNome){
             DataBaseUtils.orderPrimaNecessitaByNome().then(() => update());
           }else if(orderBy === OrderByUtils.orderByCosto){
             DataBaseUtils.orderPrimaNecessitaByCosto().then(() => update());
+          }else{
+            update();
           }
         }else{
           snackBarFunc("ERRORE MODIFICA!", SnackBarUtils.SNACKBAR_ERROR);
@@ -91,7 +114,13 @@ const MyPopUpEdit = ({open, setOpen, title, snackBarFunc, elToEdit, update, orde
     const id = JSON.parse(localStorage.getItem("elToEdit")).id;
     DataBaseUtils.delElById(id).then(() => {
       update();
-      snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+      ApiUtils.uploadJson().then((res) =>{
+        if(res === 'ok'){
+          snackBarFunc("ELIMINATO CORRETTAMENTE!", SnackBarUtils.SNACKBAR_SUCCESS);
+        }else{
+          snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+        }
+      })
       setOpen(false);
       setSearchValue("");
       localStorage.removeItem("elToEdit");
