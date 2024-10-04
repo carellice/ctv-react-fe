@@ -42,11 +42,11 @@ export const handleUrl = (setSelectedPage) => {
     if(page === undefined && (localStorage.getItem("user") === null || localStorage.getItem("user") === undefined)){
         pushState("login");
         setSelectedPage("LoginPage");
-    }if(page === undefined && (localStorage.getItem("user") !== null || localStorage.getItem("user") !== undefined)){
+    }else if(page === undefined && (localStorage.getItem("user") !== null && localStorage.getItem("user") !== undefined)){
         pushState("ctv");
         setSelectedPage("HomePage");
     }else{
-        if(localStorage.getItem("user") == null || localStorage.getItem("user") === undefined){
+        if(localStorage.getItem("user") === null || localStorage.getItem("user") === undefined){
             pushState("login");
             setSelectedPage("LoginPage");
         }else{

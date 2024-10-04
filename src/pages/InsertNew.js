@@ -28,6 +28,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import * as ApiUtils from "../utils/ApiUtils";
+import {pushState} from "../utils/HistoryUtils";
 
 const InsertNew = ({
   snackBarFunc,
@@ -67,17 +68,20 @@ const InsertNew = ({
         if (insert === 500) {
           snackBarFunc("ERRORE INSERIMENTO!", SnackBarUtils.SNACKBAR_ERROR);
         } else {
-          ApiUtils.uploadJson().then((res) =>{
-            if(res === 'ok'){
-              snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
-            }else{
-              snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
-            }
-          })
           setTimeout(() => {
-            update();
-            setSelectedPage("HomePage");
-            setLoading(false);
+            ApiUtils.uploadJson().then((res) =>{
+              if(res === 'ok'){
+                update();
+                pushState("ctv")
+                setSelectedPage("HomePage");
+                setLoading(false);
+                snackBarFunc("INSERIMENTO AVVENUTO CON SUCCESSO!", SnackBarUtils.SNACKBAR_SUCCESS);
+              }else{
+                snackBarFunc(res, SnackBarUtils.SNACKBAR_ERROR);
+                setLoading(false);
+              }
+            })
+
           }, 1000);
         }
       } else {
@@ -216,59 +220,74 @@ const InsertNew = ({
     const valueWithoutVirgola = value.replace(".", "");
     if(valueWithoutVirgola >= 0){
       if (campo === "percentualePrimaNecessita") {
+        const valueBeforeChange = percentualePrimaNecessita;
         setPercentualePrimaNecessita(valueWithoutVirgola);
         const primaNecessitaInt = parseInt(valueWithoutVirgola);
         const svagoInt = parseInt(percentualeSvago);
         const risparmiInt = parseInt(percentualeRisparmi);
         const somma = primaNecessitaInt + svagoInt + risparmiInt;
-        setSommaIs100(somma === 100);
-        setSomma(somma);
-        calculate(
-            null,
-            valueWithoutVirgola,
-            null,
-            null,
-            null,
-            null,
-            null,
-            countSpeseFissePar
-        );
+        if(somma > 100){
+          setPercentualePrimaNecessita(valueBeforeChange);
+        }else{
+          setSommaIs100(somma === 100);
+          setSomma(somma);
+          calculate(
+              null,
+              valueWithoutVirgola,
+              null,
+              null,
+              null,
+              null,
+              null,
+              countSpeseFissePar
+          );
+        }
       } else if (campo === "percentualeSvago") {
+        const valueBeforeChange = percentualeSvago;
         setPercentualeSvago(valueWithoutVirgola);
         const primaNecessitaInt = parseInt(percentualePrimaNecessita);
         const svagoInt = parseInt(valueWithoutVirgola);
         const risparmiInt = parseInt(percentualeRisparmi);
         const somma = primaNecessitaInt + svagoInt + risparmiInt;
-        setSommaIs100(somma === 100);
-        setSomma(somma);
-        calculate(
-            null,
-            null,
-            valueWithoutVirgola,
-            null,
-            null,
-            null,
-            null,
-            countSpeseFissePar
-        );
+        if(somma > 100){
+          setPercentualeSvago(valueBeforeChange);
+        }else{
+          setSommaIs100(somma === 100);
+          setSomma(somma);
+          calculate(
+              null,
+              null,
+              valueWithoutVirgola,
+              null,
+              null,
+              null,
+              null,
+              countSpeseFissePar
+          );
+        }
       } else if (campo === "percentualeRisparmi") {
+        const valueBeforeChange = percentualeRisparmi;
         setPercentualeRisparmi(valueWithoutVirgola);
         const primaNecessitaInt = parseInt(percentualePrimaNecessita);
         const svagoInt = parseInt(percentualeSvago);
         const risparmiInt = parseInt(valueWithoutVirgola);
         const somma = primaNecessitaInt + svagoInt + risparmiInt;
-        setSommaIs100(somma === 100);
-        setSomma(somma);
-        calculate(
-            null,
-            null,
-            null,
-            valueWithoutVirgola,
-            null,
-            null,
-            null,
-            countSpeseFissePar
-        );
+        if(somma > 100){
+          setPercentualeRisparmi(valueBeforeChange);
+        }else{
+          setSommaIs100(somma === 100);
+          setSomma(somma);
+          calculate(
+              null,
+              null,
+              null,
+              valueWithoutVirgola,
+              null,
+              null,
+              null,
+              countSpeseFissePar
+          );
+        }
       }
     }
   };
